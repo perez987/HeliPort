@@ -47,7 +47,7 @@ The project has two targets: **HeliPort** (main app) and **HeliPort Launcher** (
 [SwiftLint](https://github.com/realm/SwiftLint) is configured in `.swiftlint.yml`. Run it from the repository root:
 
 ```bash
-swiftlint
+swiftlint lint --config .swiftlint.yml
 ```
 
 Key SwiftLint settings:
