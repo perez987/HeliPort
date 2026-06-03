@@ -160,7 +160,9 @@ struct NetworkDetailsDashboard: View {
                 DetailItem(label: String.Dashboard.ipAddress, value: viewModel.ipAddress, icon: "network")
                 DetailItem(label: String.Dashboard.router, value: viewModel.router, icon: "wifi.router")
                 DetailItem(
-                    label: String.Dashboard.channel, value: viewModel.channel, icon: "antenna.radiowaves.left.and.right"
+                    label: String.Dashboard.channel,
+                    value: viewModel.channel,
+                    icon: "antenna.radiowaves.left.and.right"
                 )
                 DetailItem(label: String.Dashboard.phyMode, value: viewModel.phyMode, icon: "bolt.fill")
                 DetailItem(label: "BSSID", value: viewModel.bssid.uppercased(), icon: "macpro.gen3")

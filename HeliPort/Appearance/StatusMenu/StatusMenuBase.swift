@@ -274,9 +274,9 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             var platformInfo = platform_info_t()
 
             if is_power_on() {
-                Log.debug("Wi-Fi powered on")
+                print("Wi-Fi powered on")
             } else {
-                Log.debug("Wi-Fi powered off")
+                print("Wi-Fi powered off")
             }
 
             if get_platform_info(&platformInfo) {
@@ -308,7 +308,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     // - MARK: Action handlers
 
     @objc func clickMenuItem(_ sender: NSMenuItem) {
-        Log.debug("Clicked \(sender.title)")
+        print("Clicked \(sender.title)")
         switch sender.title {
         case .createReport:
             // Disable while bug report is being genetated, if autoenable == true, NSMenu ignores isEnable
@@ -339,19 +339,17 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         case .aboutHeliport:
             NSApplication.shared.orderFrontStandardAboutPanel()
             NSApplication.shared.activate(ignoringOtherApps: true)
-
             DispatchQueue.main.async {
                 let applicationName = (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String)
-                     ?? (Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as? String)
-                     ?? "HeliPort"
-                 let aboutWindow = NSApplication.shared.keyWindow ??
-                     NSApplication.shared.orderedWindows.first(where: {
-                         $0.isVisible && $0.title.localizedCaseInsensitiveContains(applicationName)
-                     })
+                    ?? (Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as? String)
+                    ?? "HeliPort"
+                let aboutWindow = NSApplication.shared.keyWindow ??
+                    NSApplication.shared.orderedWindows.first(where: {
+                        $0.isVisible && $0.title.localizedCaseInsensitiveContains(applicationName)
+                    })
                 guard let aboutWindow else {
-                     return
-                 }
-
+                    return
+                }
                 var monitor: Any?
                 monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
                     if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "w" {
@@ -374,13 +372,11 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                         monitor = nil
                     }
                 }
-
-             }
-
+            }
         case .quitHeliport:
             NSApp.terminate(nil)
         default:
-            Log.error("Invalid menu item clicked")
+            print("Invalid menu item clicked")
         }
     }
 
@@ -393,17 +389,17 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
         DispatchQueue.global(qos: .background).async {
             var powerState: Bool = false
-            let get_power_ret = get_power_state(&powerState)
+            let getPowerResult = get_power_state(&powerState)
             var status: UInt32 = 0xFF
-            let get_state_ret = get_80211_state(&status)
+            let getStateResult = get_80211_state(&status)
 
             DispatchQueue.main.async {
-                if get_power_ret && get_state_ret {
+                if getPowerResult && getStateResult {
                     self.isNetworkCardEnabled = powerState
                 } else {
-                    Log.error("Failed get card state")
+                    print("Failed get card state")
                 }
-                self.isNetworkCardAvailable = get_power_ret
+                self.isNetworkCardAvailable = getPowerResult
                 self.driverState = itl_80211_state(rawValue: status)
                 self.updateStationItems()
             }
@@ -574,8 +570,15 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                 item.isEnabled = enabled
 
                 // Ensure item is at the correct position
-                if self.index(of: item) != insertAt + index {
-                    self.insertItem(item, at: insertAt + index)
+                if let currentIndex = self.items.firstIndex(of: item),
+                   currentIndex != insertAt + index {
+                    var targetIndex = insertAt + index
+                    if currentIndex < targetIndex {
+                        targetIndex -= 1
+                    }
+
+                    self.removeItem(at: currentIndex)
+                    self.insertItem(item, at: targetIndex)
                 }
 
                 if let wifiMenuItemView = item.view as? WifiMenuItemView {
@@ -607,7 +610,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     }
 
     @objc func toggleWiFiServiceHandler(_ pboard: NSPasteboard, userData: String, error: NSErrorPointer) {
-        Log.debug("Handle Toggle WiFi service")
+        print("Handle Toggle WiFi service")
         (self as? StatusMenuItems)?.toggleWIFI()
     }
 }

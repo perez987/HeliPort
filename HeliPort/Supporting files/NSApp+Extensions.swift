@@ -18,7 +18,7 @@ extension NSApplication {
                                            configuration: config,
                                            completionHandler: { _, error in
             if let error {
-                Log.error("Failed to restart the app: \(error)")
+                print("Failed to restart the app: \(error)")
             } else {
                 DispatchQueue.main.async {
                     NSApp.terminate(nil)

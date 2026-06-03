@@ -14,7 +14,6 @@
  */
 
 import Cocoa
-import SwiftUI
 
 class PrefsWindow: NSWindow {
 
@@ -48,7 +47,6 @@ class PrefsWindow: NSWindow {
         toolbar!.displayMode = .iconAndLabel
         toolbar!.insertItem(withItemIdentifier: .general, at: 0)
         toolbar!.insertItem(withItemIdentifier: .networks, at: 1)
-        toolbar!.insertItem(withItemIdentifier: .debug, at: 2)
         toolbar!.selectedItemIdentifier = .general
 
         if #available(OSX 11.0, *) {
@@ -71,26 +69,25 @@ class PrefsWindow: NSWindow {
         self.orderOut(NSApp)
     }
 
-    // Close Prefs window from Cmd + W keyboard
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-         let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-         guard modifiers == .command,
-               event.charactersIgnoringModifiers?.lowercased() == "w" else {
-             return super.performKeyEquivalent(with: event)
-         }
+        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        guard modifiers == .command,
+              event.charactersIgnoringModifiers?.lowercased() == "w" else {
+            return super.performKeyEquivalent(with: event)
+        }
 
-         close()
-         return true
-     }
+        close()
+        return true
+    }
 
     @objc private func clickToolbarItem(_ sender: NSToolbarItem) {
         guard let identifier = toolbar?.selectedItemIdentifier else { return }
         guard previousIdentifier != identifier else {
-            Log.debug("Toolbar Item already showing \(identifier)")
+            print("Toolbar Item already showing \(identifier)")
             return
         }
 
-        Log.debug("Toolbar Item clicked: \(identifier)")
+        print("Toolbar Item clicked: \(identifier)")
 
         var newView: NSView?
         var origin = frame.origin
@@ -98,20 +95,12 @@ class PrefsWindow: NSWindow {
         switch identifier {
         case .networks:
             newView = PrefsSavedNetworksView()
-            size = NSSize(width: 540, height: 320)
+            size = NSSize(width: 550, height: 320)
         case .general:
             newView = PrefsGeneralView()
             size = newView!.fittingSize
-        case .debug:
-            if #available(macOS 11.0, *) {
-                newView = NSHostingView(rootView: PrefsDebugView())
-                size = NSSize(width: 540, height: 320)
-            } else {
-                Log.error("Debug view requires macOS 11.0+")
-                return
-            }
         default:
-            Log.error("Toolbar Item not implemented: \(identifier)")
+            print("Toolbar Item not implemented: \(identifier)")
         }
 
         guard let view = newView else { return }
@@ -128,15 +117,15 @@ class PrefsWindow: NSWindow {
 extension PrefsWindow: NSToolbarDelegate {
 
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.general, .networks, .debug]
+        return [.general, .networks]
     }
 
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.general, .networks, .debug]
+        return [.general, .networks]
     }
 
     func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.general, .networks, .debug]
+        return [.general, .networks]
     }
 
     func toolbar(_ toolbar: NSToolbar,
@@ -168,16 +157,6 @@ extension PrefsWindow: NSToolbarDelegate {
             }
             toolbarItem.isEnabled = true
             return toolbarItem
-        case .debug:
-            toolbarItem.label = .debug
-            toolbarItem.paletteLabel = .debug
-            if #available(OSX 11.0, *) {
-                toolbarItem.image = NSImage(systemSymbolName: "ant.fill", accessibilityDescription: .debug)
-            } else {
-                toolbarItem.image = NSImage(named: NSImage.cautionName)
-            }
-            toolbarItem.isEnabled = true
-            return toolbarItem
         default:
             return nil
         }
@@ -189,7 +168,6 @@ extension PrefsWindow: NSToolbarDelegate {
 private extension NSToolbarItem.Identifier {
     static let networks = NSToolbarItem.Identifier("WiFiNetworks")
     static let general = NSToolbarItem.Identifier("General")
-    static let debug = NSToolbarItem.Identifier("Debug")
     static let none = NSToolbarItem.Identifier("none")
 }
 
@@ -199,116 +177,4 @@ private extension String {
     static let networkPrefs = NSLocalizedString("Network Preferences")
     static let networks = NSLocalizedString("Networks")
     static let general = NSLocalizedString("General")
-    static let debug = NSLocalizedString("Debug")
-}
-
-// MARK: - PrefsDebugView
-
-struct PrefsDebugView: View {
-    @State private var isGeneratingReport = false
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Diagnostics & Debugging")
-                .font(.headline)
-
-            Text("Use these tools to troubleshoot connection issues or generate information for bug reports.")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
-            Divider()
-
-            VStack(spacing: 12) {
-                DebugActionButton(
-                    title: "Enable Wi-Fi Logging",
-                    icon: "terminal",
-                    description: "Captures detailed driver and firmware logs."
-                ) {
-                    // Not implemented in driver yet according to StatusMenuLegacy
-                }
-                .disabled(true)
-
-                DebugActionButton(
-                    title: "Create Diagnostics Report...",
-                    icon: "doc.text.fill",
-                    description: "Generates a comprehensive system report for debugging.",
-                    isLoading: isGeneratingReport
-                ) {
-                    isGeneratingReport = true
-                    DispatchQueue.global(qos: .background).async {
-                        BugReporter.generateBugReport()
-                        DispatchQueue.main.async {
-                            isGeneratingReport = false
-                        }
-                    }
-                }
-
-                DebugActionButton(
-                    title: "Open Wireless Diagnostics...",
-                    icon: "stethoscope",
-                    description: "Opens the native macOS Wireless Diagnostics tool."
-                ) {
-                    let appURL = URL(
-                        fileURLWithPath: "/System/Library/CoreServices/Applications/Wireless Diagnostics.app"
-                    )
-                    NSWorkspace.shared.openApplication(
-                        at: appURL,
-                        configuration: NSWorkspace.OpenConfiguration(),
-                        completionHandler: nil
-                    )
-                }
-            }
-
-            Spacer()
-        }
-        .padding(30)
-        .frame(width: 540, height: 320)
-    }
-}
-
-struct DebugActionButton: View {
-    let title: LocalizedStringKey
-    let icon: String
-    let description: LocalizedStringKey
-    var isLoading: Bool = false
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 12) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.accentColor.opacity(0.1))
-                        .frame(width: 40, height: 40)
-
-                    if isLoading {
-                        ProgressView()
-                            .scaleEffect(0.8)
-                    } else {
-                        Image(systemName: icon)
-                            .font(.system(size: 18))
-                            .foregroundColor(.accentColor)
-                    }
-                }
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.system(size: 13, weight: .semibold))
-                    Text(description)
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundColor(.secondary.opacity(0.3))
-            }
-            .padding(10)
-            .background(Color.primary.opacity(0.03))
-            .cornerRadius(10)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
 }

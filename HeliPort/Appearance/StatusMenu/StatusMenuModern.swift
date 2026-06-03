@@ -57,56 +57,56 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
     }
 
     // Technical details
-    private lazy var bsdItem_ = ModernKeyValueItem(key: String.interfaceName, value: "")
-    private lazy var macItem_ = ModernKeyValueItem(key: String.macAddress, value: "")
-    private lazy var itlwmVerItem_ = ModernKeyValueItem(key: String.itlwmVer, value: "")
+    private lazy var modernBsdItem = ModernKeyValueItem(key: String.interfaceName, value: "")
+    private lazy var modernMacItem = ModernKeyValueItem(key: String.macAddress, value: "")
+    private lazy var modernItlwmVerItem = ModernKeyValueItem(key: String.itlwmVer, value: "")
 
     // WiFi connected items
-    private lazy var ipAddresssItem_ = ModernKeyValueItem(key: String.ipAddr, value: "", inset: true)
-    private lazy var routerItem_ = ModernKeyValueItem(key: String.routerStr, value: "", inset: true)
-    private lazy var internetItem_ = ModernKeyValueItem(key: String.internetStr, value: "", inset: true)
-    private lazy var securityItem_ = ModernKeyValueItem(key: String.securityStr, value: "", inset: true)
-    private lazy var bssidItem_ = ModernKeyValueItem(key: String.bssidStr, value: "", inset: true)
-    private lazy var channelItem_ = ModernKeyValueItem(key: String.channelStr, value: "", inset: true)
-    private lazy var countryCodeItem_ = ModernKeyValueItem(key: String.countryCodeStr, value: "", inset: true)
-    private lazy var rssiItem_ = ModernKeyValueItem(key: String.rssiStr, value: "", inset: true)
-    private lazy var noiseItem_ = ModernKeyValueItem(key: String.noiseStr, value: "", inset: true)
-    private lazy var txRateItem_ = ModernKeyValueItem(key: String.txRateStr, value: "", inset: true)
-    private lazy var phyModeItem_ = ModernKeyValueItem(key: String.phyModeStr, value: "", inset: true)
-    private lazy var mcsIndexItem_ = ModernKeyValueItem(key: String.mcsStr, value: "", inset: true)
-    private lazy var nssItem_ = ModernKeyValueItem(key: String.nssStr, value: "", inset: true)
+    private lazy var ipAddressItem = ModernKeyValueItem(key: String.ipAddr, value: "", inset: true)
+    private lazy var modernRouterItem = ModernKeyValueItem(key: String.routerStr, value: "", inset: true)
+    private lazy var modernInternetItem = ModernKeyValueItem(key: String.internetStr, value: "", inset: true)
+    private lazy var modernSecurityItem = ModernKeyValueItem(key: String.securityStr, value: "", inset: true)
+    private lazy var modernBssidItem = ModernKeyValueItem(key: String.bssidStr, value: "", inset: true)
+    private lazy var modernChannelItem = ModernKeyValueItem(key: String.channelStr, value: "", inset: true)
+    private lazy var modernCountryCodeItem = ModernKeyValueItem(key: String.countryCodeStr, value: "", inset: true)
+    private lazy var modernRssiItem = ModernKeyValueItem(key: String.rssiStr, value: "", inset: true)
+    private lazy var modernNoiseItem = ModernKeyValueItem(key: String.noiseStr, value: "", inset: true)
+    private lazy var modernTxRateItem = ModernKeyValueItem(key: String.txRateStr, value: "", inset: true)
+    private lazy var modernPhyModeItem = ModernKeyValueItem(key: String.phyModeStr, value: "", inset: true)
+    private lazy var modernMcsIndexItem = ModernKeyValueItem(key: String.mcsStr, value: "", inset: true)
+    private lazy var modernNssItem = ModernKeyValueItem(key: String.nssStr, value: "", inset: true)
 
     lazy var enabledNetworkCardItems: [NSMenuItem] = []
 
     lazy var stationInfoItems: [NSMenuItem] = [
-        ipAddresssItem_,
-        routerItem_,
-        internetItem_,
-        securityItem_,
-        bssidItem_,
-        channelItem_,
-        countryCodeItem_,
-        rssiItem_,
-        noiseItem_,
-        txRateItem_,
-        phyModeItem_,
-        mcsIndexItem_,
-        nssItem_
+        ipAddressItem,
+        modernRouterItem,
+        modernInternetItem,
+        modernSecurityItem,
+        modernBssidItem,
+        modernChannelItem,
+        modernCountryCodeItem,
+        modernRssiItem,
+        modernNoiseItem,
+        modernTxRateItem,
+        modernPhyModeItem,
+        modernMcsIndexItem,
+        modernNssItem
     ]
 
     lazy var hiddenItems: [NSMenuItem] = [
-        bsdItem_,
-        macItem_,
-        itlwmVerItem_
+        modernBsdItem,
+        modernMacItem,
+        modernItlwmVerItem
     ]
 
     lazy var notImplementedItems: [NSMenuItem] = [
         enableLoggingItem,
         diagnoseItem,
 
-        securityItem,
-        countryCodeItem,
-        nssItem
+        modernSecurityItem,
+        modernCountryCodeItem,
+        modernNssItem
     ]
 
     override var isNetworkListEmpty: Bool {
@@ -166,6 +166,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         dashboardView.frame.size.height = ceil(dashboardView.fittingSize.height)
         currentNetworkItem.view = dashboardView
         addItem(currentNetworkItem)
+        headerLength = index(of: currentNetworkItem) + 1
 
         addItem(otherSectionItem)
         addItem(manuallyJoinItem)
@@ -193,7 +194,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         // Technical & Hidden items at the bottom (only shown with Option key)
         addItem(.separator())
 
-        [bsdItem_, macItem_, itlwmVerItem_].forEach {
+        [modernBsdItem, modernMacItem, modernItlwmVerItem].forEach {
             addItem($0)
         }
 

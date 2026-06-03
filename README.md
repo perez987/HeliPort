@@ -3,21 +3,12 @@
 
 Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm)
 
-## Download
-
-### Latest Stable Version
-
-[![Download from https://github.com/bigj42/HeliPort/releases/latest](https://img.shields.io/github/v/release/bigj42/HeliPort?color=%2300AABB&label=Download)](https://github.com/bigj42/HeliPort/releases/latest)
-
-### Latest Alpha Version
-
-[![Download from https://github.com/bigj42/HeliPort/releases](https://img.shields.io/github/v/release/bigj42/HeliPort?include_prereleases&label=Download)](https://github.com/bigj42/HeliPort/releases)
-
 ## Status
 
 HeliPort has been upgraded to **Version 2.0**, providing a state-of-the-art premium experience for Intel-based Macs. The app requires **macOS 13.0 (Ventura)** or newer and features a completely redesigned, high-fidelity user interface.
 
 ### New Features
+
 - **📊 Advanced Telemetry**: Real-time signal strength history with high-frequency sampling (30 data points) and smoothed interpolation.
 - **🔧 Technical Deep-Dive**: The dashboard now always displays critical technical metrics including PHY Mode, Channel/Bandwidth, BSSID, and Noise levels.
 - **⚡️ Performance Optimized**: Rewritten UI components using modern SwiftUI patterns for minimal CPU impact while providing rich animations.
@@ -32,11 +23,18 @@ HeliPort has been upgraded to **Version 2.0**, providing a state-of-the-art prem
 - [x] Optimized Intel-only (x86_64) Architecture
 
 
-Visit [Projects](https://github.com/OpenIntelWireless/HeliPort/projects) for more information.
+Visit [OpenIntelWireless project](https://github.com/OpenIntelWireless/HeliPort/projects) for more information.
 
 ## Issues
 
 Issues for this project are for bug tracking only, please carefully fill in all the blanks in the correct Issue Template.
+
+### Known harmless warning
+
+When App Intents support is enabled, macOS may log `com.apple.linkd.autoShortcut` messages in Console.
+These warnings are currently not fully avoidable and can be safely ignored.
+
+### Invalid issues
 
 The following types of "Issues" will be considered as invalid and will be closed and locked immediately:
 
@@ -44,7 +42,7 @@ The following types of "Issues" will be considered as invalid and will be closed
 - Duplicated issues
 - Urging updates
 - Spam
-- Non-English content
+- Non-English or non-Chinese content
 - Easy "Googleable" questions
   > How to build etc.
 - Off-topic discussion

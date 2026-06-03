@@ -45,23 +45,23 @@ final class CredentialsManager {
 
         ssidCache.removeObject(forKey: ssidCacheKey)
 
-        Log.debug("Saving password for network \(network.ssid)")
+        print("Saving password for network \(network.ssid)")
         try? keychain.comment(entityJson).set(networkAuthJson, key: network.keychainKey)
     }
 
     func get(_ network: NetworkInfo) -> NetworkAuth? {
         guard let password = keychain[string: network.keychainKey],
             let jsonData = password.data(using: .utf8) else {
-            Log.debug("No stored password for network \(network.ssid)")
+            print("No stored password for network \(network.ssid)")
             return nil
         }
 
-        Log.debug("Loading password for network \(network.ssid)")
+        print("Loading password for network \(network.ssid)")
         return try? JSONDecoder().decode(NetworkAuth.self, from: jsonData)
     }
 
     func remove(_ network: NetworkInfo) {
-        Log.debug("Removing \(network.ssid) from keychain")
+        print("Removing \(network.ssid) from keychain")
         try? keychain.remove(network.keychainKey)
     }
 
@@ -129,7 +129,7 @@ final class CredentialsManager {
         return (keychain.allKeys().compactMap { ssid in
             return getStorageFromSsid(ssid)
         } as [NetworkInfoStorageEntity]).filter { entity in
-            entity.autoJoin && entity.version == NetworkInfoStorageEntity.CURRENT_VERSION
+            entity.autoJoin && entity.version == NetworkInfoStorageEntity.currentVersion
         }.sorted {
             $0.order < $1.order
         }.map { entity in
@@ -150,7 +150,7 @@ final class CredentialsManager {
         return (keychain.allKeys().compactMap { ssid in
             return getStorageFromSsid(ssid)
         } as [NetworkInfoStorageEntity]).filter { entity in
-            entity.version == NetworkInfoStorageEntity.CURRENT_VERSION
+            entity.version == NetworkInfoStorageEntity.currentVersion
         }.sorted {
             $0.order < $1.order
         }.map { entity in

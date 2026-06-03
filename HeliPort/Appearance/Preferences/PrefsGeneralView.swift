@@ -68,6 +68,36 @@ class PrefsGeneralView: NSView {
         checkbox.state = LoginItemManager.isEnabled() ? .on : .off
         return checkbox
     }()
+
+    lazy var autoQuitCheckbox: NSButton = {
+        let checkbox = NSButton(checkboxWithTitle: .autoQuit,
+                                target: self,
+                                action: #selector(checkboxChanged(_:)))
+        checkbox.identifier = .autoQuitId
+        checkbox.state = UserDefaults.standard.bool(forKey: .DefaultsKey.autoQuitEnabled) ? .on : .off
+        return checkbox
+    }()
+
+    lazy var autoQuitDelayStepper: NSStepper = {
+        let stepper = NSStepper()
+        stepper.minValue = 30
+        stepper.maxValue = 600
+        stepper.increment = 30
+        let stored = UserDefaults.standard.double(forKey: .DefaultsKey.autoQuitDelay)
+        stepper.doubleValue = stored > 0 ? stored : 60
+        stepper.target = self
+        stepper.action = #selector(autoQuitDelayChanged(_:))
+        stepper.isEnabled = UserDefaults.standard.bool(forKey: .DefaultsKey.autoQuitEnabled)
+        return stepper
+    }()
+
+    lazy var autoQuitDelayLabel: NSTextField = {
+        let stored = UserDefaults.standard.double(forKey: .DefaultsKey.autoQuitDelay)
+        let seconds = stored > 0 ? Int(stored) : 60
+        let label = NSTextField(labelWithString: String(format: NSLocalizedString("after %d s"), seconds))
+        return label
+    }()
+
     let gridView: NSGridView = {
         let view = NSGridView()
         view.setContentHuggingPriority(.init(rawValue: 600), for: .horizontal)
@@ -89,6 +119,10 @@ class PrefsGeneralView: NSView {
         gridView.addRow(with: [extrasLabel, bitrateCheckbox])
         gridView.addRow(with: [NSView(), signalPercentageCheckbox])
         gridView.addRow(with: [NSView(), launchAtLoginCheckbox])
+        let autoQuitRow = NSStackView(views: [autoQuitCheckbox, autoQuitDelayStepper, autoQuitDelayLabel])
+        autoQuitRow.orientation = .horizontal
+        autoQuitRow.spacing = 4
+        gridView.addRow(with: [NSView(), autoQuitRow])
 
         addSubview(gridView)
         setupConstraints()
@@ -112,7 +146,7 @@ class PrefsGeneralView: NSView {
 extension PrefsGeneralView {
     @objc private func checkboxChanged(_ sender: NSButton) {
         guard let identifier = sender.identifier else { return }
-        Log.debug("State changed for \(identifier)")
+        print("State changed for \(identifier)")
 
         switch identifier {
         case .autoUpdateId:
@@ -126,10 +160,21 @@ extension PrefsGeneralView {
             UserDefaults.standard.set(sender.state == .on, forKey: .DefaultsKey.showSignalAsPercentage)
         case .launchAtLoginId:
             LoginItemManager.setStatus(enabled: sender.state == .on)
+        case .autoQuitId:
+            let enabled = sender.state == .on
+            UserDefaults.standard.set(enabled, forKey: .DefaultsKey.autoQuitEnabled)
+            autoQuitDelayStepper.isEnabled = enabled
 
         default:
             break
         }
+    }
+
+    @objc private func autoQuitDelayChanged(_ sender: NSStepper) {
+        let seconds = Int(sender.doubleValue)
+        UserDefaults.standard.set(sender.doubleValue, forKey: .DefaultsKey.autoQuitDelay)
+        autoQuitDelayLabel.stringValue = String(format: NSLocalizedString("after %d s"), seconds)
+        print("Auto-quit delay set to \(seconds)s")
     }
 }
 
@@ -139,6 +184,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let bitrateId = NSUserInterfaceItemIdentifier(rawValue: "BitrateCheckbox")
     static let signalPercentageId = NSUserInterfaceItemIdentifier(rawValue: "SignalPercentageCheckbox")
     static let launchAtLoginId = NSUserInterfaceItemIdentifier(rawValue: "LaunchAtLoginCheckbox")
+    static let autoQuitId = NSUserInterfaceItemIdentifier(rawValue: "AutoQuitCheckbox")
 }
 
 private extension String {
@@ -148,4 +194,5 @@ private extension String {
 
     static let showBitrate = NSLocalizedString("Show live bitrate in menu bar")
     static let showSignalPercentage = NSLocalizedString("Show signal as percentage")
+    static let autoQuit = NSLocalizedString("Quit Heliport automatically")
 }

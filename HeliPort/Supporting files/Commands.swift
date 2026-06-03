@@ -18,7 +18,6 @@ import Foundation
 class Commands {
     enum ExecutablePath: String {
         case shell = "/bin/sh"
-        case log = "/usr/bin/log"
         case nvram = "/usr/sbin/nvram"
     }
 
@@ -36,7 +35,7 @@ class Commands {
         process.arguments = args
         if #available(OSX 10.13, *) {
             guard (try? process.run()) != nil else {
-                Log.debug("Could not run command")
+                print("Could not run command")
                 return (nil, 1)
             }
         } else {

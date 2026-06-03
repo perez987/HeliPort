@@ -46,9 +46,9 @@ final class NetworkAuth: Codable {
 }
 
 final class NetworkInfoStorageEntity: Codable {
-    static let CURRENT_VERSION: UInt = 2
+    static let currentVersion: UInt = 2
 
-    var version: UInt = CURRENT_VERSION
+    var version: UInt = currentVersion
     var autoJoin: Bool = true
     var order: Int = 0
     var network: NetworkInfo

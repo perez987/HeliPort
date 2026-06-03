@@ -57,17 +57,20 @@ class PrefsSavedNetworksView: NSView {
 
         let ssidColumn = NSTableColumn(identifier: .ssidId)
         ssidColumn.title = .networkName
-        ssidColumn.minWidth = (ssidColumn.title as NSString).size(withAttributes: attributes).width
+//        ssidColumn.minWidth = (ssidColumn.title as NSString).size(withAttributes: attributes).width
+        ssidColumn.width = 250
         table.addTableColumn(ssidColumn)
 
         let securityColumn = NSTableColumn(identifier: .securityId)
         securityColumn.title = .security
-        securityColumn.minWidth = (securityColumn.title as NSString).size(withAttributes: attributes).width
+//        securityColumn.minWidth = (securityColumn.title as NSString).size(withAttributes: attributes).width
+        securityColumn.width = 150
         table.addTableColumn(securityColumn)
 
         let autoenabledColumn = NSTableColumn(identifier: .autoenabledId)
         autoenabledColumn.title = .autoJoin
-        autoenabledColumn.minWidth = (autoenabledColumn.title as NSString).size(withAttributes: attributes).width
+//        autoenabledColumn.minWidth = (autoenabledColumn.title as NSString).size(withAttributes: attributes).width
+        autoenabledColumn.width = 100
         table.addTableColumn(autoenabledColumn)
 
         return table
@@ -149,7 +152,7 @@ class PrefsSavedNetworksView: NSView {
     }
 
     private func updateNetworkPriority() {
-        Log.debug("Updating network priority")
+        print("Updating network priority")
         for order in 0..<savedNetworks.count {
             let entity = savedNetworks[order]
             if entity.order != order {
@@ -174,7 +177,7 @@ extension PrefsSavedNetworksView {
         case .view:
             viewNetwork()
         default:
-            Log.debug("Modify item not implemented \(selectedSegment)")
+            print("Modify item not implemented \(selectedSegment)")
         }
     }
 
@@ -183,7 +186,7 @@ extension PrefsSavedNetworksView {
         let networkInfo = savedNetworks[index].network
 
         guard let currentWindow = window else {
-            Log.error("Could not show view window due to window == nil")
+            print("Could not show view window due to window == nil")
              return
         }
         let viewCredentials = WiFiConfigWindow(windowState: .viewCredentialsWiFi, networkInfo: networkInfo)
@@ -195,7 +198,7 @@ extension PrefsSavedNetworksView {
         let networkEntity = savedNetworks[index]
 
         guard let currentWindow = window else {
-            Log.error("Could not show remove alert due to window == nil")
+            print("Could not show remove alert due to window == nil")
              return
         }
 
@@ -226,7 +229,7 @@ extension PrefsSavedNetworksView {
         let rowIndex = tableView.row(for: sender)
         let columnIndex = tableView.column(for: sender)
         let networkEntity = savedNetworks[rowIndex]
-        Log.debug("Auto join checkbox changed for \(networkEntity.network.ssid)")
+        print("Auto join checkbox changed for \(networkEntity.network.ssid)")
         let autoJoinEnabled = sender.state == .on
         networkEntity.autoJoin = autoJoinEnabled
 

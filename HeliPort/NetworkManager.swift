@@ -46,7 +46,7 @@ final class NetworkManager {
                             CredentialsManager.instance.save(networkInfo)
                         }
                     } else {
-                        Log.error("Failed to connect to: \(networkInfo.ssid)")
+                        print("Failed to connect to: \(networkInfo.ssid)")
                     }
                     callback?(result)
                 }
@@ -57,7 +57,7 @@ final class NetworkManager {
         DispatchQueue.global().async {
             if let savedNetworkAuth = CredentialsManager.instance.get(networkInfo) {
                 networkInfo.auth = savedNetworkAuth
-                Log.debug("Connecting to network \(networkInfo.ssid) with saved password")
+                print("Connecting to network \(networkInfo.ssid) with saved password")
                 CredentialsManager.instance.setAutoJoin(networkInfo.ssid, true)
                 getAuthInfoCallback(networkInfo.auth, false)
                 return
@@ -138,7 +138,7 @@ final class NetworkManager {
         DispatchQueue.global(qos: .background).async {
             let savedNetworks: [NetworkInfo] = CredentialsManager.instance.getSavedNetworks()
             guard savedNetworks.count > 0 else {
-                Log.debug("No network saved for auto join")
+                print("No network saved for auto join")
                 return
             }
             let scanTimer: Timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
@@ -147,7 +147,7 @@ final class NetworkManager {
                     if targetNetworks.count > 0 {
                         // This will stop the timer completely
                         timer.invalidate()
-                        Log.debug("Auto join timer stopped")
+                        print("Auto join timer stopped")
                         connectSavedNetworks(networks: targetNetworks)
                     }
                 }
@@ -177,7 +177,7 @@ final class NetworkManager {
     // Credit: vadian
     // https://stackoverflow.com/a/31838376/13164334
     static func getMACAddressFromBSD(bsd: String) -> String? {
-        let MAC_ADDRESS_LENGTH = 6
+        let macAddressLength = 6
         let separator = ":"
 
         var length: size_t = 0
@@ -185,7 +185,7 @@ final class NetworkManager {
 
         let bsdIndex = Int32(if_nametoindex(bsd))
         if bsdIndex == 0 {
-            Log.error("Could not find index for bsd name \(bsd)")
+            print("Could not find index for bsd name \(bsd)")
             return nil
         }
         let bsdData = Data(bsd.utf8)
@@ -197,7 +197,7 @@ final class NetworkManager {
                                   bsdIndex]
 
         if sysctl(&managementInfoBase, 6, nil, &length, nil, 0) < 0 {
-            Log.error("Could not determine length of info data structure")
+            print("Could not determine length of info data structure")
             return nil
         }
 
@@ -207,7 +207,7 @@ final class NetworkManager {
         })
 
         if sysctl(&managementInfoBase, 6, &buffer, &length, nil, 0) < 0 {
-            Log.error("Could not read info data structure")
+            print("Could not read info data structure")
             return nil
         }
 
@@ -215,7 +215,7 @@ final class NetworkManager {
         let indexAfterMsghdr = MemoryLayout<if_msghdr>.stride + 1
         let rangeOfToken = infoData[indexAfterMsghdr...].range(of: bsdData)!
         let lower = rangeOfToken.upperBound
-        let upper = lower + MAC_ADDRESS_LENGTH
+        let upper = lower + macAddressLength
         let macAddressData = infoData[lower..<upper]
         let addressBytes = macAddressData.map { String(format: "%02x", $0) }
         return addressBytes.joined(separator: separator)
@@ -342,7 +342,7 @@ final class NetworkManager {
                     ipAddr = String(routerOutput[swiftRange])
                 }
             } else {
-                Log.debug("Could not find router ip address")
+                print("Could not find router ip address")
             }
         }
 

@@ -33,7 +33,7 @@ class LoginItemManager {
                 try launcherService.unregister()
             }
         } catch {
-            Log.error("Failed to update launch-at-login status: \(error.localizedDescription)")
+            print("Failed to update launch-at-login status: \(error.localizedDescription)")
         }
     }
 }

@@ -13,7 +13,7 @@ class WiFiConfigWindow: NSWindow {
                      networkInfo: NetworkInfo? = nil,
                      error: ErrorState? = nil,
                      getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil) {
-        self.init(contentRect: NSRect(x: 0, y: 0, width: 540, height: 320),
+        self.init(contentRect: NSRect(x: 0, y: 0, width: 450, height: 320),
                   styleMask: [.titled, .fullSizeContentView],
                   backing: .buffered,
                   defer: false,

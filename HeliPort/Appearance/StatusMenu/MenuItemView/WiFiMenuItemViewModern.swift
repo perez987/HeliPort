@@ -170,7 +170,7 @@ class WifiMenuItemViewModern: SelectableMenuItemView, WifiMenuItemView {
             updateImages()
             DispatchQueue.global().async {
                 dis_associate_ssid(self.networkInfo.ssid)
-                Log.debug("Disconnected from \(self.networkInfo.ssid)")
+                print("Disconnected from \(self.networkInfo.ssid)")
             }
         } else {
             isMouseOver = false

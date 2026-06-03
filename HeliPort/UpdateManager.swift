@@ -23,15 +23,15 @@ final class UpdateManager {
 
 class SparkleDelegate: NSObject, SPUUpdaterDelegate {
     func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
-        Log.error("Sparkle aborted with error: \(error.localizedDescription)")
+        print("Sparkle aborted with error: \(error.localizedDescription)")
     }
 
     func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
-        Log.debug("Sparkle scheduled update check after \(delay) seconds")
+        print("Sparkle scheduled update check after \(delay) seconds")
     }
 
     func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
-        Log.debug("App will relaunch to install update")
+        print("App will relaunch to install update")
         api_terminate()
     }
 }

@@ -109,7 +109,7 @@ struct ModernWiFiConfigView: View {
             .padding(24)
             .background(Color.primary.opacity(0.02))
         }
-        .frame(width: 540, height: 320)
+        .frame(width: 450, height: 320)
         .background(VisualEffectView(material: .underWindowBackground, blendingMode: .behindWindow).ignoresSafeArea())
     }
 }

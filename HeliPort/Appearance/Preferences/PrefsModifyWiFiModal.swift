@@ -60,13 +60,13 @@ class PrefsViewWiFiInfoModal: NSWindow {
         // swiftlint:disable comment_spacing
 
         //pop?.addItem(withTitle: NSLocalizedString("WEP", comment: ""))
-        pop.addItem(withTitle: .wpa1_2_Personal)
+        pop.addItem(withTitle: .wpa12Personal)
         //pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Personal", comment: ""))
         pop.addItem(withTitle: .wpa2Personal)
         //pop?.addItem(withTitle: NSLocalizedString("WPA3 Personal", comment: ""))
         pop.menu?.addItem(.separator())
         //pop?.addItem(withTitle: NSLocalizedString("Dynamic WEP", comment: ""))
-        pop.addItem(withTitle: .wpa1_2_Enterprise)
+        pop.addItem(withTitle: .wpa12Enterprise)
         //pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""))
         pop.addItem(withTitle: .wpa2Enterprise)
         //pop?.addItem(withTitle: NSLocalizedString("WPA3 Enterprise", comment: ""))
@@ -333,7 +333,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
                 self.view.layoutSubtreeIfNeeded()
             }, completionHandler: nil)
 
-        case .wpa1_2_Personal,
+        case .wpa12Personal,
              NSLocalizedString("WPA2/WPA3 Personal", comment: ""),
              .wpa2Personal,
              NSLocalizedString("WPA3 Personal", comment: ""):
@@ -358,7 +358,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
             })
 
             passwdSecureBox.becomeFirstResponder()
-        case .wpa1_2_Enterprise,
+        case .wpa12Enterprise,
              NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""),
              .wpa2Enterprise,
              NSLocalizedString("WPA3 Enterprise", comment: ""):
@@ -436,9 +436,9 @@ private extension String {
     static let subTitle = NSLocalizedString("View saved credentials from keychain for this network.")
     static let security = NSLocalizedString("Security:")
     static let none = NSLocalizedString(ITL80211_SECURITY_NONE.description)
-    static let wpa1_2_Personal = NSLocalizedString(ITL80211_SECURITY_WPA_PERSONAL_MIXED.description)
+    static let wpa12Personal = NSLocalizedString(ITL80211_SECURITY_WPA_PERSONAL_MIXED.description)
     static let wpa2Personal = NSLocalizedString(ITL80211_SECURITY_WPA2_PERSONAL.description)
-    static let wpa1_2_Enterprise = NSLocalizedString(ITL80211_SECURITY_WPA_ENTERPRISE_MIXED.description)
+    static let wpa12Enterprise = NSLocalizedString(ITL80211_SECURITY_WPA_ENTERPRISE_MIXED.description)
     static let wpa2Enterprise = NSLocalizedString(ITL80211_SECURITY_WPA2_ENTERPRISE.description)
     static let username = NSLocalizedString("Username:")
     static let password = NSLocalizedString("Password:")

@@ -168,7 +168,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         NetworkManager.scanNetwork { networkList in
             self.isNetworkListEmpty = networkList.count == 0 && !self.isNetworkConnected
             if networkList.count > MAX_NETWORK_LIST_LENGTH {
-                Log.error("Number of scanned networks (\(networkList.count))" +
+                print("Number of scanned networks (\(networkList.count))" +
                             " exceeds maximum (\(MAX_NETWORK_LIST_LENGTH))")
             }
 
@@ -192,7 +192,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         DispatchQueue.global().async {
             CredentialsManager.instance.setAutoJoin(ssid, false)
             dis_associate_ssid(ssid)
-            Log.debug("Disconnected from \(ssid)")
+            print("Disconnected from \(ssid)")
         }
     }
 

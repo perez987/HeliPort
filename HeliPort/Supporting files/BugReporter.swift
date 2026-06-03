@@ -14,7 +14,6 @@
  */
 
 import Cocoa
-import OSLog
 import IOKit
 
 class BugReporter {
@@ -36,40 +35,10 @@ class BugReporter {
     }()
 
     private class func generateHeliPortLog() -> String {
-
-        // MARK: HeliPort log
-
-        let appIdentifier = Bundle.main.bundleIdentifier!
-
-        if #available(OSX 10.15, *) {
-            do {
-                let logStore = try OSLogStore.local()
-                let lastBoot = logStore.position(timeIntervalSinceLatestBoot: 0)
-                let matchingPredicate = NSPredicate(format: "subsystem == '\(appIdentifier)'")
-                let enumerator = try logStore.getEntries(with: [],
-                                                         at: lastBoot,
-                                                         matching: matchingPredicate)
-                let allEntries = Array(enumerator)
-                let osLogEntryLogObjects = allEntries.compactMap { $0 as? OSLogEntryLog }
-                var entryStr = ""
-                for item in osLogEntryLogObjects where item.subsystem == appIdentifier {
-                    entryStr += "\n\(item.date);    \(item.subsystem);    \(item.category);    \(item.composedMessage)"
-                }
-                return entryStr
-            } catch {
-                Log.error("Could not generate bug report \(error)")
-                return .heliportCouldNotGetLogs
-            }
-        } else {
-            let appLogCommand = ["show", "--predicate",
-                                      "(subsystem == '\(appIdentifier)')", "--info", "--last", "boot"]
-            let appLog = Commands.execute(executablePath: .log, args: appLogCommand)
-            if let stringVal = appLog.0, appLog.1 == 0 {
-                return stringVal
-            } else {
-                return .scriptFailed
-            }
-        }
+        """
+        HeliPort now writes runtime messages directly to the console using print statements.
+        System log collection for HeliPort is no longer available in generated bug reports.
+        """
     }
 
     private class func generateItlwmLog() -> String {
@@ -96,27 +65,12 @@ class BugReporter {
 
         let appLog = generateHeliPortLog()
 
-        if appLog == .heliportCouldNotGetLogs || appLog == .scriptFailed {
-            DispatchQueue.main.async {
-                let alert = CriticalAlert(
-                    message: NSLocalizedString("Error occurred while generating bug report."),
-                    informativeText: appLog == .heliportCouldNotGetLogs ?
-                    NSLocalizedString("Could not generate report for HeliPort.") :
-                    NSLocalizedString("Command failed to fetch logs for HeliPort."),
-                    options: [NSLocalizedString("Dismiss")],
-                    errorText: appLog
-                )
-                alert.show()
-            }
-            return
-        }
-
         // MARK: itlwm log
 
-        var drv_info = ioctl_driver_info()
-        _ = ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &drv_info, MemoryLayout<ioctl_driver_info>.size)
-        var itlwmVer = String(cCharArray: drv_info.driver_version)
-        var itlwmFwVer = String(cCharArray: drv_info.fw_version)
+        var driverInfo = ioctl_driver_info()
+        _ = ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &driverInfo, MemoryLayout<ioctl_driver_info>.size)
+        var itlwmVer = String(cCharArray: driverInfo.driver_version)
+        var itlwmFwVer = String(cCharArray: driverInfo.fw_version)
         if itlwmVer.isEmpty { itlwmVer = "Unknown" }
         if itlwmFwVer.isEmpty { itlwmFwVer = "Unknown" }
 
@@ -194,7 +148,7 @@ class BugReporter {
                 // Back to background
                 DispatchQueue.global().async {
                     guard folderUrl != nil else {
-                        Log.error("Could not get path to store bug report.")
+                        print("Could not get path to store bug report.")
                         DispatchQueue.main.async {
                             let alert = CriticalAlert(
                                 message: NSLocalizedString("Could not get path to generate bug report."),
@@ -219,7 +173,7 @@ class BugReporter {
                         try appOutput.write(to: heliPortFile, atomically: true, encoding: .utf8)
                         try itlwmOutput.write(to: itlwmFile, atomically: true, encoding: .utf8)
                     } catch {
-                        Log.error("\(error)")
+                        print("\(error)")
                         return
                     }
 
@@ -230,7 +184,7 @@ class BugReporter {
                                             "zip -r -X -m \(zipName) \(reportDirName)"]
                     let outputExitCode = Commands.execute(executablePath: .shell, args: zipCommand).1
                     guard outputExitCode == 0 else {
-                        Log.error("Could not create zip file: Exit code: \(outputExitCode)")
+                        print("Could not create zip file: Exit code: \(outputExitCode)")
                         DispatchQueue.main.async {
                             let alert = CriticalAlert(
                                 message: NSLocalizedString("Could not create zip file for generated logs."),
@@ -252,10 +206,6 @@ class BugReporter {
 }
 
 private extension String {
-
-    // MARK: HeliPort Generation errors
-
-    static let heliportCouldNotGetLogs = "HELIPORT-OSLOGSTORE"
 
     // MARK: ITLWM Generation errors
 

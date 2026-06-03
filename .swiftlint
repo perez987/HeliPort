@@ -1,0 +1,17 @@
+excluded:
+- SourcePackages
+- build # Alternative derived path used in CI
+
+identifier_name:
+  allowed_symbols: "_"
+    
+large_tuple:
+  warning: 3
+
+disabled_rules:
+  - function_body_length
+  - type_body_length
+  - file_length
+  - cyclomatic_complexity
+  - inclusive_language
+  - void_function_in_ternary

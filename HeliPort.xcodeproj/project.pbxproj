@@ -47,8 +47,8 @@
 		BCCB2AA4243708090005BB82 /* WiFiMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCB2AA3243708090005BB82 /* WiFiMenuItemView.swift */; };
 		BCFA32EB2424D2BE00E23603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA32EA2424D2BE00E23603 /* AppDelegate.swift */; };
 		BCFA32ED2424D2BF00E23603 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCFA32EC2424D2BF00E23603 /* Assets.xcassets */; };
-		D918FC7A2FCC7609009EF084 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D918FC792FCC7607009EF084 /* main.swift */; };
-		D9256B5F2FCA090E0087D72A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D9256B5E2FCA090E0087D72A /* Credits.rtf */; };
+		BCFA32F02424D2BF00E23603 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93F6C322FC9E978009EF77B /* main.swift */; };
+		D93F6BFE2FC9E978009EF77B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D93F6BFD2FC9E978009EF77B /* Credits.rtf */; };
 		F336D63C24B497B6004C98C4 /* NetworkManager+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336D63B24B497B6004C98C4 /* NetworkManager+Data.swift */; };
 		F336D63E24B4986C004C98C4 /* itl_phy_mode+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336D63D24B4986C004C98C4 /* itl_phy_mode+Description.swift */; };
 		F336D64024B7B7D8004C98C4 /* itl80211_security+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = F336D63F24B7B7D8004C98C4 /* itl80211_security+Description.swift */; };
@@ -56,7 +56,6 @@
 		F33A1F3F24C8347F008ED2BD /* NSLocalizedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A1F3E24C8347F008ED2BD /* NSLocalizedString+Extensions.swift */; };
 		F34B2B8D24AA4C1E009AB1BB /* NSMenuItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34B2B8C24AA4C1E009AB1BB /* NSMenuItem+Extensions.swift */; };
 		F379276F24A0A4A50087FF2B /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379276E24A0A4A50087FF2B /* CredentialsManager.swift */; };
-		F379277124A0A52E0087FF2B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379277024A0A52E0087FF2B /* Log.swift */; };
 		F3915F0724AB1A1B00E6614D /* itl_80211_state+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3915F0624AB1A1B00E6614D /* itl_80211_state+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -129,27 +128,26 @@
 		BCFA32EC2424D2BF00E23603 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCFA32F12424D2BF00E23603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCFA32F22424D2BF00E23603 /* HeliPort.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HeliPort.entitlements; sourceTree = "<group>"; };
-		D918FC792FCC7607009EF084 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D9256B5D2FCA090E0087D72A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B602FCA09110087D72A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B612FCA09110087D72A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ar; path = ar.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B622FCA09120087D72A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.rtf"; sourceTree = "<group>"; };
-		D9256B632FCA09120087D72A /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = cs.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B642FCA09140087D72A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = fr.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B652FCA09140087D72A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B662FCA09150087D72A /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = el.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B672FCA09160087D72A /* id */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = id; path = id.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B682FCA09170087D72A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = it.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B692FCA09170087D72A /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = ko.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B6A2FCA09180087D72A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = pl.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B6B2FCA09180087D72A /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "pt-BR.lproj/Credits.rtf"; sourceTree = "<group>"; };
-		D9256B6C2FCA09190087D72A /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-PT"; path = "pt-PT.lproj/Credits.rtf"; sourceTree = "<group>"; };
-		D9256B6D2FCA091A0087D72A /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = ro.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B6E2FCA091B0087D72A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B6F2FCA091C0087D72A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = es; path = es.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B702FCA091E0087D72A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = tr; path = tr.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B712FCA091E0087D72A /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = uk; path = uk.lproj/Credits.rtf; sourceTree = "<group>"; };
-		D9256B722FCA09200087D72A /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = vi; path = vi.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6BFC2FC9E978009EF77B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C102FC9E978009EF77B /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ar; path = ar.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C112FC9E978009EF77B /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = cs.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C122FC9E978009EF77B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C132FC9E978009EF77B /* el */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = el; path = el.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C142FC9E978009EF77B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = es; path = es.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C152FC9E978009EF77B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = fr.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C162FC9E978009EF77B /* id */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = id; path = id.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C172FC9E978009EF77B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = it; path = it.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C182FC9E978009EF77B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ko; path = ko.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C192FC9E978009EF77B /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pl; path = pl.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C1A2FC9E978009EF77B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-BR"; path = "pt-BR.lproj/Credits.rtf"; sourceTree = "<group>"; };
+		D93F6C1B2FC9E978009EF77B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "pt-PT"; path = "pt-PT.lproj/Credits.rtf"; sourceTree = "<group>"; };
+		D93F6C1C2FC9E978009EF77B /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ro; path = ro.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C1D2FC9E978009EF77B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C1E2FC9E978009EF77B /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = tr; path = tr.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C1F2FC9E978009EF77B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = uk; path = uk.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C202FC9E978009EF77B /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = vi; path = vi.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D93F6C212FC9E978009EF77B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.rtf"; sourceTree = "<group>"; };
+		D93F6C322FC9E978009EF77B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F336D63B24B497B6004C98C4 /* NetworkManager+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Data.swift"; sourceTree = "<group>"; };
 		F336D63D24B4986C004C98C4 /* itl_phy_mode+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "itl_phy_mode+Description.swift"; sourceTree = "<group>"; };
 		F336D63F24B7B7D8004C98C4 /* itl80211_security+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "itl80211_security+Description.swift"; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 		F33A1F3E24C8347F008ED2BD /* NSLocalizedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLocalizedString+Extensions.swift"; sourceTree = "<group>"; };
 		F34B2B8C24AA4C1E009AB1BB /* NSMenuItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMenuItem+Extensions.swift"; sourceTree = "<group>"; };
 		F379276E24A0A4A50087FF2B /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
-		F379277024A0A52E0087FF2B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F3915F0624AB1A1B00E6614D /* itl_80211_state+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "itl_80211_state+Extensions.swift"; sourceTree = "<group>"; };
 		F86A8972243CD40800CBABC2 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		F8F6CF0A243D675800965B43 /* Api.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Api.h; sourceTree = "<group>"; };
@@ -188,8 +185,8 @@
 		13C20DFD24D92E3800B1E713 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				13C20DF924D8B6D100B1E713 /* PrefsGeneralView.swift */,
 				1380C36024D54BFD00A448CF /* PrefsSavedNetworksView.swift */,
+				13C20DF924D8B6D100B1E713 /* PrefsGeneralView.swift */,
 				1380C36424D5580200A448CF /* PrefsWindow.swift */,
 			);
 			path = Preferences;
@@ -198,11 +195,11 @@
 		5013B8FE2C5E1B56002C5006 /* StatusMenu */ = {
 			isa = PBXGroup;
 			children = (
-				5068784D2C5FE16C0046150A /* HPMenuItem.swift */,
-				5013B9052C5E1ED5002C5006 /* MenuItemView */,
 				50A1A1A12C5E22AB002C5003 /* ModernNetworkMenuItem.swift */,
-				50A1A1A12C5E22AB002C5005 /* NetworkDetailsDashboard.swift */,
 				50A1A1A12C5E22AB002C5004 /* QuickToggleView.swift */,
+				50A1A1A12C5E22AB002C5005 /* NetworkDetailsDashboard.swift */,
+				5013B9052C5E1ED5002C5006 /* MenuItemView */,
+				5068784D2C5FE16C0046150A /* HPMenuItem.swift */,
 				5013B8FF2C5E1E00002C5006 /* StatusMenuBase.swift */,
 				5013B9032C5E1EA9002C5006 /* StatusMenuModern.swift */,
 			);
@@ -280,17 +277,17 @@
 		BCFA32E92424D2BE00E23603 /* HeliPort */ = {
 			isa = PBXGroup;
 			children = (
-				D918FC792FCC7607009EF084 /* main.swift */,
 				BCFA32EA2424D2BE00E23603 /* AppDelegate.swift */,
 				BCF712FA243C9EB100BE3C05 /* Appearance */,
 				BCFA32EC2424D2BF00E23603 /* Assets.xcassets */,
 				5013B90C2C5E20E1002C5006 /* Bridge.h */,
 				F379276E24A0A4A50087FF2B /* CredentialsManager.swift */,
-				D9256B5E2FCA090E0087D72A /* Credits.rtf */,
+				D93F6BFD2FC9E978009EF77B /* Credits.rtf */,
 				BCFA32F22424D2BF00E23603 /* HeliPort.entitlements */,
 				50A1A1A12C5E22AB002C5100 /* HeliPortIntents.swift */,
 				BCFA32F12424D2BF00E23603 /* Info.plist */,
 				50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */,
+				D93F6C322FC9E978009EF77B /* main.swift */,
 				75FDF38A2481D22000B2A601 /* NetworkManager.swift */,
 				F34B2B8B24AA4C08009AB1BB /* Supporting files */,
 				50E7700E2C5A7CD600DB1160 /* UpdateManager.swift */,
@@ -304,17 +301,16 @@
 				F33A1F3A24C83016008ED2BD /* Alert.swift */,
 				138D3CC924CE663B00793AC1 /* BugReporter.swift */,
 				138D3CC724CE635800793AC1 /* Commands.swift */,
+				5088F70726BEA46F009E3A15 /* KextInfo.swift */,
 				F3915F0624AB1A1B00E6614D /* itl_80211_state+Extensions.swift */,
 				F336D63D24B4986C004C98C4 /* itl_phy_mode+Description.swift */,
 				F336D63F24B7B7D8004C98C4 /* itl80211_security+Description.swift */,
-				5088F70726BEA46F009E3A15 /* KextInfo.swift */,
-				F379277024A0A52E0087FF2B /* Log.swift */,
 				F336D63B24B497B6004C98C4 /* NetworkManager+Data.swift */,
 				5013B8FC2C5DF244002C5006 /* NSApp+Extensions.swift */,
-				5013B9132C5E22F2002C5006 /* NSImage+Extensions.swift */,
 				F33A1F3E24C8347F008ED2BD /* NSLocalizedString+Extensions.swift */,
 				F34B2B8C24AA4C1E009AB1BB /* NSMenuItem+Extensions.swift */,
 				1317990A256986E5006957D8 /* String+Extensions.swift */,
+				5013B9132C5E22F2002C5006 /* NSImage+Extensions.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -449,7 +445,7 @@
 				7562BBE424826103008A9BD2 /* README.md in Resources */,
 				5013B8FB2C5C8C8D002C5006 /* Localizable.xcstrings in Resources */,
 				BCFA32ED2424D2BF00E23603 /* Assets.xcassets in Resources */,
-				D9256B5F2FCA090E0087D72A /* Credits.rtf in Resources */,
+				D93F6BFE2FC9E978009EF77B /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +469,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "if [[ \"$GITHUB_ACTIONS\" != true ]]; then\n  if [[ \"$(uname -m)\" == arm64 ]]\n  then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\n  fi\n\n  if command -v swiftlint >/dev/null 2>&1\n  then\n    swiftlint\n  else\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\n  fi\nfi\n";
+			shellScript = "if command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -495,7 +491,6 @@
 				F336D63C24B497B6004C98C4 /* NetworkManager+Data.swift in Sources */,
 				5068784E2C5FE16C0046150A /* HPMenuItem.swift in Sources */,
 				F33A1F3F24C8347F008ED2BD /* NSLocalizedString+Extensions.swift in Sources */,
-				F379277124A0A52E0087FF2B /* Log.swift in Sources */,
 				5013B9122C5E22AB002C5006 /* WiFiMenuItemViewModern.swift in Sources */,
 				F336D63E24B4986C004C98C4 /* itl_phy_mode+Description.swift in Sources */,
 				F336D64024B7B7D8004C98C4 /* itl80211_security+Description.swift in Sources */,
@@ -509,7 +504,6 @@
 				BCFA32EB2424D2BE00E23603 /* AppDelegate.swift in Sources */,
 				50680FCA2C5FDB75008AF10F /* HidableMenuItemView.swift in Sources */,
 				5013B9072C5E1EF2002C5006 /* KeyValueMenuItemView.swift in Sources */,
-				D918FC7A2FCC7609009EF084 /* main.swift in Sources */,
 				BCCB2AA4243708090005BB82 /* WiFiMenuItemView.swift in Sources */,
 				1380C36124D54BFD00A448CF /* PrefsSavedNetworksView.swift in Sources */,
 				138D3CCA24CE663B00793AC1 /* BugReporter.swift in Sources */,
@@ -533,6 +527,7 @@
 				50A1A1A12C5E22AB002C6004 /* QuickToggleView.swift in Sources */,
 				50A1A1A12C5E22AB002C6005 /* NetworkDetailsDashboard.swift in Sources */,
 				50A1A1A12C5E22AB002C6100 /* HeliPortIntents.swift in Sources */,
+				BCFA32F02424D2BF00E23603 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,29 +542,28 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D9256B5E2FCA090E0087D72A /* Credits.rtf */ = {
+		D93F6BFD2FC9E978009EF77B /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D9256B5D2FCA090E0087D72A /* Base */,
-				D9256B602FCA09110087D72A /* en */,
-				D9256B612FCA09110087D72A /* ar */,
-				D9256B622FCA09120087D72A /* zh-Hans */,
-				D9256B632FCA09120087D72A /* cs */,
-				D9256B642FCA09140087D72A /* fr */,
-				D9256B652FCA09140087D72A /* de */,
-				D9256B662FCA09150087D72A /* el */,
-				D9256B672FCA09160087D72A /* id */,
-				D9256B682FCA09170087D72A /* it */,
-				D9256B692FCA09170087D72A /* ko */,
-				D9256B6A2FCA09180087D72A /* pl */,
-				D9256B6B2FCA09180087D72A /* pt-BR */,
-				D9256B6C2FCA09190087D72A /* pt-PT */,
-				D9256B6D2FCA091A0087D72A /* ro */,
-				D9256B6E2FCA091B0087D72A /* ru */,
-				D9256B6F2FCA091C0087D72A /* es */,
-				D9256B702FCA091E0087D72A /* tr */,
-				D9256B712FCA091E0087D72A /* uk */,
-				D9256B722FCA09200087D72A /* vi */,
+				D93F6C102FC9E978009EF77B /* ar */,
+				D93F6C112FC9E978009EF77B /* cs */,
+				D93F6C122FC9E978009EF77B /* de */,
+				D93F6C132FC9E978009EF77B /* el */,
+				D93F6C142FC9E978009EF77B /* es */,
+				D93F6C152FC9E978009EF77B /* fr */,
+				D93F6C162FC9E978009EF77B /* id */,
+				D93F6C172FC9E978009EF77B /* it */,
+				D93F6C182FC9E978009EF77B /* ko */,
+				D93F6C192FC9E978009EF77B /* pl */,
+				D93F6C1A2FC9E978009EF77B /* pt-BR */,
+				D93F6C1B2FC9E978009EF77B /* pt-PT */,
+				D93F6C1C2FC9E978009EF77B /* ro */,
+				D93F6C1D2FC9E978009EF77B /* ru */,
+				D93F6C1E2FC9E978009EF77B /* tr */,
+				D93F6C1F2FC9E978009EF77B /* uk */,
+				D93F6C202FC9E978009EF77B /* vi */,
+				D93F6BFC2FC9E978009EF77B /* Base */,
+				D93F6C212FC9E978009EF77B /* zh-Hans */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -586,16 +580,17 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.4;
+				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = CPMQGF4D2A;
+				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "HeliPort Launcher/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshc.HeliPort-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -613,16 +608,17 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.3;
+				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = CPMQGF4D2A;
+				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "HeliPort Launcher/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshc.HeliPort-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -767,16 +763,17 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = CPMQGF4D2A;
+				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = HeliPort/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshc.HeliPort;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -796,16 +793,17 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = CPMQGF4D2A;
+				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = HeliPort/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshc.HeliPort;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
