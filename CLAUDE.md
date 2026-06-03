@@ -51,6 +51,7 @@ swiftlint
 ```
 
 Key SwiftLint settings:
+
 - `SourcePackages` and `build` directories are excluded
 - `function_body_length`, `type_body_length`, `file_length`, and `cyclomatic_complexity` rules are disabled
 - `identifier_name` allows `_` as a symbol
