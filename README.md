@@ -22,7 +22,6 @@ HeliPort has been upgraded to **Version 2.0**, providing a state-of-the-art prem
 - [x] Update project version to 2.0
 - [x] Optimized Intel-only (x86_64) Architecture
 
-
 Visit [OpenIntelWireless project](https://github.com/OpenIntelWireless/HeliPort/projects) for more information.
 
 ## Issues

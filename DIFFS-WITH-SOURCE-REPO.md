@@ -1,17 +1,21 @@
 # DIFFS WITH SOURCE REPO
 
-Comparison target: `https://github.com/joshcalvert47/HeliPort`  
-Important repo: `perez987/HeliPort`
+Comparison between:
+
+- source: `https://github.com/joshcalvert47/HeliPort`  
+- this repo: `https://github.com/perez987/HeliPort`
 
 ## Fork-only differences (present in `perez987/HeliPort`, not in source)
 
 ### App startup and project structure
+
 - Added programmatic app entrypoint via `HeliPort/main.swift`.
 - Removed `HeliPort/Appearance/Base.lproj/MainMenu.xib`.
 - Removed `NSMainNibFile` usage from `HeliPort/Info.plist`.
 - Removed `@NSApplicationMain` usage in `HeliPort/AppDelegate.swift`.
 
 ### Preferences and runtime behavior
+
 - Added a new preference to auto-close HeliPort after a configurable delay (`HeliPort/Appearance/Preferences/PrefsGeneralView.swift`).
 - Refactored preferences window implementation with major simplification (`HeliPort/Appearance/Preferences/PrefsWindow.swift`).
 - Updated preferences-related behavior in:
@@ -19,6 +23,7 @@ Important repo: `perez987/HeliPort`
   - `HeliPort/Appearance/Preferences/PrefsModifyWiFiModal.swift`
 
 ### Status menu and UI internals
+
 - Updated status menu implementation and wiring in:
   - `HeliPort/Appearance/StatusMenu/StatusMenuBase.swift`
   - `HeliPort/Appearance/StatusMenu/StatusMenuModern.swift`
@@ -30,6 +35,7 @@ Important repo: `perez987/HeliPort`
   - `HeliPort/Appearance/WiFiConfigWindow.swift`
 
 ### Localization and resources
+
 - Large update to localized strings bundle: `HeliPort/Appearance/Localizable.xcstrings`.
 - Replaced app icon asset set contents:
   - Added: `AppIcon_64.png`, `AppIcon_128.png`, `AppIcon_256.png`, `AppIcon_512.png`
@@ -37,6 +43,7 @@ Important repo: `perez987/HeliPort`
 - Updated app icon manifest: `HeliPort/Assets.xcassets/AppIcon.appiconset/Contents.json`.
 
 ### Tooling, repo config, and project metadata
+
 - Added SwiftLint config: `.swiftlint`.
 - Added project AI guidance file: `CLAUDE.md`.
 - Updated ignore rules: `.gitignore`.
@@ -46,6 +53,7 @@ Important repo: `perez987/HeliPort`
   - `HeliPort.xcodeproj/xcuserdata/yo.xcuserdatad/xcschemes/xcschememanagement.plist`
 
 ### Removed from fork vs source
+
 - Removed GitHub issue templates:
   - `.github/ISSUE_TEMPLATE/bug_report.yml`
   - `.github/ISSUE_TEMPLATE/config.yml`
@@ -54,4 +62,5 @@ Important repo: `perez987/HeliPort`
   - `.github/workflows/jekyll-gh-pages.yml`
 
 ### Logging behavior change
+
 - Removed prior log system usage and replaced logging calls with `print`-based output in modified Swift sources.
