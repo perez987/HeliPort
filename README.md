@@ -1,11 +1,11 @@
 # HeliPort
-![image](AppIcon-128.png)
+![image](Heliport/AppIcon-128.png)
 
 Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm)
 
 ## Status
 
-HeliPort has been upgraded to **Version 2.0**, providing a state-of-the-art premium experience for Intel-based Macs. The app requires **macOS 13.0 (Ventura)** or newer and features a completely redesigned, high-fidelity user interface.
+HeliPort has been upgraded to **Version 3.0**, providing a state-of-the-art premium experience for Intel-based Macs. The app requires **macOS 13.0 (Ventura)** or newer and features a completely redesigned, high-fidelity user interface.
 
 ### New Features
 
