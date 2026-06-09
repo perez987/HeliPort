@@ -26,12 +26,7 @@ Visit [OpenIntelWireless project](https://github.com/OpenIntelWireless/HeliPort/
 
 ## Issues
 
-Issues for this project are for bug tracking only, please carefully fill in all the blanks in the correct Issue Template.
-
-### Known harmless warning
-
-When App Intents support is enabled, macOS may log `com.apple.linkd.autoShortcut` messages in Console.
-These warnings are currently not fully avoidable and can be safely ignored.
+Issues for this project are for bug tracking only.
 
 ### Invalid issues
 
@@ -46,6 +41,11 @@ The following types of "Issues" will be considered as invalid and will be closed
   > How to build etc.
 - Off-topic discussion
   > Including mentioning and distributing closed-source, non-official Intel Wi-Fi Projects.
+
+### Known harmless warning
+
+When App Intents support is enabled, macOS may log `com.apple.linkd.autoShortcut` messages in Console.
+These warnings are currently not fully avoidable and can be safely ignored.
 
 ## Contributing
 
