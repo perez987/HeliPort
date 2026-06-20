@@ -56,8 +56,6 @@ class PrefsViewWiFiInfoModal: NSWindow {
         pop.addItem(withTitle: .none)
         pop.menu?.addItem(.separator())
 
-        // swiftlint:disable comment_spacing
-
         // pop?.addItem(withTitle: NSLocalizedString("WEP", comment: ""))
         pop.addItem(withTitle: .wpa12Personal)
         // pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Personal", comment: ""))
@@ -69,8 +67,6 @@ class PrefsViewWiFiInfoModal: NSWindow {
         // pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""))
         pop.addItem(withTitle: .wpa2Enterprise)
         // pop?.addItem(withTitle: NSLocalizedString("WPA3 Enterprise", comment: ""))
-
-        // swiftlint:enable comment_spacing
 
         pop.action = #selector(security(_:))
         pop.selectItem(withTitle: .wpa2Personal)
@@ -177,8 +173,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
     init(contentRect: NSRect,
          styleMask style: NSWindow.StyleMask,
          backing backingStoreType: NSWindow.BackingStoreType,
-         defer flag: Bool, network: NetworkInfo)
-    {
+         defer flag: Bool, network: NetworkInfo) {
         networkInfo = network
         view = NSView(frame: contentRect)
 
@@ -293,7 +288,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
             closeButton.topAnchor.constraint(equalTo: isShowPasswd.bottomAnchor, constant: 20),
             closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            closeButton.widthAnchor.constraint(equalToConstant: 70),
+            closeButton.widthAnchor.constraint(equalToConstant: 70)
         ]
 
         NSLayoutConstraint.activate(constraints)
