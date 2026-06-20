@@ -1,5 +1,5 @@
 //
-//  CommandLine.swift
+//  Commands.swift
 //  HeliPort
 //
 //  Created by Erik Bautista on 7/26/20.
@@ -23,7 +23,7 @@ class Commands {
 
     // MARK: Run command and returns the output and exit status.
 
-    public class func execute(executablePath: ExecutablePath, args: [String]) -> (String?, Int32) {
+    class func execute(executablePath: ExecutablePath, args: [String]) -> (String?, Int32) {
         let process = Process()
         let pipe = Pipe()
         process.standardOutput = pipe
@@ -53,5 +53,4 @@ class Commands {
 
         return (output.trimmingCharacters(in: .whitespacesAndNewlines), process.terminationStatus)
     }
-
 }

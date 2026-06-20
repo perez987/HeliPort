@@ -1,9 +1,8 @@
 import Cocoa
-import SwiftUI
 import LocalAuthentication
+import SwiftUI
 
 class WiFiConfigWindow: NSWindow {
-
     private var windowState: WindowState
     private var networkInfo: NetworkInfo?
     private var getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)?
@@ -12,7 +11,8 @@ class WiFiConfigWindow: NSWindow {
     convenience init(windowState: WindowState = .joinWiFi,
                      networkInfo: NetworkInfo? = nil,
                      error: ErrorState? = nil,
-                     getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil) {
+                     getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil)
+    {
         self.init(contentRect: NSRect(x: 0, y: 0, width: 450, height: 320),
                   styleMask: [.titled, .fullSizeContentView],
                   backing: .buffered,
@@ -30,24 +30,24 @@ class WiFiConfigWindow: NSWindow {
          windowState: WindowState,
          networkInfo: NetworkInfo?,
          error: ErrorState?,
-         getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil) {
-
+         getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil)
+    {
         self.windowState = windowState
         self.networkInfo = networkInfo
         self.getAuthInfoCallback = getAuthInfoCallback
-        self.errorState = error
+        errorState = error
 
         super.init(contentRect: contentRect,
                    styleMask: style,
                    backing: backingStoreType,
                    defer: flag)
 
-        self.titleVisibility = .hidden
-        self.titlebarAppearsTransparent = true
-        self.isMovableByWindowBackground = true
-        self.isReleasedWhenClosed = false
-        self.level = .floating
-        self.center()
+        titleVisibility = .hidden
+        titlebarAppearsTransparent = true
+        isMovableByWindowBackground = true
+        isReleasedWhenClosed = false
+        level = .floating
+        center()
 
         let rootView = ModernWiFiConfigView(
             ssid: networkInfo?.ssid ?? "Unknown Network",
@@ -59,7 +59,7 @@ class WiFiConfigWindow: NSWindow {
             }
         )
 
-        self.contentView = NSHostingView(rootView: rootView)
+        contentView = NSHostingView(rootView: rootView)
 
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
@@ -75,7 +75,7 @@ class WiFiConfigWindow: NSWindow {
             network.auth.security = ITL80211_SECURITY_WPA2_PERSONAL // Default for modern UI manual join
             NetworkManager.connect(networkInfo: network, saveNetwork: save)
         }
-        self.close()
+        close()
     }
 
     func show() {
@@ -103,6 +103,6 @@ enum ErrorState: String {
     case cannotConnect = "Cannot connect."
     case incorrectPassword = "Incorrect password."
     var localizedString: String {
-        return NSLocalizedString(self.rawValue)
+        return NSLocalizedString(rawValue)
     }
 }

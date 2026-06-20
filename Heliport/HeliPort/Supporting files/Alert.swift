@@ -1,5 +1,5 @@
 //
-//  CriticalAlert.swift
+//  Alert.swift
 //  HeliPort
 //
 //  Created by Igor Kulman on 22/07/2020.
@@ -42,7 +42,8 @@ final class CriticalAlert: NSObject {
          informativeText: String = "",
          options: [String],
          helpAnchor: String? = nil,
-         errorText: String? = nil) {
+         errorText: String? = nil)
+    {
         self.message = message
         self.informativeText = informativeText
         self.options = options
@@ -68,8 +69,8 @@ final class CriticalAlert: NSObject {
             alert.accessoryView = errorTextField
         }
 
-        options.forEach {
-            alert.addButton(withTitle: $0)
+        for option in options {
+            alert.addButton(withTitle: option)
         }
 
         NSApplication.shared.activate(ignoringOtherApps: true)
@@ -78,7 +79,7 @@ final class CriticalAlert: NSObject {
 }
 
 extension CriticalAlert: NSAlertDelegate {
-    func alertShowHelp(_ alert: NSAlert) -> Bool {
+    func alertShowHelp(_: NSAlert) -> Bool {
         if let helpAnchor = helpAnchor, let url = URL(string: helpAnchor) {
             NSWorkspace().open(url)
             return true

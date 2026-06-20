@@ -1,5 +1,5 @@
 //
-//  String+NonNullTerminated.swift
+//  String+Extensions.swift
 //  HeliPort
 //
 //  Created by Erik Bautista on 11/21/20.
@@ -29,13 +29,13 @@ public extension String {
         self = withUnsafeBytes(of: ssid) {
             String(bytes: $0.prefix(Int(NWID_LEN)), encoding: .utf8) ?? ""
         }.trimmingCharacters(in: .whitespaces)
-         .replacingOccurrences(of: "\0", with: "")
-        self.unicodeScalars.removeAll(where: { CharacterSet.newlines.contains($0) })
+            .replacingOccurrences(of: "\0", with: "")
+        unicodeScalars.removeAll(where: { CharacterSet.newlines.contains($0) })
     }
 
     init<T>(cCharArray: T) {
         self = withUnsafeBytes(of: cCharArray) {
-            $0.withMemoryRebound(to: CChar.self) { String(cString: $0.baseAddress!)}
+            $0.withMemoryRebound(to: CChar.self) { String(cString: $0.baseAddress!) }
         }
     }
 }

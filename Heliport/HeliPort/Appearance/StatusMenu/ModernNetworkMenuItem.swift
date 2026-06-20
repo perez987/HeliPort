@@ -79,7 +79,7 @@ class ModernNetworkMenuItem: NSMenuItem {
     init(ssid: String, signalStrength: Int, isConnected: Bool, isSecure: Bool, onSelect: @escaping () -> Void) {
         self.onSelect = onSelect
         super.init(title: ssid, action: #selector(itemAction), keyEquivalent: "")
-        self.target = self
+        target = self
 
         let view = NetworkItemView(
             ssid: ssid,
@@ -98,18 +98,19 @@ class ModernNetworkMenuItem: NSMenuItem {
     }
 
     func update(with info: NetworkInfo, isConnected: Bool = false) {
-        self.title = info.ssid
+        title = info.ssid
         let newView = NetworkItemView(
             ssid: info.ssid,
             signalStrength: Int(info.rssi),
             isConnected: isConnected,
             isSecure: info.auth.security != ITL80211_SECURITY_NONE,
-            onSelect: self.onSelect
+            onSelect: onSelect
         )
-        (self.view as? NSHostingView<NetworkItemView>)?.rootView = newView
+        (view as? NSHostingView<NetworkItemView>)?.rootView = newView
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

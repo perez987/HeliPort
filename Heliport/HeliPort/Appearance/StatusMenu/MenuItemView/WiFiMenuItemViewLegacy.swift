@@ -16,7 +16,6 @@
 import Cocoa
 
 class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
-
     // MARK: Initializers
 
     private let statusImage: NSImageView = {
@@ -26,9 +25,9 @@ class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
 
         if #available(OSX 11.0, *) {
             statusImage.image = NSImage(named: NSImage.menuOnStateTemplateName)?
-                                .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 13,
-                                                                                     weight: .bold,
-                                                                                     scale: .small))
+                .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 13,
+                                                                     weight: .bold,
+                                                                     scale: .small))
         } else {
             statusImage.image = NSImage(named: NSImage.menuOnStateTemplateName)
         }
@@ -42,9 +41,9 @@ class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
 
         if #available(OSX 11.0, *) {
             lockImage.image = NSImage(named: NSImage.lockLockedTemplateName)?
-                              .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14,
-                                                                                   weight: .semibold,
-                                                                                   scale: .medium))
+                .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14,
+                                                                     weight: .semibold,
+                                                                     scale: .medium))
         } else {
             lockImage.image = NSImage(named: NSImage.lockLockedTemplateName)
         }
@@ -93,13 +92,14 @@ class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
         }
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Public
 
-    public var networkInfo: NetworkInfo {
+    var networkInfo: NetworkInfo {
         willSet(networkInfo) {
             ssidLabel.stringValue = networkInfo.ssid
             layoutSubtreeIfNeeded()
@@ -109,13 +109,13 @@ class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
         }
     }
 
-    public var connected: Bool = false {
+    var connected: Bool = false {
         willSet(connected) {
             statusImage.isHidden = !connected
         }
     }
 
-    public func updateImages() {
+    func updateImages() {
         signalImage.image = StatusBarIcon.shared().getRssiImage(rssi: Int16(networkInfo.rssi))
         lockImage.isHidden = networkInfo.auth.security == ITL80211_SECURITY_NONE
     }
@@ -145,20 +145,20 @@ class WifiMenuItemViewLegacy: SelectableMenuItemView, WifiMenuItemView {
             }
         }()
 
-        statusImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        statusImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: statusPadding).isActive = true
+        statusImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        statusImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: statusPadding).isActive = true
         statusImage.widthAnchor.constraint(equalToConstant: statusWidth).isActive = true
 
-        ssidLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        ssidLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         ssidLabel.leadingAnchor.constraint(equalTo: statusImage.trailingAnchor, constant: 3).isActive = true
 
-        lockImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        lockImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         lockImage.leadingAnchor.constraint(equalTo: ssidLabel.trailingAnchor, constant: 10).isActive = true
         lockImage.widthAnchor.constraint(equalToConstant: lockWidth).isActive = true
 
-        signalImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 1).isActive = true
+        signalImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
         signalImage.leadingAnchor.constraint(equalTo: lockImage.trailingAnchor, constant: 12).isActive = true
-        signalImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12).isActive = true
+        signalImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
         signalImage.widthAnchor.constraint(equalToConstant: 18).isActive = true
     }
 

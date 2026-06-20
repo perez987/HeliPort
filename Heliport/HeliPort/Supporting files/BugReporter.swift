@@ -17,7 +17,6 @@ import Cocoa
 import IOKit
 
 class BugReporter {
-
     private static let openPanel: NSOpenPanel = {
         let openPanel = NSOpenPanel()
 
@@ -47,11 +46,11 @@ class BugReporter {
         if KextInfo("as.lvs1974.DebugEnhancer").kextDidLoad() {
             // msgbuf size is sufficient, collect dmesg logs
             response = NSAppleScript(source:
-                                     // swiftlint:disable line_length
-                                     """
-                                     do shell script \"sudo dmesg | grep -E \\"itlwm|Airport|IO80211|EAPOL\\"\" with administrator privileges
-                                     """)!.executeAndReturnError(nil).stringValue
-                                     // swiftlint:enable line_length
+                // swiftlint:disable line_length
+                """
+                do shell script \"sudo dmesg | grep -E \\"itlwm|Airport|IO80211|EAPOL\\"\" with administrator privileges
+                """)!.executeAndReturnError(nil).stringValue
+            // swiftlint:enable line_length
         } else {
             response = .msgbufInsufficient
         }
@@ -59,7 +58,7 @@ class BugReporter {
         return response ?? .scriptFailed
     }
 
-    public class func generateBugReport() {
+    class func generateBugReport() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "Unknown"
         let appBuildVer = Bundle.main.infoDictionary?["CFBundleVersion"] ?? "Unknown"
 
@@ -81,10 +80,10 @@ class BugReporter {
                 let alert = CriticalAlert(
                     message: NSLocalizedString("Error occurred while generating bug report."),
                     informativeText: itlwmLog == .msgbufInsufficient ?
-                    NSLocalizedString("Make sure you have installed `DebugEnhancer.kext`" +
-                                      " before collecting logs for itlwm.") :
-                    NSLocalizedString("Could not read logs for `itlwm`." +
-                                      " Make sure you allow `HeliPort` to read logs when prompted."),
+                        NSLocalizedString("Make sure you have installed `DebugEnhancer.kext`" +
+                            " before collecting logs for itlwm.") :
+                        NSLocalizedString("Could not read logs for `itlwm`." +
+                            " Make sure you allow `HeliPort` to read logs when prompted."),
                     options: [NSLocalizedString("Dismiss"), NSLocalizedString("Open Documentation")],
                     helpAnchor: .dmesgHelpURL,
                     errorText: itlwmLog
@@ -102,10 +101,10 @@ class BugReporter {
         let kextstatCommand = ["-c", "kextstat"]
         let itlwmLoaded = Commands.execute(executablePath: .shell, args: kextstatCommand)
         var itlwmName: String?
-        if let regex = try? NSRegularExpression.init(pattern: "\\b(itlwm\\w*)\\b", options: []), itlwmLoaded.0 != nil {
+        if let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: []), itlwmLoaded.0 != nil {
             let firstMatch = regex.firstMatch(in: itlwmLoaded.0!,
-                                            options: [],
-                                            range: NSRange(location: 0, length: itlwmLoaded.0!.count))
+                                              options: [],
+                                              range: NSRange(location: 0, length: itlwmLoaded.0!.count))
             if let range = firstMatch?.range(at: 1) {
                 if let swiftRange = Range(range, in: itlwmLoaded.0!) {
                     itlwmName = String(itlwmLoaded.0![swiftRange])
@@ -121,25 +120,25 @@ class BugReporter {
         let dateRan = "Time ran: \(formatter.string(from: date))"
         let osVersion = ProcessInfo().operatingSystemVersionString
         let appOutput = """
-                        \(appLog)
+        \(appLog)
 
-                        \(dateRan)
-                        HeliPort Version: \(appVersion) (Build \(appBuildVer))
+        \(dateRan)
+        HeliPort Version: \(appVersion) (Build \(appBuildVer))
 
-                        macOS \(osVersion)
-                        """
+        macOS \(osVersion)
+        """
         let itlwmOutput = """
-                          \(itlwmLog)
+        \(itlwmLog)
 
-                          \(dateRan)
-                          \(itlwmName != nil ?  "\(itlwmName!) loaded version: \(itlwmVer) (Firmware: \(itlwmFwVer))" :
-                                "Kext not loaded")
+        \(dateRan)
+        \(itlwmName != nil ? "\(itlwmName!) loaded version: \(itlwmVer) (Firmware: \(itlwmFwVer))" :
+            "Kext not loaded")
 
-                          macOS \(osVersion)
-                          """
+        macOS \(osVersion)
+        """
 
         DispatchQueue.main.async {
-            openPanel.begin { (result) in
+            openPanel.begin { result in
                 var folderUrl: URL?
                 if result == NSApplication.ModalResponse.OK {
                     folderUrl = openPanel.url
@@ -159,7 +158,7 @@ class BugReporter {
                         return
                     }
 
-                    let reportDirName = "bugreport_\(UInt16.random(in: UInt16.min...UInt16.max))"
+                    let reportDirName = "bugreport_\(UInt16.random(in: UInt16.min ... UInt16.max))"
                     let reportDirUrl = folderUrl!.appendingPathComponent(reportDirName, isDirectory: true)
 
                     // MARK: Write to files
@@ -181,7 +180,7 @@ class BugReporter {
 
                     let zipName = reportDirName + ".zip"
                     let zipCommand = ["-c", "cd \(folderUrl!.path) && " +
-                                            "zip -r -X -m \(zipName) \(reportDirName)"]
+                        "zip -r -X -m \(zipName) \(reportDirName)"]
                     let outputExitCode = Commands.execute(executablePath: .shell, args: zipCommand).1
                     guard outputExitCode == 0 else {
                         print("Could not create zip file: Exit code: \(outputExitCode)")
@@ -206,12 +205,12 @@ class BugReporter {
 }
 
 private extension String {
-
     // MARK: ITLWM Generation errors
 
     static let msgbufInsufficient = "MSGBUF-INSUFFICIENT"
     static let scriptFailed = "SCRIPT-FAILED"
 
     // MARK: DOC URL
+
     static let dmesgHelpURL = "https://docs.oiw.workers.dev/itlwm/Troubleshooting.html#runtime-logs"
 }

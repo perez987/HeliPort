@@ -15,9 +15,7 @@
 import Cocoa
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
-
-    func applicationDidFinishLaunching(_ notification: Notification) {
-
+    func applicationDidFinishLaunching(_: Notification) {
         // Credit sindresorhus https://github.com/sindresorhus/LaunchAtLogin
         let bundleId = Bundle.main.bundleIdentifier!
         let mainBundleId = bundleId.replacingOccurrences(of: "-Launcher", with: "")
@@ -29,7 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let pathComponents = (Bundle.main.bundlePath as NSString).pathComponents
-        let mainPath = NSString.path(withComponents: Array(pathComponents[0...(pathComponents.count - 5)]))
+        let mainPath = NSString.path(withComponents: Array(pathComponents[0 ... (pathComponents.count - 5)]))
         NSWorkspace.shared.openApplication(
             at: URL(fileURLWithPath: mainPath),
             configuration: NSWorkspace.OpenConfiguration(),

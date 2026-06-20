@@ -16,7 +16,6 @@
 import Cocoa
 
 class PrefsSavedNetworksView: NSView {
-
     // MARK: Saved networks array
 
     private var savedNetworks: [NetworkInfoStorageEntity] = []
@@ -128,7 +127,8 @@ class PrefsSavedNetworksView: NSView {
         }
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -153,7 +153,7 @@ class PrefsSavedNetworksView: NSView {
 
     private func updateNetworkPriority() {
         print("Updating network priority")
-        for order in 0..<savedNetworks.count {
+        for order in 0 ..< savedNetworks.count {
             let entity = savedNetworks[order]
             if entity.order != order {
                 entity.order = order
@@ -168,7 +168,6 @@ class PrefsSavedNetworksView: NSView {
 // MARK: Action Items
 
 extension PrefsSavedNetworksView {
-
     @objc func modifyItemClicked(_ sender: NSSegmentedControl) {
         let selectedSegment = sender.selectedSegment
         switch selectedSegment {
@@ -187,7 +186,7 @@ extension PrefsSavedNetworksView {
 
         guard let currentWindow = window else {
             print("Could not show view window due to window == nil")
-             return
+            return
         }
         let viewCredentials = WiFiConfigWindow(windowState: .viewCredentialsWiFi, networkInfo: networkInfo)
         currentWindow.beginSheet(viewCredentials)
@@ -199,7 +198,7 @@ extension PrefsSavedNetworksView {
 
         guard let currentWindow = window else {
             print("Could not show remove alert due to window == nil")
-             return
+            return
         }
 
         let alert = NSAlert()
@@ -254,7 +253,6 @@ private extension Int {
 // MARK: Table view delegate
 
 extension PrefsSavedNetworksView: NSTableViewDelegate {
-
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let tableColumn = tableColumn else { return nil }
 
@@ -265,7 +263,7 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
         switch tableColumn.identifier {
         case .ssidId, .securityId:
             let textField = (tableView.makeView(withIdentifier: .textViewId, owner: self) as? NSTextField) ??
-                                       NSTextField(labelWithString: "")
+                NSTextField(labelWithString: "")
             textField.identifier = .textViewId
             if tableColumn.identifier == .ssidId {
                 textField.stringValue = networkEntity.network.ssid
@@ -275,9 +273,9 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
             view = textField
         case .autoenabledId:
             let checkbox = (tableView.makeView(withIdentifier: .checkboxId, owner: self) as? NSButton) ??
-                                      NSButton(checkboxWithTitle: "",
-                                               target: self,
-                                               action: #selector(autoJoinCheckboxChanged(_:)))
+                NSButton(checkboxWithTitle: "",
+                         target: self,
+                         action: #selector(autoJoinCheckboxChanged(_:)))
             checkbox.identifier = .checkboxId
             checkbox.state = networkEntity.autoJoin ? .on : .off
             view = checkbox
@@ -288,7 +286,7 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
         return view
     }
 
-    func tableViewSelectionDidChange(_ notification: Notification) {
+    func tableViewSelectionDidChange(_: Notification) {
         let selected = tableView.selectedRow != -1
         modifyItemSegment.setEnabled(selected, forSegment: .remove)
         modifyItemSegment.setEnabled(selected, forSegment: .view)
@@ -298,8 +296,7 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
 // MARK: Table view data source
 
 extension PrefsSavedNetworksView: NSTableViewDataSource {
-
-    func numberOfRows(in tableView: NSTableView) -> Int {
+    func numberOfRows(in _: NSTableView) -> Int {
         return savedNetworks.count
     }
 
@@ -308,15 +305,14 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView,
                    acceptDrop info: NSDraggingInfo,
                    row: Int,
-                   dropOperation: NSTableView.DropOperation) -> Bool {
+                   dropOperation _: NSTableView.DropOperation) -> Bool {
         let pasteBoard = info.draggingPasteboard
         if let itemData = pasteBoard.pasteboardItems?.first?.data(forType: .rowOrder),
-            let indexes = try? NSKeyedUnarchiver.unarchivedObject(
-                ofClass: NSIndexSet.self,
-                from: itemData
-            ) as IndexSet?,
-            let originalRow = indexes.first {
-
+           let indexes = try? NSKeyedUnarchiver.unarchivedObject(
+               ofClass: NSIndexSet.self,
+               from: itemData
+           ) as IndexSet?,
+           let originalRow = indexes.first {
             var newRow = row
             if originalRow < newRow {
                 newRow = row - 1
@@ -340,7 +336,7 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
 
     // Allows drag operation
 
-    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+    func tableView(_: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         guard let data = try? NSKeyedArchiver.archivedData(
             withRootObject: rowIndexes,
             requiringSecureCoding: false
@@ -355,11 +351,11 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
 
     // Used by aTableView to determine a valid drop target.
 
-    func tableView(_ tableView: NSTableView,
+    func tableView(_: NSTableView,
                    validateDrop info: NSDraggingInfo,
-                   proposedRow row: Int,
+                   proposedRow _: Int,
                    proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
-        guard let source = info.draggingSource as? NSTableView, source == self.tableView else { return [] }
+        guard let source = info.draggingSource as? NSTableView, source == tableView else { return [] }
         if dropOperation == .above {
             return .move
         }

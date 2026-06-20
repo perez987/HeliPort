@@ -17,13 +17,13 @@ extension NSApplication {
         NSWorkspace.shared.openApplication(at: Bundle.main.bundleURL,
                                            configuration: config,
                                            completionHandler: { _, error in
-            if let error {
-                print("Failed to restart the app: \(error)")
-            } else {
-                DispatchQueue.main.async {
-                    NSApp.terminate(nil)
-                }
-            }
-        })
+                                               if let error {
+                                                   print("Failed to restart the app: \(error)")
+                                               } else {
+                                                   DispatchQueue.main.async {
+                                                       NSApp.terminate(nil)
+                                                   }
+                                               }
+                                           })
     }
 }

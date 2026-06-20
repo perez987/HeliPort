@@ -17,15 +17,14 @@ import Foundation
 import ServiceManagement
 
 class LoginItemManager {
-
     private static let launcherId = Bundle.main.bundleIdentifier! + "-Launcher"
     private static let launcherService = SMAppService.loginItem(identifier: launcherId)
 
-    public class func isEnabled() -> Bool {
+    class func isEnabled() -> Bool {
         launcherService.status == .enabled
     }
 
-    public class func setStatus(enabled: Bool) {
+    class func setStatus(enabled: Bool) {
         do {
             if enabled {
                 try launcherService.register()

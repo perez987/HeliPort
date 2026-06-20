@@ -17,7 +17,7 @@ import Foundation
 import KeychainAccess
 
 final class CredentialsManager {
-    static let instance: CredentialsManager = CredentialsManager()
+    static let instance: CredentialsManager = .init()
 
     private let keychain: Keychain
     private let ssidCache: NSCache = NSCache<NSString, NSSet>()
@@ -51,7 +51,8 @@ final class CredentialsManager {
 
     func get(_ network: NetworkInfo) -> NetworkAuth? {
         guard let password = keychain[string: network.keychainKey],
-            let jsonData = password.data(using: .utf8) else {
+              let jsonData = password.data(using: .utf8)
+        else {
             print("No stored password for network \(network.ssid)")
             return nil
         }
@@ -66,20 +67,21 @@ final class CredentialsManager {
     }
 
     func getStorageFromSsid(_ ssid: String) -> NetworkInfoStorageEntity? {
-        guard let attributes = try? keychain.get(ssid, handler: {$0}),
-            let json = attributes.comment,
-            let jsonData = json.data(using: .utf8) else {
-                return nil
+        guard let attributes = try? keychain.get(ssid, handler: { $0 }),
+              let json = attributes.comment,
+              let jsonData = json.data(using: .utf8)
+        else {
+            return nil
         }
 
         return try? JSONDecoder().decode(NetworkInfoStorageEntity.self, from: jsonData)
     }
 
     func getAuthFromSsid(_ ssid: String) -> NetworkAuth? {
-        guard let attributes = try? keychain.get(ssid, handler: {$0}),
-            let jsonData = attributes.data
-            else {
-                return nil
+        guard let attributes = try? keychain.get(ssid, handler: { $0 }),
+              let jsonData = attributes.data
+        else {
+            return nil
         }
 
         return try? JSONDecoder().decode(NetworkAuth.self, from: jsonData)
@@ -87,8 +89,9 @@ final class CredentialsManager {
 
     func setAutoJoin(_ ssid: String, _ autoJoin: Bool) {
         guard let entity = getStorageFromSsid(ssid),
-            let auth = getAuthFromSsid(ssid) else {
-                return
+              let auth = getAuthFromSsid(ssid)
+        else {
+            return
         }
 
         entity.autoJoin = autoJoin
@@ -107,8 +110,9 @@ final class CredentialsManager {
 
     func setPriority(_ ssid: String, _ priority: Int) {
         guard let entity = getStorageFromSsid(ssid),
-            let auth = getAuthFromSsid(ssid) else {
-                return
+              let auth = getAuthFromSsid(ssid)
+        else {
+            return
         }
 
         entity.order = priority
@@ -127,7 +131,7 @@ final class CredentialsManager {
 
     func getSavedNetworks() -> [NetworkInfo] {
         return (keychain.allKeys().compactMap { ssid in
-            return getStorageFromSsid(ssid)
+            getStorageFromSsid(ssid)
         } as [NetworkInfoStorageEntity]).filter { entity in
             entity.autoJoin && entity.version == NetworkInfoStorageEntity.currentVersion
         }.sorted {
@@ -148,7 +152,7 @@ final class CredentialsManager {
 
     func getSavedNetworksEntity() -> [NetworkInfoStorageEntity] {
         return (keychain.allKeys().compactMap { ssid in
-            return getStorageFromSsid(ssid)
+            getStorageFromSsid(ssid)
         } as [NetworkInfoStorageEntity]).filter { entity in
             entity.version == NetworkInfoStorageEntity.currentVersion
         }.sorted {
@@ -163,7 +167,7 @@ final class CredentialsManager {
     }
 }
 
-fileprivate extension NetworkInfo {
+private extension NetworkInfo {
     var keychainKey: String {
         return ssid
     }

@@ -13,12 +13,11 @@
  * https://opensource.org/licenses/BSD-3-Clause
  */
 
-import Foundation
 import Cocoa
+import Foundation
 
 @available(macOS 11, *)
 class SectionMenuItemView: SelectableMenuItemView {
-
     // MARK: Initializers
 
     private let label: NSTextField = {
@@ -55,10 +54,10 @@ class SectionMenuItemView: SelectableMenuItemView {
     var isExpanded: Bool = false {
         willSet {
             guard newValue != isExpanded else { return }
-            self.expandAction?(newValue)
+            expandAction?(newValue)
             animateImageTransition(imageView: chevronImage,
                                    toImage: newValue ? SectionMenuItemView.chevronDown
-                                                     : SectionMenuItemView.chevronRight,
+                                       : SectionMenuItemView.chevronRight,
                                    onComplete: nil)
         }
     }
@@ -76,7 +75,8 @@ class SectionMenuItemView: SelectableMenuItemView {
         setupLayout()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -84,10 +84,10 @@ class SectionMenuItemView: SelectableMenuItemView {
 
     private func animateImageTransition(imageView: NSImageView, toImage: NSImage?, onComplete: (() -> Void)? = nil) {
         // Fade out
-        NSAnimationContext.runAnimationGroup({ context in
+        NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.1
             imageView.animator().alphaValue = 0.0
-        }, completionHandler: {
+        } completionHandler: {
             imageView.image = toImage
 
             // Fade in
@@ -95,7 +95,7 @@ class SectionMenuItemView: SelectableMenuItemView {
                 context.duration = 0.1
                 imageView.animator().alphaValue = 0.9
             }, completionHandler: onComplete)
-        })
+        }
     }
 
     // MARK: Overrides
@@ -105,10 +105,10 @@ class SectionMenuItemView: SelectableMenuItemView {
         isExpanded = !isExpanded
     }
 
-    internal override func setupLayout() {
+    override func setupLayout() {
         super.setupLayout()
         translatesAutoresizingMaskIntoConstraints = false
-        self.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -117,9 +117,9 @@ class SectionMenuItemView: SelectableMenuItemView {
 
             chevronImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             chevronImage.trailingAnchor.constraint(
-                equalTo: self.trailingAnchor,
+                equalTo: trailingAnchor,
                 constant: -HeliPortUI.Spacing.menuHorizontalPadding
-            )
+            ),
         ])
     }
 }

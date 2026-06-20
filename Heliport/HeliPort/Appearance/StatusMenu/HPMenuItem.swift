@@ -17,7 +17,6 @@ import Cocoa
 
 /// Use this class instead of `NSMenuItem` when applying a custom view
 class HPMenuItem: NSMenuItem {
-
     var highlightable: Bool = false
 
     convenience init(highlightable: Bool = false) {
@@ -25,7 +24,8 @@ class HPMenuItem: NSMenuItem {
         self.highlightable = highlightable
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -35,7 +35,7 @@ class HPMenuItem: NSMenuItem {
 
     override var isHidden: Bool {
         willSet {
-            (self.view as? HidableMenuItemView)?.visible = !newValue
+            (view as? HidableMenuItemView)?.visible = !newValue
         }
     }
 

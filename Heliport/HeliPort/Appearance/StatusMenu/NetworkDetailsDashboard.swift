@@ -1,5 +1,5 @@
-import SwiftUI
 import Charts
+import SwiftUI
 
 struct SignalData: Identifiable {
     let id = UUID()
@@ -18,21 +18,21 @@ class NetworkDetailsViewModel: ObservableObject {
     @Published var phyMode: String = ""
     @Published var bssid: String = ""
     @Published var snr: Int = 0
-    @Published var signalHistory: [SignalData] = (0..<30).map { index in
-        SignalData(time: Date().addingTimeInterval(Double(-index * 2)), value: Int.random(in: -70...(-60)))
+    @Published var signalHistory: [SignalData] = (0 ..< 30).map { index in
+        SignalData(time: Date().addingTimeInterval(Double(-index * 2)), value: Int.random(in: -70 ... -60))
     }
 
     func update(with info: StatusMenuBase.StationInfo) {
-        self.ssid = info.ssid ?? ""
-        self.ipAddress = info.ipAddr
-        self.router = info.routerAddr
-        self.signal = info.rssiValue
-        self.noise = Int(info.noise.replacingOccurrences(of: " dBm", with: "")) ?? 0
-        self.txRate = info.txRate
-        self.channel = info.channel
-        self.phyMode = info.phyMode
-        self.bssid = info.bssid
-        self.snr = self.signal - self.noise
+        ssid = info.ssid ?? ""
+        ipAddress = info.ipAddr
+        router = info.routerAddr
+        signal = info.rssiValue
+        noise = Int(info.noise.replacingOccurrences(of: " dBm", with: "")) ?? 0
+        txRate = info.txRate
+        channel = info.channel
+        phyMode = info.phyMode
+        bssid = info.bssid
+        snr = signal - noise
 
         let newData = SignalData(time: Date(), value: info.rssiValue)
         signalHistory.insert(newData, at: 0)
@@ -145,7 +145,7 @@ struct NetworkDetailsDashboard: View {
                         .interpolationMethod(.monotone)
                     }
                 }
-                .chartYScale(domain: -90...(-30))
+                .chartYScale(domain: -90 ... -30)
                 .chartXAxis(.hidden)
                 .chartYAxis(.hidden)
                 .frame(height: 36)

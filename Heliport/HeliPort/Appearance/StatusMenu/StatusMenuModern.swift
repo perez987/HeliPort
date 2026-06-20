@@ -3,7 +3,6 @@ import SwiftUI
 
 @available(macOS 11, *)
 final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
-
     // - MARK: SwiftUI State
     private var isWiFiOn: Bool = true {
         didSet {
@@ -13,19 +12,17 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
 
     // - MARK: Menu items
 
-    private lazy var statusItem: NSMenuItem = {
-        return ModernToggleMenuItem(title: String.Modern.wifi, isOn: true) { [weak self] newValue in
-            self?.isWiFiOn = newValue
-        }
-    }()
+    private lazy var statusItem: NSMenuItem = ModernToggleMenuItem(title: String.Modern.wifi, isOn: true) { [weak self] newValue in
+        self?.isWiFiOn = newValue
+    }
 
     private var isOtherExpanded: Bool = false {
         didSet {
-            self.otherNetworkItemList.forEach {
-                if $0.isEnabled { $0.isHidden = !isOtherExpanded }
+            for item in otherNetworkItemList {
+                if item.isEnabled { item.isHidden = !isOtherExpanded }
             }
-            self.manuallyJoinItem.isHidden = !isOtherExpanded
-            self.update()
+            manuallyJoinItem.isHidden = !isOtherExpanded
+            update()
         }
     }
 
@@ -91,13 +88,13 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         modernTxRateItem,
         modernPhyModeItem,
         modernMcsIndexItem,
-        modernNssItem
+        modernNssItem,
     ]
 
     lazy var hiddenItems: [NSMenuItem] = [
         modernBsdItem,
         modernMacItem,
-        modernItlwmVerItem
+        modernItlwmVerItem,
     ]
 
     lazy var notImplementedItems: [NSMenuItem] = [
@@ -106,7 +103,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
 
         modernSecurityItem,
         modernCountryCodeItem,
-        modernNssItem
+        modernNssItem,
     ]
 
     override var isNetworkListEmpty: Bool {
@@ -147,7 +144,8 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         minimumWidth = HeliPortUI.Dashboard.width
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -194,12 +192,12 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         // Technical & Hidden items at the bottom (only shown with Option key)
         addItem(.separator())
 
-        [modernBsdItem, modernMacItem, modernItlwmVerItem].forEach {
-            addItem($0)
+        for item in [modernBsdItem, modernMacItem, modernItlwmVerItem] {
+            addItem(item)
         }
 
-        stationInfoItems.forEach {
-            addItem($0)
+        for stationInfoItem in stationInfoItems {
+            addItem(stationInfoItem)
         }
     }
 
@@ -241,8 +239,8 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
                 )
 
                 let staInfo: NetworkInfo? = (self.isNetworkConnected
-                                             ? NetworkInfo(ssid: self.currentSSID ?? "")
-                                             : nil)
+                    ? NetworkInfo(ssid: self.currentSSID ?? "")
+                    : nil)
 
                 let insertAtKnown = self.index(of: self.currentNetworkItem) + 1
                 self.processNetworkList(from: knownList, to: &self.knownNetworkItemList,
@@ -281,16 +279,16 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         guard isNetworkCardEnabled else { return }
 
         let hasSavedNetworks = !CredentialsManager.instance.getSavedNetworkSSIDs().isEmpty
-        let expandOther = !self.isNetworkConnected && !hasSavedNetworks && self.knownNetworkItemList.isEmpty
+        let expandOther = !isNetworkConnected && !hasSavedNetworks && knownNetworkItemList.isEmpty
 
-        self.isOtherExpanded = expandOther
+        isOtherExpanded = expandOther
     }
 
-    override func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
+    override func addNetworkItem(_: NSMenuItem = HPMenuItem(highlightable: true),
                                  insertAt: Int? = nil,
                                  hidden: Bool = false,
-                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
-
+                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
+    {
         let newItem = ModernNetworkMenuItem(
             ssid: networkInfo.ssid,
             signalStrength: Int(networkInfo.rssi),
@@ -314,12 +312,13 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
 
     override func setCurrentNetworkItem(with info: StatusMenuBase.StationInfo) {
         // Handle connected -> disconnected state
-        if !currentNetworkItem.isHidden && !info.isNetworkConnected {
-            for index in self.headerLength ..<
-                    min(self.items.count,
-                        self.headerLength + self.knownNetworkItemList.count) {
-                self.items[index].isHidden = false
-                self.items[index].isEnabled = true
+        if !currentNetworkItem.isHidden, !info.isNetworkConnected {
+            for index in headerLength ..<
+                min(items.count,
+                    headerLength + knownNetworkItemList.count)
+            {
+                items[index].isHidden = false
+                items[index].isEnabled = true
             }
         }
 
@@ -334,7 +333,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         super.setCurrentNetworkItem(with: info)
 
         // Ensure isNetworkListEmpty is updated to false if connected
-        if isNetworkConnected && isNetworkListEmpty {
+        if isNetworkConnected, isNetworkListEmpty {
             isNetworkListEmpty = false
         }
     }
@@ -389,9 +388,9 @@ class ModernActionMenuItem: NSMenuItem {
     private var onSelect: () -> Void = {}
 
     init(title: String, icon: String? = nil, shortcut: String? = nil, action: @escaping () -> Void) {
-        self.onSelect = action
+        onSelect = action
         super.init(title: title, action: #selector(itemAction), keyEquivalent: shortcut ?? "")
-        self.target = self
+        target = self
 
         let view = ActionItemView(title: title, icon: icon, shortcut: shortcutDisplay(shortcut), action: action)
         self.view = NSHostingView(rootView: view)
@@ -408,7 +407,8 @@ class ModernActionMenuItem: NSMenuItem {
         onSelect()
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -477,9 +477,9 @@ class ModernSectionHeaderItem: NSMenuItem {
     }
 
     init(title: String, isExpanded: Binding<Bool>, isExpandable: Bool = true, onExpand: ((Bool) -> Void)? = nil) {
-        self.isExpandedBinding = isExpanded
-        self.headerTitle = title
-        self.canExpand = isExpandable
+        isExpandedBinding = isExpanded
+        headerTitle = title
+        canExpand = isExpandable
         self.onExpand = onExpand
         super.init(title: title, action: nil, keyEquivalent: "")
 
@@ -493,7 +493,8 @@ class ModernSectionHeaderItem: NSMenuItem {
         self.view?.frame = NSRect(x: 0, y: 0, width: HeliPortUI.Dashboard.width, height: 32)
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -534,7 +535,7 @@ class ModernKeyValueItem: NSMenuItem {
     }
 
     init(key: String, value: String, inset: Bool = false) {
-        self.viewModel = KeyValueViewModel(value: value)
+        viewModel = KeyValueViewModel(value: value)
         super.init(title: key, action: nil, keyEquivalent: "")
 
         let view = KeyValueItemView(key: key, viewModel: viewModel, inset: inset)
@@ -542,7 +543,8 @@ class ModernKeyValueItem: NSMenuItem {
         self.view?.frame = NSRect(x: 0, y: 0, width: HeliPortUI.Dashboard.width, height: 24)
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

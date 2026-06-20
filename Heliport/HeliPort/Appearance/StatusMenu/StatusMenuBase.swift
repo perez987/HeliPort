@@ -29,7 +29,6 @@ protocol StatusMenuItems {
 }
 
 class StatusMenuBase: NSMenu, NSMenuDelegate {
-
     // - MARK: Properties
 
     private let networkListUpdatePeriod: Double = 3
@@ -86,9 +85,11 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
             items.hiddenItems.forEach { $0.isHidden = !visible }
             items.enabledNetworkCardItems.forEach { $0.isHidden = !isNetworkCardAvailable }
-            items.stationInfoItems.forEach { $0.isHidden = !(visible &&
-                                                             self.isNetworkConnected &&
-                                                             self.isNetworkCardEnabled) }
+            for stationInfoItem in items.stationInfoItems {
+                stationInfoItem.isHidden = !(visible &&
+                    isNetworkConnected &&
+                    isNetworkCardEnabled)
+            }
             items.notImplementedItems.forEach { $0.isHidden = true }
         }
     }
@@ -109,8 +110,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
     var isNetworkCardAvailable: Bool = true {
         willSet(newState) {
-            if !newState && newState != isNetworkCardAvailable {
-                self.isNetworkCardEnabled = false
+            if !newState, newState != isNetworkCardAvailable {
+                isNetworkCardEnabled = false
             }
         }
     }
@@ -122,8 +123,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             newState ? StatusBarIcon.shared().on() : StatusBarIcon.shared().off()
 
             if !newState {
-                self.isNetworkListEmpty = true
-                self.isNetworkConnected = false
+                isNetworkListEmpty = true
+                isNetworkConnected = false
             }
         }
     }
@@ -149,11 +150,12 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
     let aboutItem = HPMenuItem(title: .aboutHeliport)
     let checkUpdateItem = {
-         let item = HPMenuItem(title: .checkUpdates)
-         item.target = UpdateManager.sharedController
-         item.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
-         return item
-     }()
+        let item = HPMenuItem(title: .checkUpdates)
+        item.target = UpdateManager.sharedController
+        item.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
+        return item
+    }()
+
     let quitSeparator = NSMenuItem.separator()
     let quitItem = HPMenuItem(title: .quitHeliport,
                               action: #selector(clickMenuItem(_:)), keyEquivalent: "q")
@@ -206,7 +208,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         NSApp.servicesProvider = self
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -217,7 +220,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         (item?.view as? SelectableMenuItemView)?.isMouseOver = true
     }
 
-    func menuWillOpen(_ menu: NSMenu) {
+    func menuWillOpen(_: NSMenu) {
         isMenuOpen = true
         showAllOptions = (NSApp.currentEvent?.modifierFlags.contains(.option)) ?? false
 
@@ -254,7 +257,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
                         insertAt: Int? = nil,
                         hidden: Bool = false,
-                        networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
+                        networkInfo _: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
+    {
         item.isHidden = hidden
 
         if let insertAt {
@@ -296,10 +300,11 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             // If not connected, try to connect saved networks
             var stationInfo = station_info_t()
             var state: UInt32 = 0
-            var power: Bool = false
+            var power = false
             get_power_state(&power)
-            if get_80211_state(&state) && power &&
-                (state != ITL80211_S_RUN.rawValue || get_station_info(&stationInfo) != KERN_SUCCESS) {
+            if get_80211_state(&state), power,
+               state != ITL80211_S_RUN.rawValue || get_station_info(&stationInfo) != KERN_SUCCESS
+            {
                 NetworkManager.scanSavedNetworks()
             }
         }
@@ -352,7 +357,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                 }
                 var monitor: Any?
                 monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-                    if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "w" {
+                    if event.modifierFlags.contains(.command), event.charactersIgnoringModifiers == "w" {
                         aboutWindow.performClose(nil)
                         if let monitorRef = monitor {
                             NSEvent.removeMonitor(monitorRef)
@@ -388,13 +393,13 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         lastStatusUpdateTime = Date()
 
         DispatchQueue.global(qos: .background).async {
-            var powerState: Bool = false
+            var powerState = false
             let getPowerResult = get_power_state(&powerState)
             var status: UInt32 = 0xFF
             let getStateResult = get_80211_state(&status)
 
             DispatchQueue.main.async {
-                if getPowerResult && getStateResult {
+                if getPowerResult, getStateResult {
                     self.isNetworkCardEnabled = powerState
                 } else {
                     print("Failed get card state")
@@ -449,7 +454,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         var infoIn = station_info_t()
 
         guard driverState == ITL80211_S_RUN,
-              get_station_info(&infoIn) == KERN_SUCCESS else {
+              get_station_info(&infoIn) == KERN_SUCCESS
+        else {
             return infoOut
         }
 
@@ -467,12 +473,12 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         infoOut.internet = NetworkManager.isReachable() ? .reachable : .unreachable
         infoOut.security = .unknown
         infoOut.bssid = String(format: "%02x:%02x:%02x:%02x:%02x:%02x",
-                            infoIn.bssid.0,
-                            infoIn.bssid.1,
-                            infoIn.bssid.2,
-                            infoIn.bssid.3,
-                            infoIn.bssid.4,
-                            infoIn.bssid.5)
+                               infoIn.bssid.0,
+                               infoIn.bssid.1,
+                               infoIn.bssid.2,
+                               infoIn.bssid.3,
+                               infoIn.bssid.4,
+                               infoIn.bssid.5)
         infoOut.channel = "\(infoIn.channel) (\(infoIn.channel <= 14 ? 2.4 : 5) GHz, \(infoIn.band_width) MHz)"
         infoOut.countryCode = .unknown
         infoOut.rssi = "\(infoIn.rssi) dBm"
@@ -488,19 +494,19 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     func setStationItems(with info: StationInfo) {
         guard showAllOptions, let items = self as? StatusMenuItems else { return }
 
-        items.setValueForItem(self.ipAddresssItem, value: info.ipAddr)
-        items.setValueForItem(self.routerItem, value: info.routerAddr)
-        items.setValueForItem(self.internetItem, value: info.internet)
-        items.setValueForItem(self.securityItem, value: info.security)
-        items.setValueForItem(self.bssidItem, value: info.bssid)
-        items.setValueForItem(self.channelItem, value: info.channel)
-        items.setValueForItem(self.countryCodeItem, value: info.countryCode)
-        items.setValueForItem(self.rssiItem, value: info.rssi)
-        items.setValueForItem(self.noiseItem, value: info.noise)
-        items.setValueForItem(self.txRateItem, value: info.txRate)
-        items.setValueForItem(self.phyModeItem, value: info.phyMode)
-        items.setValueForItem(self.mcsIndexItem, value: info.mcsIndex)
-        items.setValueForItem(self.nssItem, value: info.nss)
+        items.setValueForItem(ipAddresssItem, value: info.ipAddr)
+        items.setValueForItem(routerItem, value: info.routerAddr)
+        items.setValueForItem(internetItem, value: info.internet)
+        items.setValueForItem(securityItem, value: info.security)
+        items.setValueForItem(bssidItem, value: info.bssid)
+        items.setValueForItem(channelItem, value: info.channel)
+        items.setValueForItem(countryCodeItem, value: info.countryCode)
+        items.setValueForItem(rssiItem, value: info.rssi)
+        items.setValueForItem(noiseItem, value: info.noise)
+        items.setValueForItem(txRateItem, value: info.txRate)
+        items.setValueForItem(phyModeItem, value: info.phyMode)
+        items.setValueForItem(mcsIndexItem, value: info.mcsIndex)
+        items.setValueForItem(nssItem, value: info.nss)
     }
 
     func setCurrentNetworkItem(with info: StationInfo) {
@@ -510,8 +516,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
         // disconnected -> connected
         if info.isNetworkConnected {
-            for index in self.headerLength ..< self.items.count {
-                let item = self.items[index]
+            for index in headerLength ..< items.count {
+                let item = items[index]
                 let itemSSID: String? = {
                     if let view = item.view as? WifiMenuItemView {
                         return view.networkInfo.ssid
@@ -549,7 +555,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     }
 
     func processNetworkList(from infoList: [NetworkInfo], to itemList: inout [NSMenuItem],
-                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false) {
+                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false)
+    {
         var index = 0
 
         for info in infoList {
@@ -557,7 +564,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
             if let staInfo, staInfo.ssid == info.ssid {
                 staInfo.auth.security = info.auth.security
-                if let wifiView = self.currentNetworkItem.view as? WifiMenuItemView {
+                if let wifiView = currentNetworkItem.view as? WifiMenuItemView {
                     wifiView.updateImages()
                 }
                 enabled = false
@@ -570,15 +577,16 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                 item.isEnabled = enabled
 
                 // Ensure item is at the correct position
-                if let currentIndex = self.items.firstIndex(of: item),
-                   currentIndex != insertAt + index {
+                if let currentIndex = items.firstIndex(of: item),
+                   currentIndex != insertAt + index
+                {
                     var targetIndex = insertAt + index
                     if currentIndex < targetIndex {
                         targetIndex -= 1
                     }
 
-                    self.removeItem(at: currentIndex)
-                    self.insertItem(item, at: targetIndex)
+                    removeItem(at: currentIndex)
+                    insertItem(item, at: targetIndex)
                 }
 
                 if let wifiMenuItemView = item.view as? WifiMenuItemView {
@@ -588,9 +596,9 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                 }
             } else {
                 // Add new item if not enough existing ones
-                let item = self.addNetworkItem(insertAt: insertAt + index,
-                                               hidden: hidden || !enabled,
-                                               networkInfo: info)
+                let item = addNetworkItem(insertAt: insertAt + index,
+                                          hidden: hidden || !enabled,
+                                          networkInfo: info)
                 item.isEnabled = enabled
                 itemList.append(item)
             }
@@ -599,7 +607,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         }
 
         // Hide extra items
-        for hideIndex in (index..<itemList.count).reversed() {
+        for hideIndex in (index ..< itemList.count).reversed() {
             itemList[hideIndex].isEnabled = false
             itemList[hideIndex].isHidden = true
         }
@@ -609,7 +617,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         (self as? StatusMenuItems)?.updateNetworkList()
     }
 
-    @objc func toggleWiFiServiceHandler(_ pboard: NSPasteboard, userData: String, error: NSErrorPointer) {
+    @objc func toggleWiFiServiceHandler(_: NSPasteboard, userData _: String, error _: NSErrorPointer) {
         print("Handle Toggle WiFi service")
         (self as? StatusMenuItems)?.toggleWIFI()
     }

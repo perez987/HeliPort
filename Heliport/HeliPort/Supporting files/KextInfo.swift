@@ -17,13 +17,12 @@ import Foundation
 import IOKit.kext
 
 public class KextInfo {
-
     private let bundleID: String
     private let kextInfo: NSDictionary
 
     public init(_ bundleID: String) {
         self.bundleID = bundleID
-        self.kextInfo = KextManagerCopyLoadedKextInfo([bundleID] as CFArray, nil).takeRetainedValue() as NSDictionary
+        kextInfo = KextManagerCopyLoadedKextInfo([bundleID] as CFArray, nil).takeRetainedValue() as NSDictionary
     }
 
     public func kextDidLoad() -> Bool {

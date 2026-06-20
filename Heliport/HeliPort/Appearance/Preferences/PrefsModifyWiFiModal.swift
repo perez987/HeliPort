@@ -9,7 +9,6 @@
 import Cocoa
 
 class PrefsViewWiFiInfoModal: NSWindow {
-
     private var networkInfo: NetworkInfo
 
     private let view: NSView
@@ -31,7 +30,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
     }()
 
     private let subTitleLabel: NSTextField = {
-       let label = NSTextField(frame: NSRect.zero)
+        let label = NSTextField(frame: NSRect.zero)
         label.stringValue = .subTitle
         label.drawsBackground = false
         label.isBordered = false
@@ -59,17 +58,17 @@ class PrefsViewWiFiInfoModal: NSWindow {
 
         // swiftlint:disable comment_spacing
 
-        //pop?.addItem(withTitle: NSLocalizedString("WEP", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("WEP", comment: ""))
         pop.addItem(withTitle: .wpa12Personal)
-        //pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Personal", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Personal", comment: ""))
         pop.addItem(withTitle: .wpa2Personal)
-        //pop?.addItem(withTitle: NSLocalizedString("WPA3 Personal", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("WPA3 Personal", comment: ""))
         pop.menu?.addItem(.separator())
-        //pop?.addItem(withTitle: NSLocalizedString("Dynamic WEP", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("Dynamic WEP", comment: ""))
         pop.addItem(withTitle: .wpa12Enterprise)
-        //pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""))
         pop.addItem(withTitle: .wpa2Enterprise)
-        //pop?.addItem(withTitle: NSLocalizedString("WPA3 Enterprise", comment: ""))
+        // pop?.addItem(withTitle: NSLocalizedString("WPA3 Enterprise", comment: ""))
 
         // swiftlint:enable comment_spacing
 
@@ -158,28 +157,29 @@ class PrefsViewWiFiInfoModal: NSWindow {
     private var usernameHeightCon: NSLayoutConstraint!
     private var passwrdHeightCon: NSLayoutConstraint!
     private var showPassToggleHeightCon: NSLayoutConstraint!
-    private var hideMarginCon: [NSLayoutConstraint] = [NSLayoutConstraint]()
+    private var hideMarginCon: [NSLayoutConstraint] = .init()
 
     convenience init(networkInfo: NetworkInfo) {
         self.init(
             contentRect: NSRect(
-            x: 0,
-            y: 0,
-            width: 450,
-            height: 247
-        ),
-        styleMask: .titled,
-        backing: .buffered,
-        defer: false,
-        network: networkInfo)
+                x: 0,
+                y: 0,
+                width: 450,
+                height: 247
+            ),
+            styleMask: .titled,
+            backing: .buffered,
+            defer: false,
+            network: networkInfo
+        )
     }
 
     init(contentRect: NSRect,
          styleMask style: NSWindow.StyleMask,
          backing backingStoreType: NSWindow.BackingStoreType,
-         defer flag: Bool, network: NetworkInfo) {
-
-        self.networkInfo = network
+         defer flag: Bool, network: NetworkInfo)
+    {
+        networkInfo = network
         view = NSView(frame: contentRect)
 
         super.init(contentRect: contentRect,
@@ -293,7 +293,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
             closeButton.topAnchor.constraint(equalTo: isShowPasswd.bottomAnchor, constant: 20),
             closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            closeButton.widthAnchor.constraint(equalToConstant: 70)
+            closeButton.widthAnchor.constraint(equalToConstant: 70),
         ]
 
         NSLayoutConstraint.activate(constraints)
@@ -311,38 +311,36 @@ class PrefsViewWiFiInfoModal: NSWindow {
         showPassToggleHeightCon.isActive = true
     }
 
-    @objc private func security(_ sender: Any?) {
+    @objc private func security(_: Any?) {
         switch securityPop.title {
         case .none:
-            self.usernameLabel.isHidden = true
-            self.passwdLabel.isHidden = true
-            self.usernameBox.isHidden = false
-            self.passwdInputBox.isHidden = true
-            self.passwdSecureBox.isHidden = true
-            self.isShowPasswd.isHidden = true
+            usernameLabel.isHidden = true
+            passwdLabel.isHidden = true
+            usernameBox.isHidden = false
+            passwdInputBox.isHidden = true
+            passwdSecureBox.isHidden = true
+            isShowPasswd.isHidden = true
 
-            NSAnimationContext.runAnimationGroup({context in
+            NSAnimationContext.runAnimationGroup({ context in
                 context.duration = 0.08
                 context.allowsImplicitAnimation = true
                 usernameHeightCon.animator().constant = 0
                 passwrdHeightCon.animator().constant = 0
                 showPassToggleHeightCon.animator().constant = 0
-                hideMarginCon.forEach { const in
+                for const in hideMarginCon {
                     const.animator().constant = -4
                 }
                 self.view.layoutSubtreeIfNeeded()
             }, completionHandler: nil)
-
         case .wpa12Personal,
              NSLocalizedString("WPA2/WPA3 Personal", comment: ""),
              .wpa2Personal,
              NSLocalizedString("WPA3 Personal", comment: ""):
+            usernameLabel.isHidden = true
+            usernameBox.isHidden = true
+            passwdInputBox.isHidden = true
 
-            self.usernameLabel.isHidden = true
-            self.usernameBox.isHidden = true
-            self.passwdInputBox.isHidden = true
-
-            NSAnimationContext.runAnimationGroup({context in
+            NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.08
                 context.allowsImplicitAnimation = true
                 usernameHeightCon.animator().constant = 0
@@ -351,37 +349,36 @@ class PrefsViewWiFiInfoModal: NSWindow {
                 hideMarginCon[0].animator().constant = 0
                 hideMarginCon[1].animator().constant = 8
                 self.view.layoutSubtreeIfNeeded()
-            }, completionHandler: {
+            } completionHandler: {
                 self.passwdSecureBox.isHidden = false
                 self.isShowPasswd.isHidden = false
                 self.passwdLabel.isHidden = false
-            })
+            }
 
             passwdSecureBox.becomeFirstResponder()
         case .wpa12Enterprise,
              NSLocalizedString("WPA2/WPA3 Enterprise", comment: ""),
              .wpa2Enterprise,
              NSLocalizedString("WPA3 Enterprise", comment: ""):
+            passwdInputBox.isHidden = true
 
-            self.passwdInputBox.isHidden = true
-
-            NSAnimationContext.runAnimationGroup({context in
+            NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.08
                 context.allowsImplicitAnimation = true
                 usernameHeightCon.animator().constant = 22
                 passwrdHeightCon.animator().constant = 22
                 showPassToggleHeightCon.animator().constant = 14
-                hideMarginCon.forEach { const in
+                for const in hideMarginCon {
                     const.animator().constant = 8
                 }
                 self.view.layoutSubtreeIfNeeded()
-            }, completionHandler: {
+            } completionHandler: {
                 self.usernameBox.isHidden = false
                 self.passwdSecureBox.isHidden = false
                 self.isShowPasswd.isHidden = false
                 self.usernameLabel.isHidden = false
                 self.passwdLabel.isHidden = false
-            })
+            }
 
             usernameBox.becomeFirstResponder()
         default:
@@ -393,7 +390,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
         }
     }
 
-    @objc private func showPasswd(_ sender: Any?) {
+    @objc private func showPasswd(_: Any?) {
         passwdSecureBox.stringValue = passwdInputBox.stringValue
         passwdInputBox.isHidden = isShowPasswd.state == .off
         passwdSecureBox.isHidden = isShowPasswd.state == .on
@@ -417,7 +414,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
         }
     }
 
-    @objc private func close(_ sender: Any?) {
+    @objc private func close(_: Any?) {
         // Calls out sheet parent to close window
         sheetParent?.endSheet(self, returnCode: .cancel)
     }

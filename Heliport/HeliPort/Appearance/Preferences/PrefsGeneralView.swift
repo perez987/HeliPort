@@ -17,7 +17,6 @@ import Cocoa
 import Sparkle
 
 class PrefsGeneralView: NSView {
-
     let updatesLabel: NSTextField = {
         let view = NSTextField(labelWithString: .startup)
         view.alignment = .right
@@ -128,7 +127,8 @@ class PrefsGeneralView: NSView {
         setupConstraints()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -155,7 +155,7 @@ extension PrefsGeneralView {
             UpdateManager.sharedUpdater?.automaticallyDownloadsUpdates = sender.state == .on
         case .bitrateId:
             UserDefaults.standard.set(sender.state == .on, forKey: .DefaultsKey.showBitrateInMenuBar)
-            // Notify StatusBarIcon to update immediately if possible
+        // Notify StatusBarIcon to update immediately if possible
         case .signalPercentageId:
             UserDefaults.standard.set(sender.state == .on, forKey: .DefaultsKey.showSignalAsPercentage)
         case .launchAtLoginId:
@@ -164,7 +164,6 @@ extension PrefsGeneralView {
             let enabled = sender.state == .on
             UserDefaults.standard.set(enabled, forKey: .DefaultsKey.autoQuitEnabled)
             autoQuitDelayStepper.isEnabled = enabled
-
         default:
             break
         }

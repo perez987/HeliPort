@@ -15,9 +15,9 @@
 
 import Cocoa
 
-extension NSImage {
+public extension NSImage {
     @available(macOS 11.0, *)
-    public convenience init?(systemSymbolName name: String) {
+    convenience init?(systemSymbolName name: String) {
         self.init(systemSymbolName: name, accessibilityDescription: nil)
     }
 }

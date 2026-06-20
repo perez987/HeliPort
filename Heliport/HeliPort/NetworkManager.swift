@@ -16,22 +16,22 @@
 import Foundation
 import SystemConfiguration
 
-final class NetworkManager {
+enum NetworkManager {
     static let supportedSecurityMode = [
         ITL80211_SECURITY_NONE,
         ITL80211_SECURITY_WEP,
         ITL80211_SECURITY_WPA_PERSONAL,
         ITL80211_SECURITY_WPA_PERSONAL_MIXED,
         ITL80211_SECURITY_WPA2_PERSONAL,
-        ITL80211_SECURITY_PERSONAL
+        ITL80211_SECURITY_PERSONAL,
     ]
 
     static func connect(networkInfo: NetworkInfo, saveNetwork: Bool = false,
-                        _ callback: ((_ result: Bool) -> Void)? = nil) {
-
+                        _ callback: ((_ result: Bool) -> Void)? = nil)
+    {
         guard supportedSecurityMode.contains(networkInfo.auth.security) else {
             let alert = Alert(text: NSLocalizedString("Network security not supported: ")
-                              + networkInfo.auth.security.description)
+                + networkInfo.auth.security.description)
             alert.show()
             return
         }
@@ -64,7 +64,8 @@ final class NetworkManager {
             }
 
             guard networkInfo.auth.security != ITL80211_SECURITY_NONE,
-                  networkInfo.auth.password.isEmpty else {
+                  networkInfo.auth.password.isEmpty
+            else {
                 getAuthInfoCallback(networkInfo.auth, saveNetwork)
                 return
             }
@@ -78,17 +79,19 @@ final class NetworkManager {
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-                                = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void) {
+        = { $0.ssid < $1.ssid },
+        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void)
+    {
         scanNetwork { result in
             callback(result.sorted(by: areInIncreasingOrder))
         }
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-                                = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ knownNetworks: [NetworkInfo],
-                                                 _ otherNetworks: [NetworkInfo]) -> Void) {
+        = { $0.ssid < $1.ssid },
+        callback: @escaping (_ knownNetworks: [NetworkInfo],
+                             _ otherNetworks: [NetworkInfo]) -> Void)
+    {
         DispatchQueue.global(qos: .background).async {
             let savedSSIDs = CredentialsManager.instance.getSavedNetworkSSIDs()
             scanNetwork { result in
@@ -109,7 +112,7 @@ final class NetworkManager {
             get_network_list(&list)
 
             var result = Set<NetworkInfo>()
-            let networks = Mirror(reflecting: list.networks).children.map({ $0.value }).prefix(Int(list.count))
+            let networks = Mirror(reflecting: list.networks).children.map { $0.value }.prefix(Int(list.count))
 
             for element in networks {
                 guard let network = element as? ioctl_network_info else {
@@ -141,7 +144,7 @@ final class NetworkManager {
                 print("No network saved for auto join")
                 return
             }
-            let scanTimer: Timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+            let scanTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
                 NetworkManager.scanNetwork { networkList in
                     let targetNetworks = savedNetworks.filter { networkList.contains($0) }
                     if targetNetworks.count > 0 {
@@ -201,8 +204,10 @@ final class NetworkManager {
             return nil
         }
 
-        buffer = [CChar](unsafeUninitializedCapacity: length, initializingWith: {buffer, initializedCount in
-            for idx in 0..<length { buffer[idx] = 0 }
+        buffer = [CChar](unsafeUninitializedCapacity: length, initializingWith: { buffer, initializedCount in
+            for idx in 0 ..< length {
+                buffer[idx] = 0
+            }
             initializedCount = length
         })
 
@@ -216,7 +221,7 @@ final class NetworkManager {
         let rangeOfToken = infoData[indexAfterMsghdr...].range(of: bsdData)!
         let lower = rangeOfToken.upperBound
         let upper = lower + macAddressLength
-        let macAddressData = infoData[lower..<upper]
+        let macAddressData = infoData[lower ..< upper]
         let addressBytes = macAddressData.map { String(format: "%02x", $0) }
         return addressBytes.joined(separator: separator)
     }
@@ -333,7 +338,7 @@ final class NetworkManager {
 
             let routerCommand = ["-c", "netstat -rn", "|", "egrep -o", "default.*\(bsd)"]
             guard let routerOutput = Commands.execute(executablePath: .shell, args: routerCommand).0 else { return }
-            let regex = try? NSRegularExpression.init(pattern: ipAddressRegex, options: [])
+            let regex = try? NSRegularExpression(pattern: ipAddressRegex, options: [])
             let firstMatch = regex?.firstMatch(in: routerOutput,
                                                options: [],
                                                range: NSRange(location: 0, length: routerOutput.count))
@@ -388,10 +393,11 @@ final class NetworkManager {
     }
 
     private static func getRouterAddressFromRTM(_ rtm: rt_msghdr2,
-                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String? {
+                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String?
+    {
         var rawAddr = ptr.advanced(by: MemoryLayout<rt_msghdr2>.stride)
 
-        for idx in 0..<RTAX_MAX {
+        for idx in 0 ..< RTAX_MAX {
             let sockAddr = rawAddr.withMemoryRebound(to: sockaddr.self, capacity: 1) { $0.pointee }
 
             if (rtm.rtm_addrs & (1 << idx)) != 0 && idx == RTAX_GATEWAY {

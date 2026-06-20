@@ -16,7 +16,6 @@
 import Cocoa
 
 class PrefsWindow: NSWindow {
-
     // MARK: Properties
 
     var previousIdentifier: NSToolbarItem.Identifier = .none
@@ -32,7 +31,6 @@ class PrefsWindow: NSWindow {
                   styleMask style: NSWindow.StyleMask,
                   backing backingStoreType: NSWindow.BackingStoreType,
                   defer flag: Bool) {
-
         super.init(contentRect: contentRect,
                    styleMask: style,
                    backing: backingStoreType,
@@ -50,7 +48,7 @@ class PrefsWindow: NSWindow {
         toolbar!.selectedItemIdentifier = .general
 
         if #available(OSX 11.0, *) {
-            self.toolbarStyle = .preference
+            toolbarStyle = .preference
         }
 
         // Set selected item
@@ -66,13 +64,14 @@ class PrefsWindow: NSWindow {
 
     override func close() {
         super.close()
-        self.orderOut(NSApp)
+        orderOut(NSApp)
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         guard modifiers == .command,
-              event.charactersIgnoringModifiers?.lowercased() == "w" else {
+              event.charactersIgnoringModifiers?.lowercased() == "w"
+        else {
             return super.performKeyEquivalent(with: event)
         }
 
@@ -80,7 +79,7 @@ class PrefsWindow: NSWindow {
         return true
     }
 
-    @objc private func clickToolbarItem(_ sender: NSToolbarItem) {
+    @objc private func clickToolbarItem(_: NSToolbarItem) {
         guard let identifier = toolbar?.selectedItemIdentifier else { return }
         guard previousIdentifier != identifier else {
             print("Toolbar Item already showing \(identifier)")
@@ -115,23 +114,22 @@ class PrefsWindow: NSWindow {
 // MARK: NSToolbarItemDelegate
 
 extension PrefsWindow: NSToolbarDelegate {
-
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    func toolbarAllowedItemIdentifiers(_: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.general, .networks]
     }
 
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    func toolbarDefaultItemIdentifiers(_: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.general, .networks]
     }
 
-    func toolbarSelectableItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    func toolbarSelectableItemIdentifiers(_: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.general, .networks]
     }
 
-    func toolbar(_ toolbar: NSToolbar,
+    func toolbar(_: NSToolbar,
                  itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-                 willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-
+                 willBeInsertedIntoToolbar _: Bool) -> NSToolbarItem?
+    {
         let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
         toolbarItem.target = self
         toolbarItem.action = #selector(clickToolbarItem(_:))

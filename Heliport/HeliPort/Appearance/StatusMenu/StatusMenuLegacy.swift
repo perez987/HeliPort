@@ -16,7 +16,6 @@
 import Cocoa
 
 final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
-
     // - MARK: Menu items
 
     private let statusItem = NSMenuItem(title: .Legacy.statusUnavailable)
@@ -31,7 +30,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
 
     lazy var enabledNetworkCardItems: [NSMenuItem] = [
         createNetworkItem,
-        manuallyJoinItem
+        manuallyJoinItem,
     ]
 
     lazy var stationInfoItems: [NSMenuItem] = [
@@ -48,7 +47,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         txRateItem,
         phyModeItem,
         mcsIndexItem,
-        nssItem
+        nssItem,
     ]
 
     lazy var hiddenItems: [NSMenuItem] = [
@@ -64,7 +63,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         checkUpdateItem,
         quitSeparator,
         aboutItem,
-        quitItem
+        quitItem,
     ]
 
     lazy var notImplementedItems: [NSMenuItem] = [
@@ -75,7 +74,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         countryCodeItem,
         nssItem,
 
-        createNetworkItem
+        createNetworkItem,
     ]
 
     override var isNetworkListEmpty: Bool {
@@ -104,7 +103,8 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         minimumWidth = 286
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -130,7 +130,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         disconnectItem.target = self
 
         stationInfoItems.filter { $0 != disconnectItem }
-                        .forEach { addKeyValueItem($0) }
+            .forEach { addKeyValueItem($0) }
 
         headerLength = items.count
         addItem(networkItemListSeparator)
@@ -169,12 +169,12 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
             self.isNetworkListEmpty = networkList.count == 0 && !self.isNetworkConnected
             if networkList.count > MAX_NETWORK_LIST_LENGTH {
                 print("Number of scanned networks (\(networkList.count))" +
-                            " exceeds maximum (\(MAX_NETWORK_LIST_LENGTH))")
+                    " exceeds maximum (\(MAX_NETWORK_LIST_LENGTH))")
             }
 
             let staInfo: NetworkInfo? = (self.isNetworkConnected
-                                         ? (self.currentNetworkItem.view as? WifiMenuItemView)?.networkInfo
-                                         : nil)
+                ? (self.currentNetworkItem.view as? WifiMenuItemView)?.networkInfo
+                : nil)
 
             self.processNetworkList(from: networkList, to: &self.networkItemList,
                                     insertAt: self.headerLength, staInfo)
@@ -201,14 +201,15 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
     override func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
                                  insertAt: Int? = nil,
                                  hidden: Bool = false,
-                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
+                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
+    {
         item.view = WifiMenuItemViewLegacy(networkInfo: networkInfo)
 
         if let view = item.view as? WifiMenuItemView, let supView = view.superview {
             NSLayoutConstraint.activate([
                 view.leadingAnchor.constraint(equalTo: supView.leadingAnchor),
                 view.topAnchor.constraint(equalTo: supView.topAnchor),
-                view.trailingAnchor.constraint(greaterThanOrEqualTo: supView.trailingAnchor)
+                view.trailingAnchor.constraint(greaterThanOrEqualTo: supView.trailingAnchor),
             ])
         }
 
@@ -220,11 +221,11 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         guard isNetworkConnected, let ssid = info.ssid else { return }
 
         DispatchQueue.global(qos: .background).async {
-#if !DEBUG
-            let autoJoin = CredentialsManager.instance.getStorageFromSsid(ssid)?.autoJoin ?? false
-#else
-            let autoJoin = false
-#endif
+            #if !DEBUG
+                let autoJoin = CredentialsManager.instance.getStorageFromSsid(ssid)?.autoJoin ?? false
+            #else
+                let autoJoin = false
+            #endif
             let hidden = autoJoin && !self.showAllOptions
             DispatchQueue.main.async {
                 if !hidden {

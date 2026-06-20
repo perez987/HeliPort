@@ -16,7 +16,6 @@
 import Cocoa
 
 class KeyValueMenuItemView: HidableMenuItemView {
-
     enum Inset: CGFloat {
         case standard = 14 // Matches HeliPortUI.Spacing.menuHorizontalPadding
         case staInfo = 34
@@ -60,15 +59,16 @@ class KeyValueMenuItemView: HidableMenuItemView {
             valueLabel.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -HeliPortUI.Spacing.menuHorizontalPadding
-            )
+            ),
         ])
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public var value: String? {
+    var value: String? {
         didSet {
             if value != oldValue {
                 valueLabel.stringValue = value ?? "(null)"

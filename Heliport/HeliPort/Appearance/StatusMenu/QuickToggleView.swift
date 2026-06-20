@@ -34,7 +34,7 @@ class ModernToggleMenuItem: NSMenuItem {
     private let toggleState: WifiToggleState
 
     init(title: String, isOn: Bool, onToggle: @escaping (Bool) -> Void) {
-        self.toggleState = WifiToggleState(isOn: isOn)
+        toggleState = WifiToggleState(isOn: isOn)
         super.init(title: title, action: nil, keyEquivalent: "")
         let view = QuickToggleView(state: toggleState, title: title, onToggle: onToggle)
         self.view = NSHostingView(rootView: view)
@@ -45,7 +45,8 @@ class ModernToggleMenuItem: NSMenuItem {
         toggleState.isOn = isOn
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

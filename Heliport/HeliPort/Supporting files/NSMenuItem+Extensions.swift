@@ -13,8 +13,8 @@
  * https://opensource.org/licenses/BSD-3-Clause
  */
 
-import Foundation
 import Cocoa
+import Foundation
 
 extension NSMenuItem {
     enum ItemHeight: CGFloat {

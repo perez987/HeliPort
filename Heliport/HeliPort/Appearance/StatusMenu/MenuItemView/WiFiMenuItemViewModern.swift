@@ -47,14 +47,15 @@ private class CircleSignalView: NSView {
         signalView.translatesAutoresizingMaskIntoConstraints = false
         signalView.imageScaling = .scaleProportionallyUpOrDown
         NSLayoutConstraint.activate([
-            signalView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            signalView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            signalView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            signalView.centerYAnchor.constraint(equalTo: centerYAnchor),
             signalView.widthAnchor.constraint(equalToConstant: signalSize),
-            signalView.heightAnchor.constraint(equalToConstant: signalSize)
+            signalView.heightAnchor.constraint(equalToConstant: signalSize),
         ])
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -68,7 +69,6 @@ private class CircleSignalView: NSView {
 
 @available(macOS 11, *)
 class WifiMenuItemViewModern: SelectableMenuItemView, WifiMenuItemView {
-
     // MARK: Initializers
 
     private let lockImage: NSImageView = {
@@ -109,13 +109,14 @@ class WifiMenuItemViewModern: SelectableMenuItemView, WifiMenuItemView {
         }
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Public
 
-    public var networkInfo: NetworkInfo {
+    var networkInfo: NetworkInfo {
         willSet(info) {
             ssidLabel.stringValue = info.ssid
             layoutSubtreeIfNeeded()
@@ -125,45 +126,45 @@ class WifiMenuItemViewModern: SelectableMenuItemView, WifiMenuItemView {
         }
     }
 
-    public var connected: Bool = false {
+    var connected: Bool = false {
         didSet {
             guard oldValue != connected else { return }
             signalCircle.active = connected
         }
     }
 
-    public func updateImages() {
+    func updateImages() {
         signalCircle.image = StatusBarIcon.shared().getRssiImage(rssi: Int16(networkInfo.rssi))
         lockImage.isHidden = networkInfo.auth.security == ITL80211_SECURITY_NONE
     }
 
     // MARK: Internal
 
-    internal override func setupLayout() {
+    override func setupLayout() {
         super.setupLayout()
 
         let signalCircleSize: CGFloat = 28
         let lockWidth: CGFloat = 16
 
         NSLayoutConstraint.activate([
-            signalCircle.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            signalCircle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
+            signalCircle.centerYAnchor.constraint(equalTo: centerYAnchor),
+            signalCircle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             signalCircle.widthAnchor.constraint(equalToConstant: signalCircleSize),
             signalCircle.heightAnchor.constraint(equalToConstant: signalCircleSize),
 
-            ssidLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            ssidLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             ssidLabel.leadingAnchor.constraint(equalTo: signalCircle.trailingAnchor, constant: 6),
 
-            lockImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            lockImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             lockImage.leadingAnchor.constraint(equalTo: ssidLabel.trailingAnchor, constant: 6),
-            lockImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            lockImage.widthAnchor.constraint(equalToConstant: lockWidth)
+            lockImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            lockImage.widthAnchor.constraint(equalToConstant: lockWidth),
         ])
     }
 
     // MARK: Overrides
 
-    override func mouseUp(with event: NSEvent) {
+    override func mouseUp(with _: NSEvent) {
         // Do not close the menu if the user clicked on a connected item
         if connected {
             connected = false

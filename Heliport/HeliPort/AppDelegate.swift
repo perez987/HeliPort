@@ -17,12 +17,10 @@ import Cocoa
 import Sparkle
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    public var updaterController: SPUStandardUpdaterController?
+    var updaterController: SPUStandardUpdaterController?
     private let updaterDelegate = SparkleDelegate()
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-
+    func applicationDidFinishLaunching(_: Notification) {
         checkRunPath()
         checkAPI()
 
@@ -32,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             updaterDelegate: updaterDelegate,
             userDriverDelegate: nil
         )
-        self.updaterController = controller
+        updaterController = controller
 
         let statusBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -48,23 +46,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var driverInfo = ioctl_driver_info()
 
     private func checkDriver() -> Bool {
-
         _ = ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &driverInfo, MemoryLayout<ioctl_driver_info>.size)
 
         let version = String(cCharArray: driverInfo.driver_version)
         let interface = String(cCharArray: driverInfo.bsd_name)
         guard !version.isEmpty, !interface.isEmpty else {
             print("itlwm kext not loaded!")
-#if !DEBUG
-            let alert = CriticalAlert(message: NSLocalizedString("itlwm is not running"),
-                                      options: [NSLocalizedString("Dismiss"),
-                                                NSLocalizedString("Quit HeliPort")])
+            #if !DEBUG
+                let alert = CriticalAlert(message: NSLocalizedString("itlwm is not running"),
+                                          options: [NSLocalizedString("Dismiss"),
+                                                    NSLocalizedString("Quit HeliPort")])
 
-            if alert.show() == .alertSecondButtonReturn {
-                NSApp.terminate(nil)
-            }
+                if alert.show() == .alertSecondButtonReturn {
+                    NSApp.terminate(nil)
+                }
 
-#endif
+            #endif
             return false
         }
 
@@ -79,16 +76,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func checkRunPath() {
         let pathComponents = (Bundle.main.bundlePath as NSString).pathComponents
 
-#if DEBUG
-        // Normal users should never use the Debug Version
-        guard pathComponents[pathComponents.count - 2] != "Debug" else {
-            return
-        }
-#else
-        guard pathComponents[pathComponents.count - 2] != "Applications" else {
-            return
-        }
-#endif
+        #if DEBUG
+            // Normal users should never use the Debug Version
+            guard pathComponents[pathComponents.count - 2] != "Debug" else {
+                return
+            }
+        #else
+            guard pathComponents[pathComponents.count - 2] != "Applications" else {
+                return
+            }
+        #endif
 
         print("Running path unexpected!")
 
@@ -97,8 +94,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             informativeText: NSLocalizedString(
                 "Moving HeliPort to the Applications folder is recommended for full functionality."
             ),
-                                  options: [NSLocalizedString("Continue Anyway"),
-                                            NSLocalizedString("Quit HeliPort")]
+            options: [NSLocalizedString("Continue Anyway"),
+                      NSLocalizedString("Quit HeliPort")]
         )
 
         if alert.show() == .alertSecondButtonReturn {
@@ -131,7 +128,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func checkAPI() {
-
         // It's fine for users to bypass this check by launching HeliPort first then loading itlwm in terminal
         // Only advanced users do so, and they know what they are doing
         guard checkDriver(), IOCTL_VERSION != driverInfo.version else {
@@ -140,25 +136,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         print("itlwm API mismatch!")
 
-#if !DEBUG
-        let text = NSLocalizedString("HeliPort API Version: ") + String(IOCTL_VERSION) +
-                   "\n" + NSLocalizedString("itlwm API Version: ") + String(driverInfo.version)
-        let alert = CriticalAlert(message: NSLocalizedString("itlwm Version Mismatch"),
-                                  informativeText: text,
-                                  options: [NSLocalizedString("Quit HeliPort"),
-                                            NSLocalizedString("Visit OpenIntelWireless on GitHub")]
-        )
+        #if !DEBUG
+            let text = NSLocalizedString("HeliPort API Version: ") + String(IOCTL_VERSION) +
+                "\n" + NSLocalizedString("itlwm API Version: ") + String(driverInfo.version)
+            let alert = CriticalAlert(message: NSLocalizedString("itlwm Version Mismatch"),
+                                      informativeText: text,
+                                      options: [NSLocalizedString("Quit HeliPort"),
+                                                NSLocalizedString("Visit OpenIntelWireless on GitHub")])
 
-        if alert.show() == .alertSecondButtonReturn {
-            NSWorkspace.shared.open(URL(string: "https://github.com/OpenIntelWireless")!)
-            return
-        }
+            if alert.show() == .alertSecondButtonReturn {
+                NSWorkspace.shared.open(URL(string: "https://github.com/OpenIntelWireless")!)
+                return
+            }
 
-        NSApp.terminate(nil)
-#endif
+            NSApp.terminate(nil)
+        #endif
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
+    func applicationWillTerminate(_: Notification) {
         print("Exit")
         api_terminate()
     }

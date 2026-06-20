@@ -16,7 +16,6 @@
 import Cocoa
 
 class SelectableMenuItemView: HidableMenuItemView {
-
     private class HoverView: NSView {
         override func draw(_ dirtyRect: NSRect) {
             super.draw(dirtyRect)
@@ -54,10 +53,11 @@ class SelectableMenuItemView: HidableMenuItemView {
         }
 
         super.init(height: height)
-        if let view = effectView { self.addSubview(view) }
+        if let view = effectView { addSubview(view) }
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -97,15 +97,16 @@ class SelectableMenuItemView: HidableMenuItemView {
 
         effectView?.translatesAutoresizingMaskIntoConstraints = false
         effectView?.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        effectView?.leftAnchor.constraint(equalTo: self.leftAnchor, constant: effectPadding).isActive = true
-        effectView?.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -effectPadding).isActive = true
+        effectView?.leftAnchor.constraint(equalTo: leftAnchor, constant: effectPadding).isActive = true
+        effectView?.rightAnchor.constraint(equalTo: rightAnchor, constant: -effectPadding).isActive = true
         effectView?.topAnchor.constraint(equalTo: topAnchor).isActive = true
         effectView?.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
     func performMenuItemAction() {
         guard let menuItem = enclosingMenuItem, let menu = menuItem.menu,
-              menuItem.isEnabled else {
+              menuItem.isEnabled
+        else {
             return
         }
 
@@ -116,25 +117,25 @@ class SelectableMenuItemView: HidableMenuItemView {
 
     // MARK: Overrides
 
-    override func mouseUp(with event: NSEvent) {
+    override func mouseUp(with _: NSEvent) {
         guard let view = effectView else {
             performMenuItemAction()
             return
         }
 
         // Simulate original click flash animtion
-        NSAnimationContext.runAnimationGroup({ context in
+        NSAnimationContext.runAnimationGroup { context in
             context.duration = 0.06
             view.animator().alphaValue = 0
-        }, completionHandler: {
+        } completionHandler: {
             self.checkHighlight()
-            NSAnimationContext.runAnimationGroup({ context in
+            NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.06
                 view.animator().alphaValue = 1
-            }, completionHandler: {
+            } completionHandler: {
                 self.performMenuItemAction()
-            })
-        })
+            }
+        }
     }
 
     override func viewWillMove(toWindow newWindow: NSWindow?) {
@@ -149,8 +150,8 @@ class SelectableMenuItemView: HidableMenuItemView {
         super.layout()
         if #available(macOS 11, *) {
             effectView?.frame = CGRect(x: effectPadding, y: 0,
-                                      width: bounds.width - effectPadding * 2,
-                                      height: bounds.height)
+                                       width: bounds.width - effectPadding * 2,
+                                       height: bounds.height)
         } else {
             effectView?.frame = bounds
         }

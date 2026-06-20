@@ -17,7 +17,6 @@ import Cocoa
 
 @available(macOS 11, *)
 class StateSwitchMenuItemView: NSView {
-
     // MARK: Initializers
 
     private let label: NSTextField = {
@@ -28,7 +27,7 @@ class StateSwitchMenuItemView: NSView {
     }()
 
     private let stateSwitch = NSSwitch()
-    private let actionClosure: ((NSSwitch) -> Void)
+    private let actionClosure: (NSSwitch) -> Void
 
     init(title: String, action: @escaping (NSSwitch) -> Void) {
         actionClosure = action
@@ -45,32 +44,33 @@ class StateSwitchMenuItemView: NSView {
         setupLayout()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Public
 
-    public var state: Bool = false {
+    var state: Bool = false {
         didSet {
             stateSwitch.state = state ? .on : .off
         }
     }
 
-    public var isEnabled: Bool = false {
+    var isEnabled: Bool = false {
         willSet {
             stateSwitch.isEnabled = newValue
         }
     }
 
-    public func toggle() {
+    func toggle() {
         stateSwitch.performClick(self)
     }
 
     // MARK: Private
 
     private func setupLayout() {
-        self.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         let heightConstraint = heightAnchor.constraint(equalToConstant: NSMenuItem.ItemHeight.networkModern.rawValue)
         heightConstraint.priority = NSLayoutConstraint.Priority(1000)

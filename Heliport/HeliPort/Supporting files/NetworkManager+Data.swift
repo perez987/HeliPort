@@ -21,7 +21,7 @@ final class NetworkInfo: Codable {
 
     var auth = NetworkAuth()
 
-    init (ssid: String, rssi: Int = 0) {
+    init(ssid: String, rssi: Int = 0) {
         self.ssid = ssid
         self.rssi = rssi
     }
@@ -53,7 +53,7 @@ final class NetworkInfoStorageEntity: Codable {
     var order: Int = 0
     var network: NetworkInfo
 
-    init (_ network: NetworkInfo, _ autoJoin: Bool = true, _ order: Int = 0) {
+    init(_ network: NetworkInfo, _ autoJoin: Bool = true, _ order: Int = 0) {
         self.network = network
         self.autoJoin = autoJoin
         self.order = order
