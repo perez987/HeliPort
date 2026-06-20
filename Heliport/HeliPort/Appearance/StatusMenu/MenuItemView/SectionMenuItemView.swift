@@ -119,7 +119,7 @@ class SectionMenuItemView: SelectableMenuItemView {
             chevronImage.trailingAnchor.constraint(
                 equalTo: trailingAnchor,
                 constant: -HeliPortUI.Spacing.menuHorizontalPadding
-            ),
+            )
         ])
     }
 }

@@ -23,12 +23,11 @@ enum NetworkManager {
         ITL80211_SECURITY_WPA_PERSONAL,
         ITL80211_SECURITY_WPA_PERSONAL_MIXED,
         ITL80211_SECURITY_WPA2_PERSONAL,
-        ITL80211_SECURITY_PERSONAL,
+        ITL80211_SECURITY_PERSONAL
     ]
 
     static func connect(networkInfo: NetworkInfo, saveNetwork: Bool = false,
-                        _ callback: ((_ result: Bool) -> Void)? = nil)
-    {
+                        _ callback: ((_ result: Bool) -> Void)? = nil) {
         guard supportedSecurityMode.contains(networkInfo.auth.security) else {
             let alert = Alert(text: NSLocalizedString("Network security not supported: ")
                 + networkInfo.auth.security.description)
@@ -79,19 +78,17 @@ enum NetworkManager {
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-        = { $0.ssid < $1.ssid },
-        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void)
-    {
+                            = { $0.ssid < $1.ssid },
+                            callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void) {
         scanNetwork { result in
             callback(result.sorted(by: areInIncreasingOrder))
         }
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-        = { $0.ssid < $1.ssid },
-        callback: @escaping (_ knownNetworks: [NetworkInfo],
-                             _ otherNetworks: [NetworkInfo]) -> Void)
-    {
+                            = { $0.ssid < $1.ssid },
+                            callback: @escaping (_ knownNetworks: [NetworkInfo],
+                                                 _ otherNetworks: [NetworkInfo]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let savedSSIDs = CredentialsManager.instance.getSavedNetworkSSIDs()
             scanNetwork { result in
@@ -393,8 +390,7 @@ enum NetworkManager {
     }
 
     private static func getRouterAddressFromRTM(_ rtm: rt_msghdr2,
-                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String?
-    {
+                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String? {
         var rawAddr = ptr.advanced(by: MemoryLayout<rt_msghdr2>.stride)
 
         for idx in 0 ..< RTAX_MAX {

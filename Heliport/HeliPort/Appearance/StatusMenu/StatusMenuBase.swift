@@ -257,8 +257,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
                         insertAt: Int? = nil,
                         hidden: Bool = false,
-                        networkInfo _: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
-    {
+                        networkInfo _: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
         item.isHidden = hidden
 
         if let insertAt {
@@ -303,8 +302,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             var power = false
             get_power_state(&power)
             if get_80211_state(&state), power,
-               state != ITL80211_S_RUN.rawValue || get_station_info(&stationInfo) != KERN_SUCCESS
-            {
+               state != ITL80211_S_RUN.rawValue || get_station_info(&stationInfo) != KERN_SUCCESS {
                 NetworkManager.scanSavedNetworks()
             }
         }
@@ -555,8 +553,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     }
 
     func processNetworkList(from infoList: [NetworkInfo], to itemList: inout [NSMenuItem],
-                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false)
-    {
+                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false) {
         var index = 0
 
         for info in infoList {
@@ -578,8 +575,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
                 // Ensure item is at the correct position
                 if let currentIndex = items.firstIndex(of: item),
-                   currentIndex != insertAt + index
-                {
+                   currentIndex != insertAt + index {
                     var targetIndex = insertAt + index
                     if currentIndex < targetIndex {
                         targetIndex -= 1

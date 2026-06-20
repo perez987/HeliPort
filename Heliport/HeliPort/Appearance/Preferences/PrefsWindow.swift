@@ -128,8 +128,7 @@ extension PrefsWindow: NSToolbarDelegate {
 
     func toolbar(_: NSToolbar,
                  itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-                 willBeInsertedIntoToolbar _: Bool) -> NSToolbarItem?
-    {
+                 willBeInsertedIntoToolbar _: Bool) -> NSToolbarItem? {
         let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
         toolbarItem.target = self
         toolbarItem.action = #selector(clickToolbarItem(_:))

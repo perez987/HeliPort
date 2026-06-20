@@ -46,11 +46,9 @@ class BugReporter {
         if KextInfo("as.lvs1974.DebugEnhancer").kextDidLoad() {
             // msgbuf size is sufficient, collect dmesg logs
             response = NSAppleScript(source:
-                // swiftlint:disable line_length
                 """
                 do shell script \"sudo dmesg | grep -E \\"itlwm|Airport|IO80211|EAPOL\\"\" with administrator privileges
                 """)!.executeAndReturnError(nil).stringValue
-            // swiftlint:enable line_length
         } else {
             response = .msgbufInsufficient
         }

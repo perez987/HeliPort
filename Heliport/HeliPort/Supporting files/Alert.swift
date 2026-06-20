@@ -42,8 +42,7 @@ final class CriticalAlert: NSObject {
          informativeText: String = "",
          options: [String],
          helpAnchor: String? = nil,
-         errorText: String? = nil)
-    {
+         errorText: String? = nil) {
         self.message = message
         self.informativeText = informativeText
         self.options = options
