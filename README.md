@@ -13,7 +13,7 @@ These are the changes I made:
 - Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
    - Heliport is only necessary to activate Ethernet 2 and have Wi-Fi on the machine; Once the network is activated, it can continue to function even after Heliport is closed
    - A few users have reported that while Heliport is running in the menu bar, internet speed is slower than when Heliport is closed
-- The last tab in the Settings window has been removed (it was either not required or not functional on my system)
+- Debug tab in the Settings window has been removed (it was either not required or not functional on my system)
 - App icon assets have been updated (missing sizes).
 - A large update to the localized strings bundle has been implemented
 - The project AI guidance file `CLAUDE.md` has been added
@@ -21,7 +21,9 @@ These are the changes I made:
 - GitHub workflows and issue templates have been removed
 - Prior log system usage has been removed and logging calls have been replaced with `print`-based output.
 
----
+|     |
+| --- |
+| ![Menu](Images/Heliport1.png) |
 
 # Original README
 
