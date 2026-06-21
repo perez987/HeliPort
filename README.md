@@ -29,7 +29,7 @@ These are the changes I made:
 
 ## Status
 
-HeliPort has been upgraded to **Version 3.0**, providing a state-of-the-art premium experience for Intel-based Macs. The app requires **macOS 13.0 (Ventura)** or newer and features a completely redesigned, high-fidelity user interface.
+HeliPort has been upgraded to **Version 2.5.0**, providing a state-of-the-art premium experience for Intel-based Macs. The app requires **macOS 13.0 (Ventura)** or newer and features a completely redesigned, high-fidelity user interface.
 
 ### New Features
 
