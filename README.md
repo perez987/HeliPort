@@ -1,7 +1,29 @@
 # HeliPort
 ![image](Heliport/AppIcon-128.png)
 
-Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm)
+Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
+
+## Differences with source repo
+
+This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made improvements to the original Heliport from OpenIntelWireless that I really like. I, in turn, have made further changes to adapt it to my liking, but credit for most of the code goes to *joshcalvert47*.
+
+These are the changes I made:
+
+- Removed residual XIB file to have the entire UI in SwiftUI
+- Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
+   - Heliport is only necessary to activate Ethernet 2 and have Wi-Fi on the machine; Once the network is activated, it can continue to function even after Heliport is closed
+   - A few users have reported that while Heliport is running in the menu bar, internet speed is slower than when Heliport is closed
+- The last tab in the Settings window has been removed (it was either not required or not functional on my system)
+- App icon assets have been updated (missing sizes).
+- A large update to the localized strings bundle has been implemented
+- The project AI guidance file `CLAUDE.md` has been added
+- Ignore rules in `.gitignore` have been updated.
+- GitHub workflows and issue templates have been removed
+- Prior log system usage has been removed and logging calls have been replaced with `print`-based output.
+
+---
+
+# Original README
 
 ## Status
 
