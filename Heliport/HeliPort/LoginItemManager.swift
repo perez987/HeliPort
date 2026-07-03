@@ -17,19 +17,18 @@ import Foundation
 import ServiceManagement
 
 class LoginItemManager {
-    private static let launcherId = Bundle.main.bundleIdentifier! + "-Launcher"
-    private static let launcherService = SMAppService.loginItem(identifier: launcherId)
+    private static let mainAppService = SMAppService.mainApp
 
     class func isEnabled() -> Bool {
-        launcherService.status == .enabled
+        mainAppService.status == .enabled
     }
 
     class func setStatus(enabled: Bool) {
         do {
             if enabled {
-                try launcherService.register()
+                try mainAppService.register()
             } else {
-                try launcherService.unregister()
+                try mainAppService.unregister()
             }
         } catch {
             print("Failed to update launch-at-login status: \(error.localizedDescription)")
