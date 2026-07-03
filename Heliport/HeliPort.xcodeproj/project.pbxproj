@@ -39,8 +39,6 @@
 		50C5F2D327C230D6009E3F68 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 50C5F2D227C230D6009E3F68 /* Sparkle */; };
 		50E7700F2C5A7CE100DB1160 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7700E2C5A7CD600DB1160 /* UpdateManager.swift */; };
 		50F4959824BDD26D00AE4C08 /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */; };
-		50F495A024BDEB6500AE4C08 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F4959F24BDEB6500AE4C08 /* main.swift */; };
-		50F495AC24BDEBB500AE4C08 /* HeliPort Launcher.app in Embed Launcher */ = {isa = PBXBuildFile; fileRef = 50F4959D24BDEB6500AE4C08 /* HeliPort Launcher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		75FDF38B2481D22000B2A601 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FDF38A2481D22000B2A601 /* NetworkManager.swift */; };
 		75FDF38C2481D25A00B2A601 /* Api.c in Sources */ = {isa = PBXBuildFile; fileRef = F8F6CF0B243D675800965B43 /* Api.c */; };
 		BCCB2AA4243708090005BB82 /* WiFiMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCB2AA3243708090005BB82 /* WiFiMenuItemView.swift */; };
@@ -58,16 +56,6 @@
 		F3915F0724AB1A1B00E6614D /* itl_80211_state+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3915F0624AB1A1B00E6614D /* itl_80211_state+Extensions.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		50F495AD24BDEBB500AE4C08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCFA32DF2424D2BE00E23603 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50F4959C24BDEB6500AE4C08;
-			remoteInfo = "HeliPort Launcher";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		50F495AB24BDEB7A00AE4C08 /* Embed Launcher */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -75,7 +63,6 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				50F495AC24BDEBB500AE4C08 /* HeliPort Launcher.app in Embed Launcher */,
 			);
 			name = "Embed Launcher";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,10 +102,6 @@
 		50A1A1A12C5E22AB002C5100 /* HeliPortIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliPortIntents.swift; sourceTree = "<group>"; };
 		50E7700E2C5A7CD600DB1160 /* UpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
 		50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
-		50F4959D24BDEB6500AE4C08 /* HeliPort Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HeliPort Launcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		50F4959F24BDEB6500AE4C08 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		50F495A624BDEB6700AE4C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50F495A724BDEB6700AE4C08 /* HeliPort_Launcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HeliPort_Launcher.entitlements; sourceTree = "<group>"; };
 		75FDF38A2481D22000B2A601 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BCCB2AA3243708090005BB82 /* WiFiMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiFiMenuItemView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		BCFA32E72424D2BE00E23603 /* HeliPort.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeliPort.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,13 +144,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		50F4959A24BDEB6500AE4C08 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BCFA32E42424D2BE00E23603 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -228,16 +204,6 @@
 			path = StatusBarIcon;
 			sourceTree = "<group>";
 		};
-		50F4959E24BDEB6500AE4C08 /* HeliPort Launcher */ = {
-			isa = PBXGroup;
-			children = (
-				50F4959F24BDEB6500AE4C08 /* main.swift */,
-				50F495A624BDEB6700AE4C08 /* Info.plist */,
-				50F495A724BDEB6700AE4C08 /* HeliPort_Launcher.entitlements */,
-			);
-			path = "HeliPort Launcher";
-			sourceTree = "<group>";
-		};
 		BCF712FA243C9EB100BE3C05 /* Appearance */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,7 +223,6 @@
 			children = (
 				F86A896C243CD1B500CBABC2 /* ClientKit */,
 				BCFA32E92424D2BE00E23603 /* HeliPort */,
-				50F4959E24BDEB6500AE4C08 /* HeliPort Launcher */,
 				BCFA32E82424D2BE00E23603 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -266,7 +231,6 @@
 			isa = PBXGroup;
 			children = (
 				BCFA32E72424D2BE00E23603 /* HeliPort.app */,
-				50F4959D24BDEB6500AE4C08 /* HeliPort Launcher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,23 +290,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		50F4959C24BDEB6500AE4C08 /* HeliPort Launcher */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 50F495A824BDEB6700AE4C08 /* Build configuration list for PBXNativeTarget "HeliPort Launcher" */;
-			buildPhases = (
-				50F4959924BDEB6500AE4C08 /* Sources */,
-				50F4959A24BDEB6500AE4C08 /* Frameworks */,
-				50F4959B24BDEB6500AE4C08 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "HeliPort Launcher";
-			productName = "HeliPort Launcher";
-			productReference = 50F4959D24BDEB6500AE4C08 /* HeliPort Launcher.app */;
-			productType = "com.apple.product-type.application";
-		};
 		BCFA32E62424D2BE00E23603 /* HeliPort */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCFA32F52424D2BF00E23603 /* Build configuration list for PBXNativeTarget "HeliPort" */;
@@ -357,7 +304,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				50F495AE24BDEBB500AE4C08 /* PBXTargetDependency */,
 			);
 			name = HeliPort;
 			packageProductDependencies = (
@@ -379,9 +325,6 @@
 				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = OpenIntelWireless;
 				TargetAttributes = {
-					50F4959C24BDEB6500AE4C08 = {
-						CreatedOnToolsVersion = 11.5;
-					};
 					BCFA32E62424D2BE00E23603 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -423,19 +366,11 @@
 			projectRoot = "";
 			targets = (
 				BCFA32E62424D2BE00E23603 /* HeliPort */,
-				50F4959C24BDEB6500AE4C08 /* HeliPort Launcher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		50F4959B24BDEB6500AE4C08 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BCFA32E52424D2BE00E23603 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -470,6 +405,7 @@
 		};
 		D93FD7A72FE878AD005C6E86 /* Re-sign Sparkle and app */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -489,14 +425,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		50F4959924BDEB6500AE4C08 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				50F495A024BDEB6500AE4C08 /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BCFA32E32424D2BE00E23603 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -548,14 +476,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		50F495AE24BDEBB500AE4C08 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 50F4959C24BDEB6500AE4C08 /* HeliPort Launcher */;
-			targetProxy = 50F495AD24BDEBB500AE4C08 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		D93F6BFD2FC9E978009EF77B /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
@@ -586,62 +506,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		50F495A924BDEB6700AE4C08 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = x86_64;
-				CODE_SIGN_ENTITLEMENTS = "HeliPort Launcher/HeliPort_Launcher.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = ER43ZD2S4U;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "HeliPort Launcher/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 2.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.joshc.HeliPort-Launcher";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		50F495AA24BDEB6700AE4C08 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = x86_64;
-				CODE_SIGN_ENTITLEMENTS = "HeliPort Launcher/HeliPort_Launcher.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = ER43ZD2S4U;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "HeliPort Launcher/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 2.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.joshc.HeliPort-Launcher";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		BCFA32F32424D2BF00E23603 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -831,15 +695,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		50F495A824BDEB6700AE4C08 /* Build configuration list for PBXNativeTarget "HeliPort Launcher" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				50F495A924BDEB6700AE4C08 /* Debug */,
-				50F495AA24BDEB6700AE4C08 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		BCFA32E22424D2BE00E23603 /* Build configuration list for PBXProject "HeliPort" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
