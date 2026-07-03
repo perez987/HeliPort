@@ -19,7 +19,8 @@ These are the changes I made:
 - The project AI guidance file `CLAUDE.md` has been added
 - Ignore rules in `.gitignore` have been updated.
 - GitHub workflows and issue templates have been removed
-- Prior log system usage has been removed and logging calls have been replaced with `print`-based output.
+- Prior log system usage has been removed and logging calls have been replaced with `print`-based output
+- Change launch at login: targets the `Background Items` section of System Settings, not the `Open at Login` list, requires no helper app infrastructure.
 
 |     |
 | --- |
