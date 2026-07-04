@@ -22,7 +22,6 @@ HeliPort/                  # Main application target (Swift)
   LoginItemManager.swift   # Launch-at-login
   Supporting files/        # Extensions, utilities, logging
   *.lproj/                 # Localization files (20+ languages)
-HeliPort Launcher/         # Launcher helper target (Swift)
 ClientKit/                 # C bridge for itlwm ioctl communication
   Api.c / Api.h            # API implementation
   Common.h / IoctlId.h     # Shared types and ioctl IDs
@@ -40,7 +39,7 @@ xcodebuild -project HeliPort.xcodeproj \
            -derivedDataPath build
 ```
 
-The project has two targets: **HeliPort** (main app) and **HeliPort Launcher** (login item helper).
+The project has one app target: **HeliPort**.
 
 ## Linting
 
@@ -58,7 +57,7 @@ Key SwiftLint settings:
 
 ## Key Conventions
 
-- Swift files follow standard macOS/Cocoa patterns with `@NSApplicationMain` and `NSApplicationDelegate`
+- Swift files follow standard macOS/Cocoa patterns with a programmatic `main.swift` entrypoint and `NSApplicationDelegate`
 - License header in every Swift file: 3-Clause BSD License
 - Localized strings are managed through `.lproj` directories; do not hard-code user-facing strings
 - The C layer (`ClientKit`) communicates with the itlwm kext via ioctl — avoid modifying without understanding the kext API

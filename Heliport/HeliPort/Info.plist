@@ -46,15 +46,13 @@
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
-    <key>SUEnableInstallerLauncherService</key>
-    <true/>
-    <key>SUEnableSystemProfiling</key>
-    <true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/perez987/Heliport/master/appcast.xml</string>
-	<key>SUPublicED25519Key</key>
+	<string>https://raw.githubusercontent.com/perez987/heliport/master/appcast.xml</string>
+	<key>SUPublicEDKey</key>
 	<string>ZlKWZcBX5/V65EwhgJe0G+veSzYUiYrpJZL9dLE8vjw=</string>
-    <key>SUScheduledCheckInterval</key>
-    <integer>604800</integer>
+	<key>SUScheduledCheckInterval</key>
+	<integer>604800</integer>
+	<key>SUEnableSystemProfiling</key>
+	<true/>
 </dict>
 </plist>
