@@ -5,7 +5,8 @@ Comparison between:
 - source: `https://github.com/joshcalvert47/HeliPort`  
 - this repo: `https://github.com/perez987/HeliPort`
 
-## Fork-only differences (present in `perez987/HeliPort`, not in source)
+## Fork-only differences
+(present in `perez987/HeliPort`, not in source)
 
 ### App startup and project structure
 
@@ -21,6 +22,15 @@ Comparison between:
 - Updated preferences-related behavior in:
   - `HeliPort/Appearance/Preferences/PrefsSavedNetworksView.swift`
   - `HeliPort/Appearance/Preferences/PrefsModifyWiFiModal.swift`
+
+### Launch at login
+
+- Launch-at-login management now uses `SMAppService.mainApp` via `HeliPort/LoginItemManager.swift`.
+- The fork no longer includes a separate launcher/helper app target; launch registration is handled directly by the main app target (`HeliPort.xcodeproj/project.pbxproj`).
+- Added a first-run prompt for enabling launch at login in `HeliPort/AppDelegate.swift`.
+- Updated launch-at-login toggles in:
+  - `HeliPort/Appearance/Preferences/PrefsGeneralView.swift`
+  - `HeliPort/Appearance/StatusMenu/StatusMenuBase.swift`
 
 ### Status menu and UI internals
 
