@@ -8,15 +8,15 @@
         <language>en</language>
         
        <item>
-            <title>Version 2.5.1</title>
+            <title>Version 2.5.2</title>
             <description></description>
             <pubDate>Sat, 28 Mar 2026 21:24:31 +0000</pubDate>
-            <sparkle:version>51</sparkle:version>
-            <sparkle:shortVersionString>2.5.1</sparkle:shortVersionString>
+            <sparkle:version>0052</sparkle:version>
+            <sparkle:shortVersionString>2.5.2</sparkle:shortVersionString>
             <enclosure
-                url="https://github.com/perez987/Heliport/releases/download/2.5.1/Heliport-2.5.1.dmg"
-                length="1727356"
-                sparkle:edSignature="jBUwH/OHj3yHdo72+aOr+47dqcWZl9m8muL4TUztBmZVi7yGIEqQWmzrkJp4dqWrXkG8zDP7xbPSHzQr7o3zBw=="
+                url="https://github.com/perez987/Heliport/releases/download/2.5.2/Heliport-2.5.2.dmg"
+                length="1730737"
+                sparkle:edSignature="+HDp6RwP+vVYbDwYUTTnl0dBIROq5xvlLayIW8xPZweO52X5HBfeXPhb+FNL40UJ0AaaGbyml5bNG0SaEg8xCQ=="
                 type="application/octet-stream"
             />
             <sparkle:minimumSystemVersion>13.5</sparkle:minimumSystemVersion>
