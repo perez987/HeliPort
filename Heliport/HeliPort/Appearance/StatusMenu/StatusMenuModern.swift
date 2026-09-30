@@ -189,17 +189,6 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         addItem(ModernActionMenuItem(title: String.quitHeliport, icon: "power", shortcut: "q") { [weak self] in
             self?.clickMenuItem(self?.quitItem ?? NSMenuItem())
         })
-
-        // Technical & Hidden items at the bottom (only shown with Option key)
-        addItem(.separator())
-
-        for item in [modernBsdItem, modernMacItem, modernItlwmVerItem] {
-            addItem(item)
-        }
-
-        for stationInfoItem in stationInfoItems {
-            addItem(stationInfoItem)
-        }
     }
 
     // - MARK: Menu Updates

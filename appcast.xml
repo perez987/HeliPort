@@ -15,8 +15,8 @@
             <sparkle:shortVersionString>2.5.2</sparkle:shortVersionString>
             <enclosure
                 url="https://github.com/perez987/Heliport/releases/download/2.5.2/Heliport-2.5.2.dmg"
-                length="1730737"
-                sparkle:edSignature="+HDp6RwP+vVYbDwYUTTnl0dBIROq5xvlLayIW8xPZweO52X5HBfeXPhb+FNL40UJ0AaaGbyml5bNG0SaEg8xCQ=="
+                length="1730127"
+                sparkle:edSignature="9kYUINuvsnVp6m/1j3ZJ1VDs/ONKuik7AybEADxMaOSmLfv/xZsuK+IY9AfoPJxl/nbW06RigDMnwAIP93kZCA=="
                 type="application/octet-stream"
             />
             <sparkle:minimumSystemVersion>13.5</sparkle:minimumSystemVersion>
