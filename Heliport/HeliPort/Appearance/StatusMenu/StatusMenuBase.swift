@@ -64,6 +64,9 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                     var staInfo = station_info_t()
                     get_station_info(&staInfo)
                     DispatchQueue.main.async {
+                        // The card may have been turned off while this check was running
+                        guard self.isNetworkCardEnabled || !self.isNetworkCardAvailable,
+                              self.driverState == ITL80211_S_RUN else { return }
                         guard isReachable else { StatusBarIcon.shared().warning(); return }
                         StatusBarIcon.shared().signalStrength(rssi: staInfo.rssi)
                     }
@@ -125,6 +128,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             if !newState {
                 isNetworkListEmpty = true
                 isNetworkConnected = false
+                StatusBarIcon.shared().updateStatusText(nil)
             }
         }
     }
@@ -324,9 +328,9 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                 }
             }
         case .Legacy.turnWiFiOn:
-            power_on()
+            setWiFiPower(true)
         case .Legacy.turnWiFiOff:
-            power_off()
+            setWiFiPower(false)
         case .Legacy.joinNetworks, .Modern.joinNetworks:
             let joinPop = WiFiConfigWindow()
             joinPop.show()
@@ -383,6 +387,17 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         }
     }
 
+    func setWiFiPower(_ enabled: Bool) {
+        let result = enabled ? power_on() : power_off()
+        guard result == KERN_SUCCESS else {
+            print("Failed to turn Wi-Fi \(enabled ? "on" : "off")")
+            return
+        }
+        // Reflect the new power state immediately instead of waiting for the next status poll
+        isNetworkCardEnabled = enabled
+        lastStatusUpdateTime = .distantPast
+    }
+
     @objc private func updateStatus() {
         let interval = isMenuOpen ? statusUpdatePeriod : slowStatusUpdatePeriod
         guard Date().timeIntervalSince(lastStatusUpdateTime) >= interval else {
@@ -397,9 +412,10 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             let getStateResult = get_80211_state(&status)
 
             DispatchQueue.main.async {
-                if getPowerResult, getStateResult {
+                if getPowerResult {
                     self.isNetworkCardEnabled = powerState
-                } else {
+                }
+                if !getPowerResult || !getStateResult {
                     print("Failed get card state")
                 }
                 self.isNetworkCardAvailable = getPowerResult

@@ -6,7 +6,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
     // - MARK: SwiftUI State
     private var isWiFiOn: Bool = true {
         didSet {
-            _ = isWiFiOn ? power_on() : power_off()
+            setWiFiPower(isWiFiOn)
         }
     }
 
@@ -268,7 +268,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
 
     func toggleWIFI() {
         DispatchQueue.main.async {
-            self.isWiFiOn.toggle()
+            self.isWiFiOn = !self.isNetworkCardEnabled
         }
     }
 
