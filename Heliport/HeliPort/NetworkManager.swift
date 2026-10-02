@@ -23,11 +23,12 @@ enum NetworkManager {
         ITL80211_SECURITY_WPA_PERSONAL,
         ITL80211_SECURITY_WPA_PERSONAL_MIXED,
         ITL80211_SECURITY_WPA2_PERSONAL,
-        ITL80211_SECURITY_PERSONAL
+        ITL80211_SECURITY_PERSONAL,
     ]
 
     static func connect(networkInfo: NetworkInfo, saveNetwork: Bool = false,
-                        _ callback: ((_ result: Bool) -> Void)? = nil) {
+                        _ callback: ((_ result: Bool) -> Void)? = nil)
+    {
         guard supportedSecurityMode.contains(networkInfo.auth.security) else {
             let alert = Alert(text: NSLocalizedString("Network security not supported: ")
                 + networkInfo.auth.security.description)
@@ -78,17 +79,19 @@ enum NetworkManager {
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-                            = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void) {
+        = { $0.ssid < $1.ssid },
+        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void)
+    {
         scanNetwork { result in
             callback(result.sorted(by: areInIncreasingOrder))
         }
     }
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-                            = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ knownNetworks: [NetworkInfo],
-                                                 _ otherNetworks: [NetworkInfo]) -> Void) {
+        = { $0.ssid < $1.ssid },
+        callback: @escaping (_ knownNetworks: [NetworkInfo],
+                             _ otherNetworks: [NetworkInfo]) -> Void)
+    {
         DispatchQueue.global(qos: .background).async {
             let savedSSIDs = CredentialsManager.instance.getSavedNetworkSSIDs()
             scanNetwork { result in
@@ -105,28 +108,7 @@ enum NetworkManager {
 
     private static func scanNetwork(callback: @escaping (_ networkInfoList: Set<NetworkInfo>) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            var list = network_info_list_t()
-            get_network_list(&list)
-
-            var result = Set<NetworkInfo>()
-            let networks = Mirror(reflecting: list.networks).children.map { $0.value }.prefix(Int(list.count))
-
-            for element in networks {
-                guard let network = element as? ioctl_network_info else {
-                    continue
-                }
-                let ssid = String(ssid: network.ssid)
-                guard !ssid.isEmpty else {
-                    continue
-                }
-
-                let networkInfo = NetworkInfo(
-                    ssid: ssid,
-                    rssi: Int(network.rssi)
-                )
-                networkInfo.auth.security = getSecurityType(network)
-                result.insert(networkInfo)
-            }
+            let result = fetchScanResults()
 
             DispatchQueue.main.async {
                 callback(result)
@@ -134,30 +116,77 @@ enum NetworkManager {
         }
     }
 
+    // Reads the networks currently cached by itlwm. This is a cheap, synchronous ioctl call.
+    private static func fetchScanResults() -> Set<NetworkInfo> {
+        var list = network_info_list_t()
+        get_network_list(&list)
+
+        var result = Set<NetworkInfo>()
+        let networks = Mirror(reflecting: list.networks).children.map { $0.value }.prefix(Int(list.count))
+
+        for element in networks {
+            guard let network = element as? ioctl_network_info else {
+                continue
+            }
+            let ssid = String(ssid: network.ssid)
+            guard !ssid.isEmpty else {
+                continue
+            }
+
+            let networkInfo = NetworkInfo(
+                ssid: ssid,
+                rssi: Int(network.rssi)
+            )
+            networkInfo.auth.security = getSecurityType(network)
+            result.insert(networkInfo)
+        }
+
+        return result
+    }
+
+    // While itlwm is not associated it keeps scanning on its own and fills its node cache,
+    // so the scan results can be polled frequently right after launch (e.g. at login) to
+    // join a saved network as soon as it shows up, then less often to save resources.
+    private static let autoJoinFastPollInterval: TimeInterval = 1
+    private static let autoJoinFastPollAttempts = 15
+    private static let autoJoinSlowPollInterval: TimeInterval = 5
+
     static func scanSavedNetworks() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             let savedNetworks: [NetworkInfo] = CredentialsManager.instance.getSavedNetworks()
             guard savedNetworks.count > 0 else {
                 print("No network saved for auto join")
                 return
             }
-            let scanTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-                NetworkManager.scanNetwork { networkList in
-                    let targetNetworks = savedNetworks.filter { networkList.contains($0) }
-                    if targetNetworks.count > 0 {
-                        // This will stop the timer completely
-                        timer.invalidate()
-                        print("Auto join timer stopped")
-                        connectSavedNetworks(networks: targetNetworks)
-                    }
+
+            var attempts = 0
+            while true {
+                if isAssociated() {
+                    print("Already connected, auto join stopped")
+                    return
                 }
+
+                let networkList = fetchScanResults()
+                let targetNetworks = savedNetworks.filter { networkList.contains($0) }
+                if targetNetworks.count > 0 {
+                    print("Auto join found \(targetNetworks.count) saved network(s) after \(attempts) retries")
+                    connectSavedNetworks(networks: targetNetworks)
+                    return
+                }
+
+                attempts += 1
+                Thread.sleep(forTimeInterval: attempts < autoJoinFastPollAttempts
+                    ? autoJoinFastPollInterval
+                    : autoJoinSlowPollInterval)
             }
-            // Start executing code inside the timer immediately
-            scanTimer.fire()
-            let currentRunLoop = RunLoop.current
-            currentRunLoop.add(scanTimer, forMode: .common)
-            currentRunLoop.run()
         }
+    }
+
+    private static func isAssociated() -> Bool {
+        var state: UInt32 = 0
+        var stationInfo = station_info_t()
+        return get_80211_state(&state) && state == ITL80211_S_RUN.rawValue
+            && get_station_info(&stationInfo) == KERN_SUCCESS
     }
 
     private static func connectSavedNetworks(networks: [NetworkInfo]) {
@@ -390,7 +419,8 @@ enum NetworkManager {
     }
 
     private static func getRouterAddressFromRTM(_ rtm: rt_msghdr2,
-                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String? {
+                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String?
+    {
         var rawAddr = ptr.advanced(by: MemoryLayout<rt_msghdr2>.stride)
 
         for idx in 0 ..< RTAX_MAX {

@@ -16,6 +16,7 @@
 #include "Api.h"
 #include "mach/mach_port.h"
 #include "pthread.h"
+#include <unistd.h>
 
 static pthread_mutex_t* api_mutex = NULL;
 
@@ -136,10 +137,11 @@ bool connect_network(const char *ssid, const char *pwd) {
         goto error;
     }
 
-    int timeout = 20;
+    // Poll every 250 ms for up to 20 seconds so a successful association is detected quickly
+    int timeout = 80;
     while (timeout-- > 0) {
         // Sleep first to wait for state to change
-        sleep(1);
+        usleep(250 * 1000);
         uint32_t state;
         if (get_80211_state(&state) && state == ITL80211_S_RUN) {
             station_info_t sta_info;

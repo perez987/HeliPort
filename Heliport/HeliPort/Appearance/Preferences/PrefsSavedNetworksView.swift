@@ -305,14 +305,16 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView,
                    acceptDrop info: NSDraggingInfo,
                    row: Int,
-                   dropOperation _: NSTableView.DropOperation) -> Bool {
+                   dropOperation _: NSTableView.DropOperation) -> Bool
+    {
         let pasteBoard = info.draggingPasteboard
         if let itemData = pasteBoard.pasteboardItems?.first?.data(forType: .rowOrder),
            let indexes = try? NSKeyedUnarchiver.unarchivedObject(
                ofClass: NSIndexSet.self,
                from: itemData
            ) as IndexSet?,
-           let originalRow = indexes.first {
+           let originalRow = indexes.first
+        {
             var newRow = row
             if originalRow < newRow {
                 newRow = row - 1
@@ -354,7 +356,8 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     func tableView(_: NSTableView,
                    validateDrop info: NSDraggingInfo,
                    proposedRow _: Int,
-                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation
+    {
         guard let source = info.draggingSource as? NSTableView, source == tableView else { return [] }
         if dropOperation == .above {
             return .move

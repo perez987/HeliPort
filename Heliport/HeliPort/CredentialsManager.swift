@@ -89,6 +89,7 @@ final class CredentialsManager {
 
     func setAutoJoin(_ ssid: String, _ autoJoin: Bool) {
         guard let entity = getStorageFromSsid(ssid),
+              entity.autoJoin != autoJoin,
               let auth = getAuthFromSsid(ssid)
         else {
             return

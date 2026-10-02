@@ -13,7 +13,8 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
     // - MARK: Menu items
 
     private lazy var statusItem: NSMenuItem = ModernToggleMenuItem(
-        title: String.Modern.wifi, isOn: true) { [weak self] newValue in
+        title: String.Modern.wifi, isOn: true
+    ) { [weak self] newValue in
         self?.isWiFiOn = newValue
     }
 
@@ -89,13 +90,13 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         modernTxRateItem,
         modernPhyModeItem,
         modernMcsIndexItem,
-        modernNssItem
+        modernNssItem,
     ]
 
     lazy var hiddenItems: [NSMenuItem] = [
         modernBsdItem,
         modernMacItem,
-        modernItlwmVerItem
+        modernItlwmVerItem,
     ]
 
     lazy var notImplementedItems: [NSMenuItem] = [
@@ -104,7 +105,7 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
 
         modernSecurityItem,
         modernCountryCodeItem,
-        modernNssItem
+        modernNssItem,
     ]
 
     override var isNetworkListEmpty: Bool {
@@ -277,7 +278,8 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
     override func addNetworkItem(_: NSMenuItem = HPMenuItem(highlightable: true),
                                  insertAt: Int? = nil,
                                  hidden: Bool = false,
-                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
+                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
+    {
         let newItem = ModernNetworkMenuItem(
             ssid: networkInfo.ssid,
             signalStrength: Int(networkInfo.rssi),
@@ -304,7 +306,8 @@ final class StatusMenuModern: StatusMenuBase, StatusMenuItems {
         if !currentNetworkItem.isHidden, !info.isNetworkConnected {
             for index in headerLength ..<
                 min(items.count,
-                    headerLength + knownNetworkItemList.count) {
+                    headerLength + knownNetworkItemList.count)
+            {
                 items[index].isHidden = false
                 items[index].isEnabled = true
             }

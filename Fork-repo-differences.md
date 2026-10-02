@@ -19,6 +19,7 @@ Comparison between:
 
 - Added a new preference to auto-close HeliPort after a configurable delay (`HeliPort/Appearance/Preferences/PrefsGeneralView.swift`).
 - Refactored preferences window implementation with major simplification (`HeliPort/Appearance/Preferences/PrefsWindow.swift`).
+- Faster auto-join at launch: `NetworkManager.scanSavedNetworks()` polls itlwm scan results every 1 s for the first 15 s (then every 5 s) instead of a fixed 5 s timer and stops once itlwm is associated; `connect_network` (`ClientKit/Api.c`) polls the association state every 250 ms; `CredentialsManager.setAutoJoin` skips keychain writes when the flag is unchanged.
 - Updated preferences-related behavior in:
   - `HeliPort/Appearance/Preferences/PrefsSavedNetworksView.swift`
   - `HeliPort/Appearance/Preferences/PrefsModifyWiFiModal.swift`
