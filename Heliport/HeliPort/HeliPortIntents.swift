@@ -7,7 +7,7 @@ struct HeliPortIntents: AppShortcutsProvider {
             intent: GetWiFiStatusIntent(),
             phrases: [
                 "Get \(.applicationName) status",
-                "How is my Wi-Fi in \(.applicationName)",
+                "How is my Wi-Fi in \(.applicationName)"
             ],
             shortTitle: "Get Wi-Fi Status",
             systemImageName: "wifi"
