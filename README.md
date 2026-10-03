@@ -7,9 +7,9 @@ Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
 | --- |
 | ![Menu](Images/Heliport1.png) |
 
-## Differences with source repo
+## Differences with the source repo
 
-This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made improvements to the original Heliport from OpenIntelWireless that I really like. I have made further changes to adapt it to my liking, but credit for most of the code goes to *joshcalvert47*.
+This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made changes (that I really like) to the original Heliport from OpenIntelWireless. I have made further changes to adapt it to my liking, but credit for most of the code goes to *joshcalvert47*.
 
 These are the changes I made:
 
