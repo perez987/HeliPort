@@ -29,7 +29,7 @@ These are the changes I made:
 
 ## Wi-Fi connection at startup
 
-#### Connecting after login
+### Connecting after login
 
 HeliPort is a login item, so it can only start after you reach the desktop. To shorten the time until the connection is ready, HeliPort now:
 
