@@ -3,6 +3,10 @@
 
 Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
 
+|     |
+| --- |
+| ![Menu](Images/Heliport1.png) |
+
 ## Differences with source repo
 
 This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made improvements to the original Heliport from OpenIntelWireless that I really like. I have made further changes to adapt it to my liking, but credit for most of the code goes to *joshcalvert47*.
@@ -18,35 +22,37 @@ These are the changes I made:
 - Ignore rules in `.gitignore` have been updated.
 - GitHub workflows and issue templates have been removed
 - Prior log system usage has been removed and logging calls have been replaced with `print`-based output
-- Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
+- **Optional**: Useful only for some users experiencing this issue → Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
    - Heliport is only necessary to activate Ethernet 2 and have Wi-Fi on the machine; Once the network is activated, it can continue to function even after Heliport is closed
    - A few users have reported that while Heliport is running in the menu bar, internet speed is slower than when Heliport is closed.
 - Faster auto-join of saved networks at login (see below).
 
-|     |
-| --- |
-| ![Menu](Images/Heliport1.png) |
-
 ## Wi-Fi connection at startup
+
+#### Connecting after login
 
 HeliPort is a login item, so it can only start after you reach the desktop. To shorten the time until the connection is ready, HeliPort now:
 
-- Checks itlwm scan results every second during the first 15 seconds after launch (then every 5 seconds) instead of every 5 seconds, so a saved network is joined as soon as itlwm sees it
-- Stops auto-joining as soon as itlwm reports it is already connected
+- Checks `itlwm` scan results every second (instead of every 5 seconds) during the first 15 seconds after launch (then every 5 seconds), so a saved network is joined as soon as `itlwm` sees it
+- Stops auto-joining as soon as `itlwm` reports it is already connected
 - Detects a successful association every 250 ms instead of every second
-- Skips unneeded keychain writes when it joins a saved network
+- Skips unneeded keychain writes when it joins a saved network.
 
 ### Connecting before login (optional)
 
-To connect **before** the login window, configure the network directly in itlwm, without HeliPort. itlwm joins the networks in the `WiFiConfig` dictionary of `itlwm.kext/Contents/Info.plist` when the kext loads during boot (`IOKitPersonalities` → `itlwm` → `WiFiConfig` → `WiFi_1`, `WiFi_2`, … with `ssid` and `password` strings). HeliPort detects the active connection and does not try to connect again. You can keep HeliPort for scanning and for switching networks.
+#### Hardcoded network in `itlwm`
 
-Note: the passwords are stored as plain text in the kext (usually in your EFI partition).
+To connect **before** the login window, configure the network directly in `itlwm`, without HeliPort. `itlwm` joins the networks in the `WiFiConfig` dictionary of `itlwm.kext/Contents/Info.plist` when the kext loads during boot (`IOKitPersonalities` → `itlwm` → `WiFiConfig` → `WiFi_1`, `WiFi_2`, … with `ssid` and `password` strings). HeliPort detects the active connection and does not try to connect again. You can keep HeliPort for scanning and for switching networks.
 
-A LaunchDaemon was considered for connecting before login and rejected:
+Note: the passwords are stored as plain text in the kext (in your EFI partition).
 
-- Before login, the login keychain where HeliPort keeps the passwords is still locked, so a daemon would need a second, less secure copy of the passwords
+#### LaunchDaemon
+
+Considerations regarding a daemon launched at an early stage → I think a LaunchDaemon might be unnecessary for connecting to the network before login:
+
+- Before login, the login keychain where HeliPort keeps the passwords is still locked, so a daemon would need a second copy of the passwords, or add its own secure key to the keychain
 - The daemon would need administrator approval to install
-- A daemon cannot start before itlwm, so it would not connect any faster than the `WiFiConfig` method above
+- A daemon cannot start before `itlwm`, so, in theory, it wouldn't connect any faster than the previous method.
 
 # Original README
 
