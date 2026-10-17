@@ -140,7 +140,9 @@ class PrefsGeneralView: NSView {
         autoQuitRow.orientation = .horizontal
         autoQuitRow.spacing = 4
         gridView.addRow(with: [NSView(), autoQuitRow])
-        gridView.addRow(with: [NSTextField(labelWithString: .simulationSettings), simulatedDriverCheckbox])
+        let testingLabel = NSTextField(labelWithString: .simulationSettings)
+        testingLabel.alignment = .right
+        gridView.addRow(with: [testingLabel, simulatedDriverCheckbox])
         gridView.addRow(with: [NSView(), NSStackView(views: [
             NSTextField(labelWithString: .networkInterface),
             networkInterfaceField
