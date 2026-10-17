@@ -4974,6 +4974,12 @@
         }
       }
     },
+    "Enable simulated Wi-Fi to explore HeliPort without an itlwm device." : {
+      "extractionState" : "manual"
+    },
+    "Enable Simulation Mode" : {
+      "extractionState" : "manual"
+    },
     "Enable Wi-Fi Logging" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6552,6 +6558,9 @@
           }
         }
       }
+    },
+    "Host interface for IP details:" : {
+      "extractionState" : "manual"
     },
     "Interface Name: " : {
       "extractionState" : "manual",
@@ -12424,6 +12433,9 @@
         }
       }
     },
+    "Simulated Wi-Fi is active; no itlwm kernel log is available." : {
+      "extractionState" : "manual"
+    },
     "Switching appearance requires a restart of the application to take effect." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -12536,6 +12548,9 @@
           }
         }
       }
+    },
+    "Testing:" : {
+      "extractionState" : "manual"
     },
     "The bug report will be generated in the seleted folder" : {
       "extractionState" : "manual",
@@ -13552,6 +13567,9 @@
           }
         }
       }
+    },
+    "Use simulated driver" : {
+      "extractionState" : "manual"
     },
     "Username:" : {
       "extractionState" : "manual",
@@ -16490,30 +16508,6 @@
           }
         }
       }
-    },
-    "Enable simulated Wi-Fi to explore HeliPort without an itlwm device." : {
-      "extractionState" : "manual",
-      "localizations" : {}
-    },
-    "Enable Simulation Mode" : {
-      "extractionState" : "manual",
-      "localizations" : {}
-    },
-    "Host interface for IP/router details:" : {
-      "extractionState" : "manual",
-      "localizations" : {}
-    },
-    "Simulated Wi-Fi is active; no itlwm kernel log is available." : {
-      "extractionState" : "manual",
-      "localizations" : {}
-    },
-    "Testing:" : {
-      "extractionState" : "manual",
-      "localizations" : {}
-    },
-    "Use simulated Wi-Fi driver" : {
-      "extractionState" : "manual",
-      "localizations" : {}
     }
   },
   "version" : "1.0"
