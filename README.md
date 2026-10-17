@@ -1,5 +1,4 @@
 # HeliPort
-![image](Xcode-project/AppIcon-128.png)
 
 Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
 
