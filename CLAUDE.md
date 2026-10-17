@@ -20,6 +20,7 @@ HeliPort/                  # Main application target (Swift)
   CredentialsManager.swift # Keychain password management
   UpdateManager.swift      # Sparkle update logic
   LoginItemManager.swift   # Launch-at-login
+  SimulatedDriver.swift    # Simulate Wi-Fi driver whothout itlwm
   Supporting files/        # Extensions, utilities, logging
   *.lproj/                 # Localization files (20+ languages)
 ClientKit/                 # C bridge for itlwm ioctl communication

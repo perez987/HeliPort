@@ -1,5 +1,5 @@
 # HeliPort
-![image](Heliport/AppIcon-128.png)
+![image](Xcode-project/AppIcon-128.png)
 
 Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
 
@@ -9,7 +9,7 @@ Intel WiFi Client for [itlwm](https://github.com/OpenIntelWireless/itlwm).
 
 ## Differences with the source repo
 
-This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made changes (that I really like) to the original Heliport from OpenIntelWireless. I have made further changes to adapt it to my liking, but credit for most of the code goes to *joshcalvert47*.
+This repository is a fork of [Heliport](https://github.com/joshcalvert47/HeliPort) by *joshcalvert47*. This developer has made changes (that I really like) to the original Heliport from OpenIntelWireless. I have made further changes to adapt it to my liking, but credit for the core code goes to *joshcalvert47*.
 
 These are the changes I made:
 
@@ -18,21 +18,20 @@ These are the changes I made:
 - Debug tab in the Settings window has been removed (it was either not required or not functional on my system)
 - App icon assets have been updated (missing sizes).
 - A large update to the localized strings bundle has been implemented
-- The project AI guidance file `CLAUDE.md` has been added
 - Ignore rules in `.gitignore` have been updated.
 - GitHub workflows and issue templates have been removed
 - Prior log system usage has been removed and logging calls have been replaced with `print`-based output
-- A simulated Wi-Fi driver can be enabled in General preferences or with `--simulate`, allowing the app UI to run without itlwm. The app supports Apple Silicon for simulation; real Intel Wi-Fi still requires itlwm.
+- Faster auto-join of saved networks at login (see below)
+- A simulated Wi-Fi driver can be enabled in General preferences or with `--simulate`, allowing the app UI to run without `itlwm`. The app supports Silicon Macs or Hacks without `itlwm` for simulation; real Intel Wi-Fi still requires `itlwm`
 - **Optional**: Useful only for some users experiencing this issue → Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
    - Heliport is only necessary to activate Ethernet 2 and have Wi-Fi on the machine; Once the network is activated, it can continue to function even after Heliport is closed
    - A few users have reported that while Heliport is running in the menu bar, internet speed is slower than when Heliport is closed.
-- Faster auto-join of saved networks at login (see below).
 
 ## Wi-Fi connection at startup
 
 ### Testing without itlwm
 
-Enable **Use simulated Wi-Fi driver** in General preferences, or launch a Debug build with `--simulate`. The simulator provides sample networks and connection state for exercising the UI; it does not connect to Wi-Fi. The host BSD interface setting (default `en0`) is used only to display IP and router details from an existing network connection, such as Ethernet.
+Enable **Use simulated driver** in General preferences, or launch a Debug build with `--simulate`. The simulator provides sample networks and connection state for exercising the UI; it does not connect to Wi-Fi. The host BSD interface setting (default `en0`) is used only to display IP and router details from an existing network connection, such as Ethernet.
 
 ### Connecting after login
 
