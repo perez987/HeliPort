@@ -30,7 +30,7 @@ These are the changes I made:
 
 ### Testing without itlwm
 
-Enable **Use simulated driver** in General preferences, or launch a Debug build with `--simulate`. The simulator provides sample networks and connection state for exercising the UI; it does not connect to Wi-Fi. The host BSD interface setting (default `en0`) is used only to display IP and router details from an existing network connection, such as Ethernet. More info [here](Simulated-driver.md)
+Enable **Use simulated driver** in General preferences, or launch a Debug build with `--simulate`. The simulator provides sample networks and connection state for exercising the UI; it does not connect to Wi-Fi. The host BSD interface setting (default `en0`) is used only to display IP and router details from an existing network connection, such as Ethernet. More info [here](Simulated-driver.md).
 
 ### Connecting after login
 
