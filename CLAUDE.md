@@ -8,7 +8,7 @@ This file provides context and guidance for AI agents working in this repository
 
 - **Language**: Swift 5.0 (UI/app logic) + C (kernel communication via `ClientKit`)
 - **Minimum macOS**: 13.0 (Ventura)
-- **Architecture**: x86_64 (Intel only)
+- **Architecture**: arm64 and x86_64; real Intel Wi-Fi requires itlwm, while simulated Wi-Fi supports Apple Silicon testing
 - **Auto-update**: Sparkle framework
 
 ## Repository Structure

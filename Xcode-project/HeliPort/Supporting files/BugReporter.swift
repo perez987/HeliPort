@@ -64,16 +64,20 @@ class BugReporter {
 
         // MARK: itlwm log
 
-        var driverInfo = ioctl_driver_info()
-        _ = ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &driverInfo, MemoryLayout<ioctl_driver_info>.size)
-        var itlwmVer = String(cCharArray: driverInfo.driver_version)
-        var itlwmFwVer = String(cCharArray: driverInfo.fw_version)
+        var itlwmVer = ""
+        var itlwmFwVer = ""
+        if let driverInfo = Driver.driverInfo() {
+            itlwmVer = String(cCharArray: driverInfo.driver_version)
+            itlwmFwVer = String(cCharArray: driverInfo.fw_version)
+        }
         if itlwmVer.isEmpty { itlwmVer = "Unknown" }
         if itlwmFwVer.isEmpty { itlwmFwVer = "Unknown" }
 
-        let itlwmLog = generateItlwmLog()
+        let itlwmLog = Driver.isSimulated
+            ? NSLocalizedString("Simulated Wi-Fi is active; no itlwm kernel log is available.")
+            : generateItlwmLog()
 
-        if itlwmLog == .msgbufInsufficient || itlwmLog == .scriptFailed {
+        if !Driver.isSimulated && (itlwmLog == .msgbufInsufficient || itlwmLog == .scriptFailed) {
             DispatchQueue.main.async {
                 let alert = CriticalAlert(
                     message: NSLocalizedString("Error occurred while generating bug report."),
@@ -96,16 +100,17 @@ class BugReporter {
 
         // MARK: Get itlwm name if loaded (itlwm or itlwmx)
 
-        let kextstatCommand = ["-c", "kextstat"]
-        let itlwmLoaded = Commands.execute(executablePath: .shell, args: kextstatCommand)
         var itlwmName: String?
-        if let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: []), itlwmLoaded.0 != nil {
-            let firstMatch = regex.firstMatch(in: itlwmLoaded.0!,
-                                              options: [],
-                                              range: NSRange(location: 0, length: itlwmLoaded.0!.count))
-            if let range = firstMatch?.range(at: 1) {
-                if let swiftRange = Range(range, in: itlwmLoaded.0!) {
-                    itlwmName = String(itlwmLoaded.0![swiftRange])
+        if !Driver.isSimulated {
+            let kextstatCommand = ["-c", "kextstat"]
+            let itlwmLoaded = Commands.execute(executablePath: .shell, args: kextstatCommand)
+            if let loadedKexts = itlwmLoaded.0,
+               let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: []) {
+                let firstMatch = regex.firstMatch(in: loadedKexts,
+                                                  options: [],
+                                                  range: NSRange(location: 0, length: loadedKexts.count))
+                if let range = firstMatch?.range(at: 1), let swiftRange = Range(range, in: loadedKexts) {
+                    itlwmName = String(loadedKexts[swiftRange])
                 }
             }
         }

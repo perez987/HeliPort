@@ -77,6 +77,24 @@ class PrefsGeneralView: NSView {
         return checkbox
     }()
 
+    lazy var simulatedDriverCheckbox: NSButton = {
+        let checkbox = NSButton(checkboxWithTitle: .simulatedDriver,
+                                target: self,
+                                action: #selector(checkboxChanged(_:)))
+        checkbox.identifier = .simulationModeId
+        checkbox.state = SimulationMode.isEnabled ? .on : .off
+        checkbox.isEnabled = !SimulationMode.isForcedByLaunchArgument
+        return checkbox
+    }()
+
+    lazy var networkInterfaceField: NSTextField = {
+        let field = NSTextField(string: SimulationMode.networkInterface)
+        field.target = self
+        field.action = #selector(networkInterfaceChanged(_:))
+        field.isEnabled = SimulationMode.isEnabled
+        return field
+    }()
+
     lazy var autoQuitDelayStepper: NSStepper = {
         let stepper = NSStepper()
         stepper.minValue = 30
@@ -122,6 +140,11 @@ class PrefsGeneralView: NSView {
         autoQuitRow.orientation = .horizontal
         autoQuitRow.spacing = 4
         gridView.addRow(with: [NSView(), autoQuitRow])
+        gridView.addRow(with: [NSTextField(labelWithString: .simulationSettings), simulatedDriverCheckbox])
+        gridView.addRow(with: [NSView(), NSStackView(views: [
+            NSTextField(labelWithString: .networkInterface),
+            networkInterfaceField
+        ])])
 
         addSubview(gridView)
         setupConstraints()
@@ -164,9 +187,16 @@ extension PrefsGeneralView {
             let enabled = sender.state == .on
             UserDefaults.standard.set(enabled, forKey: .DefaultsKey.autoQuitEnabled)
             autoQuitDelayStepper.isEnabled = enabled
+        case .simulationModeId:
+            SimulationMode.setEnabled(sender.state == .on)
+            networkInterfaceField.isEnabled = sender.state == .on
         default:
             break
         }
+    }
+
+    @objc private func networkInterfaceChanged(_ sender: NSTextField) {
+        SimulationMode.setNetworkInterface(sender.stringValue)
     }
 
     @objc private func autoQuitDelayChanged(_ sender: NSStepper) {
@@ -184,6 +214,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let signalPercentageId = NSUserInterfaceItemIdentifier(rawValue: "SignalPercentageCheckbox")
     static let launchAtLoginId = NSUserInterfaceItemIdentifier(rawValue: "LaunchAtLoginCheckbox")
     static let autoQuitId = NSUserInterfaceItemIdentifier(rawValue: "AutoQuitCheckbox")
+    static let simulationModeId = NSUserInterfaceItemIdentifier(rawValue: "SimulationModeCheckbox")
 }
 
 private extension String {
@@ -194,4 +225,7 @@ private extension String {
     static let showBitrate = NSLocalizedString("Show live bitrate in menu bar")
     static let showSignalPercentage = NSLocalizedString("Show signal as percentage")
     static let autoQuit = NSLocalizedString("Quit Heliport automatically")
+    static let simulationSettings = NSLocalizedString("Testing:")
+    static let simulatedDriver = NSLocalizedString("Use simulated Wi-Fi driver")
+    static let networkInterface = NSLocalizedString("Host interface for IP/router details:")
 }
