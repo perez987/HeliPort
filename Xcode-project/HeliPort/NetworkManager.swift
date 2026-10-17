@@ -215,9 +215,16 @@ enum NetworkManager {
 
         let infoData = Data(bytes: buffer, count: length)
         let indexAfterMsghdr = MemoryLayout<if_msghdr>.stride + 1
-        let rangeOfToken = infoData[indexAfterMsghdr...].range(of: bsdData)!
+        guard let rangeOfToken = infoData[indexAfterMsghdr...].range(of: bsdData) else {
+            print("Could not find interface name \(bsd) in interface data")
+            return nil
+        }
         let lower = rangeOfToken.upperBound
         let upper = lower + macAddressLength
+        guard upper <= infoData.endIndex else {
+            print("Could not read the hardware address for interface \(bsd)")
+            return nil
+        }
         let macAddressData = infoData[lower ..< upper]
         let addressBytes = macAddressData.map { String(format: "%02x", $0) }
         return addressBytes.joined(separator: separator)

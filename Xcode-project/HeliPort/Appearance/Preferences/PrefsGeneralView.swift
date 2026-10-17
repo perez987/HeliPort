@@ -91,6 +91,7 @@ class PrefsGeneralView: NSView {
         let field = NSTextField(string: SimulationMode.networkInterface)
         field.target = self
         field.action = #selector(networkInterfaceChanged(_:))
+        field.isEnabled = SimulationMode.isEnabled
         return field
     }()
 
@@ -188,6 +189,7 @@ extension PrefsGeneralView {
             autoQuitDelayStepper.isEnabled = enabled
         case .simulationModeId:
             SimulationMode.setEnabled(sender.state == .on)
+            networkInterfaceField.isEnabled = sender.state == .on
         default:
             break
         }
