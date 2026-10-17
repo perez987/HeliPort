@@ -43,8 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         scheduleAutoQuitIfNeeded()
     }
 
-    private var driverInfo = ioctl_driver_info()
-
     private func checkDriver() -> Bool {
         if SimulationMode.isEnabled {
             print("Running with the simulated Wi-Fi driver")
@@ -55,7 +53,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return enableSimulationAfterMissingDriver()
         }
 
-        driverInfo = info
         let version = String(cCharArray: info.driver_version)
         let interface = String(cCharArray: info.bsd_name)
         guard !version.isEmpty, !interface.isEmpty else {

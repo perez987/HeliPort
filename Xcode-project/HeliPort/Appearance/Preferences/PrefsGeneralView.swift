@@ -225,5 +225,5 @@ private extension String {
     static let autoQuit = NSLocalizedString("Quit Heliport automatically")
     static let simulationSettings = NSLocalizedString("Testing:")
     static let simulatedDriver = NSLocalizedString("Use simulated Wi-Fi driver")
-    static let networkInterface = NSLocalizedString("Host interface for IP details:")
+    static let networkInterface = NSLocalizedString("Host interface for IP/router details:")
 }

@@ -16490,6 +16490,30 @@
           }
         }
       }
+    },
+    "Enable simulated Wi-Fi to explore HeliPort without an itlwm device." : {
+      "extractionState" : "manual",
+      "localizations" : {}
+    },
+    "Enable Simulation Mode" : {
+      "extractionState" : "manual",
+      "localizations" : {}
+    },
+    "Host interface for IP/router details:" : {
+      "extractionState" : "manual",
+      "localizations" : {}
+    },
+    "Simulated Wi-Fi is active; no itlwm kernel log is available." : {
+      "extractionState" : "manual",
+      "localizations" : {}
+    },
+    "Testing:" : {
+      "extractionState" : "manual",
+      "localizations" : {}
+    },
+    "Use simulated Wi-Fi driver" : {
+      "extractionState" : "manual",
+      "localizations" : {}
     }
   },
   "version" : "1.0"
