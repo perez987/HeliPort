@@ -203,7 +203,7 @@ private enum SimulatedWiFi {
         info.band_width = 80
         info.rssi = signalStrength
         info.noise = -92
-        info.rate = 1201
+        info.rate = 1200
         copyString(ssid, into: &info.ssid)
         copyBytes([0, 0x1A, 0x2B, 0x3C, 0x4D, 0x5E], into: &info.bssid)
         return info
