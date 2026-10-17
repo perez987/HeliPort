@@ -140,11 +140,11 @@ private enum SimulatedWiFi {
     private static let lock = NSLock()
     private static var powered = true
     private static var currentState: itl_80211_state = ITL80211_S_RUN
-    private static var connectedSSID: String? = "HeliPort Demo"
+    private static var connectedSSID: String? = "Simul Net"
     private static var signalStrength: Int16 = -52
 
     private static let networks: [(ssid: String, rssi: Int, security: itl80211_security)] = [
-        ("HeliPort Demo", -52, ITL80211_SECURITY_WPA2_PERSONAL),
+        ("Simul Net", -52, ITL80211_SECURITY_WPA2_PERSONAL),
         ("Home Network", -61, ITL80211_SECURITY_WPA2_PERSONAL),
         ("Cafe Guest", -68, ITL80211_SECURITY_NONE),
         ("Neighbour 5G", -74, ITL80211_SECURITY_WPA2_PERSONAL),
