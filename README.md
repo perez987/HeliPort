@@ -22,7 +22,7 @@ These are the changes I made:
 - GitHub workflows and issue templates have been removed
 - Prior log system usage has been removed and logging calls have been replaced with `print`-based output
 - Faster auto-join of saved networks at login (see below)
-- A simulated Wi-Fi driver can be enabled in General preferences or with `--simulate`, allowing the app UI to run without `itlwm`. The app supports Silicon Macs or Hacks without `itlwm` for simulation; real Intel Wi-Fi still requires `itlwm`
+- A simulated Wi-Fi driver can be enabled in General preferences or with `--simulate`, allowing the app UI to run without `itlwm`. The app supports Silicon Macs or Hacks without `itlwm` for simulation; real Intel Wi-Fi still requires `itlwm`; more info [here](Simulated-driver.md)
 - **Optional**: Useful only for some users experiencing this issue → Added a new preference to auto-close HeliPort after a configurable delay. This is motivated by:
    - Heliport is only necessary to activate Ethernet 2 and have Wi-Fi on the machine; Once the network is activated, it can continue to function even after Heliport is closed
    - A few users have reported that while Heliport is running in the menu bar, internet speed is slower than when Heliport is closed.
