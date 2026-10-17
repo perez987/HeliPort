@@ -61,13 +61,12 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             case ITL80211_S_RUN:
                 DispatchQueue.global(qos: .background).async {
                     let isReachable = NetworkManager.isReachable()
-                    var staInfo = station_info_t()
-                    get_station_info(&staInfo)
+                    let staInfo = Driver.stationInfo()
                     DispatchQueue.main.async {
                         // The card may have been turned off while this check was running
                         guard self.isNetworkCardEnabled || !self.isNetworkCardAvailable,
                               self.driverState == ITL80211_S_RUN else { return }
-                        guard isReachable else { StatusBarIcon.shared().warning(); return }
+                        guard isReachable, let staInfo else { StatusBarIcon.shared().warning(); return }
                         StatusBarIcon.shared().signalStrength(rssi: staInfo.rssi)
                     }
                 }
@@ -278,15 +277,13 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             var bsdName: String = .unavailable
             var macAddr: String = .unavailable
             var itlwmVer: String = .unavailable
-            var platformInfo = platform_info_t()
-
-            if is_power_on() {
+            if Driver.powerState() == true {
                 print("Wi-Fi powered on")
             } else {
                 print("Wi-Fi powered off")
             }
 
-            if get_platform_info(&platformInfo) {
+            if let platformInfo = Driver.platformInfo() {
                 bsdName = String(cCharArray: platformInfo.device_info_str)
                 macAddr = NetworkManager.getMACAddressFromBSD(bsd: bsdName) ?? macAddr
                 itlwmVer = String(cCharArray: platformInfo.driver_info_str)
@@ -301,12 +298,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
             }
 
             // If not connected, try to connect saved networks
-            var stationInfo = station_info_t()
-            var state: UInt32 = 0
-            var power = false
-            get_power_state(&power)
-            if get_80211_state(&state), power,
-               state != ITL80211_S_RUN.rawValue || get_station_info(&stationInfo) != KERN_SUCCESS {
+            if let power = Driver.powerState(), let state = Driver.state(), power,
+               state != ITL80211_S_RUN || Driver.stationInfo() == nil {
                 NetworkManager.scanSavedNetworks()
             }
         }
@@ -388,8 +381,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     }
 
     func setWiFiPower(_ enabled: Bool) {
-        let result = enabled ? power_on() : power_off()
-        guard result == KERN_SUCCESS else {
+        guard Driver.setPower(enabled) else {
             print("Failed to turn Wi-Fi \(enabled ? "on" : "off")")
             return
         }
@@ -406,20 +398,20 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         lastStatusUpdateTime = Date()
 
         DispatchQueue.global(qos: .background).async {
-            var powerState = false
-            let getPowerResult = get_power_state(&powerState)
-            var status: UInt32 = 0xFF
-            let getStateResult = get_80211_state(&status)
+            let powerState = Driver.powerState()
+            let state = Driver.state()
 
             DispatchQueue.main.async {
-                if getPowerResult {
+                if let powerState {
                     self.isNetworkCardEnabled = powerState
                 }
-                if !getPowerResult || !getStateResult {
+                if powerState == nil || state == nil {
                     print("Failed get card state")
                 }
-                self.isNetworkCardAvailable = getPowerResult
-                self.driverState = itl_80211_state(rawValue: status)
+                self.isNetworkCardAvailable = powerState != nil
+                if let state {
+                    self.driverState = state
+                }
                 self.updateStationItems()
             }
         }
@@ -465,11 +457,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
     private func getStationInfo() -> StationInfo {
         var infoOut = StationInfo()
-        var infoIn = station_info_t()
 
-        guard driverState == ITL80211_S_RUN,
-              get_station_info(&infoIn) == KERN_SUCCESS
-        else {
+        guard driverState == ITL80211_S_RUN, let infoIn = Driver.stationInfo() else {
             return infoOut
         }
 
@@ -477,8 +466,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
         infoOut.ssid = String(ssid: infoIn.ssid)
         infoOut.rssiValue = Int(infoIn.rssi)
 
-        var platformInfo = platform_info_t()
-        if get_platform_info(&platformInfo) {
+        if let platformInfo = Driver.platformInfo() {
             let bsd = String(cCharArray: platformInfo.device_info_str)
             infoOut.ipAddr = NetworkManager.getLocalAddress(bsd: bsd) ?? .unknown
             infoOut.routerAddr = NetworkManager.getRouterAddress(bsd: bsd) ?? .unknown

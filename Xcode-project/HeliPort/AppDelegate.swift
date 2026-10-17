@@ -46,28 +46,49 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var driverInfo = ioctl_driver_info()
 
     private func checkDriver() -> Bool {
-        _ = ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &driverInfo, MemoryLayout<ioctl_driver_info>.size)
+        if SimulationMode.isEnabled {
+            print("Running with the simulated Wi-Fi driver")
+            return true
+        }
 
-        let version = String(cCharArray: driverInfo.driver_version)
-        let interface = String(cCharArray: driverInfo.bsd_name)
+        guard let info = Driver.driverInfo() else {
+            return enableSimulationAfterMissingDriver()
+        }
+
+        driverInfo = info
+        let version = String(cCharArray: info.driver_version)
+        let interface = String(cCharArray: info.bsd_name)
         guard !version.isEmpty, !interface.isEmpty else {
             print("itlwm kext not loaded!")
-            #if !DEBUG
-                let alert = CriticalAlert(message: NSLocalizedString("itlwm is not running"),
-                                          options: [NSLocalizedString("Dismiss"),
-                                                    NSLocalizedString("Quit HeliPort")])
-
-                if alert.show() == .alertSecondButtonReturn {
-                    NSApp.terminate(nil)
-                }
-
-            #endif
-            return false
+            return enableSimulationAfterMissingDriver()
         }
 
         print("Loaded itlwm \(version) as \(interface)")
 
         return true
+    }
+
+    private func enableSimulationAfterMissingDriver() -> Bool {
+        print("itlwm kext not loaded")
+        #if DEBUG
+            SimulationMode.setEnabled(true)
+            return true
+        #else
+            let alert = CriticalAlert(
+                message: NSLocalizedString("itlwm is not running"),
+                informativeText: NSLocalizedString(
+                    "Enable simulated Wi-Fi to explore HeliPort without an itlwm device."
+                ),
+                options: [NSLocalizedString("Enable Simulation Mode"),
+                          NSLocalizedString("Quit HeliPort")]
+            )
+            guard alert.show() == .alertFirstButtonReturn else {
+                NSApp.terminate(nil)
+                return false
+            }
+            SimulationMode.setEnabled(true)
+            return true
+        #endif
     }
 
     // Due to macOS App Translocation, users must store this app in /Applications
@@ -130,7 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func checkAPI() {
         // It's fine for users to bypass this check by launching HeliPort first then loading itlwm in terminal
         // Only advanced users do so, and they know what they are doing
-        guard checkDriver(), IOCTL_VERSION != driverInfo.version else {
+        guard checkDriver(), !SimulationMode.isEnabled,
+              let info = Driver.driverInfo(), IOCTL_VERSION != info.version else {
             return
         }
 
@@ -138,7 +160,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         #if !DEBUG
             let text = NSLocalizedString("HeliPort API Version: ") + String(IOCTL_VERSION) +
-                "\n" + NSLocalizedString("itlwm API Version: ") + String(driverInfo.version)
+                "\n" + NSLocalizedString("itlwm API Version: ") + String(info.version)
             let alert = CriticalAlert(message: NSLocalizedString("itlwm Version Mismatch"),
                                       informativeText: text,
                                       options: [NSLocalizedString("Quit HeliPort"),
@@ -155,7 +177,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_: Notification) {
         print("Exit")
-        api_terminate()
+        Driver.terminate()
     }
 
     private func scheduleAutoQuitIfNeeded() {

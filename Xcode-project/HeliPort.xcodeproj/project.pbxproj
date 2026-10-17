@@ -41,6 +41,7 @@
 		50F4959824BDD26D00AE4C08 /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */; };
 		75FDF38B2481D22000B2A601 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FDF38A2481D22000B2A601 /* NetworkManager.swift */; };
 		75FDF38C2481D25A00B2A601 /* Api.c in Sources */ = {isa = PBXBuildFile; fileRef = F8F6CF0B243D675800965B43 /* Api.c */; };
+		A11000000000000000000001 /* SimulatedDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11000000000000000000002 /* SimulatedDriver.swift */; };
 		BCCB2AA4243708090005BB82 /* WiFiMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCB2AA3243708090005BB82 /* WiFiMenuItemView.swift */; };
 		BCFA32EB2424D2BE00E23603 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA32EA2424D2BE00E23603 /* AppDelegate.swift */; };
 		BCFA32ED2424D2BF00E23603 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCFA32EC2424D2BF00E23603 /* Assets.xcassets */; };
@@ -90,6 +91,7 @@
 		50E7700E2C5A7CD600DB1160 /* UpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
 		50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
 		75FDF38A2481D22000B2A601 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		A11000000000000000000002 /* SimulatedDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedDriver.swift; sourceTree = "<group>"; };
 		BCCB2AA3243708090005BB82 /* WiFiMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiFiMenuItemView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		BCFA32E72424D2BE00E23603 /* HeliPort.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeliPort.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFA32EA2424D2BE00E23603 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				50F4959724BDD26D00AE4C08 /* LoginItemManager.swift */,
 				D93F6C322FC9E978009EF77B /* main.swift */,
 				75FDF38A2481D22000B2A601 /* NetworkManager.swift */,
+				A11000000000000000000002 /* SimulatedDriver.swift */,
 				F34B2B8B24AA4C08009AB1BB /* Supporting files */,
 				50E7700E2C5A7CD600DB1160 /* UpdateManager.swift */,
 			);
@@ -418,6 +421,7 @@
 				138D3CCA24CE663B00793AC1 /* BugReporter.swift in Sources */,
 				5013B9042C5E1EA9002C5006 /* StatusMenuModern.swift in Sources */,
 				75FDF38B2481D22000B2A601 /* NetworkManager.swift in Sources */,
+				A11000000000000000000001 /* SimulatedDriver.swift in Sources */,
 				138D3CC824CE635800793AC1 /* Commands.swift in Sources */,
 				13C20DFA24D8B6D100B1E713 /* PrefsGeneralView.swift in Sources */,
 				13AB3CA824DE47D10093D283 /* WiFiConfigWindow.swift in Sources */,

@@ -191,7 +191,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         guard let ssid = sender.representedObject as? String else { return }
         DispatchQueue.global().async {
             CredentialsManager.instance.setAutoJoin(ssid, false)
-            dis_associate_ssid(ssid)
+            Driver.disassociate(ssid: ssid)
             print("Disconnected from \(ssid)")
         }
     }

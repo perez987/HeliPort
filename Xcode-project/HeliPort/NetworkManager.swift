@@ -38,7 +38,7 @@ enum NetworkManager {
         let getAuthInfoCallback: (_ auth: NetworkAuth, _ savePassword: Bool) -> Void = { auth, savePassword in
             DispatchQueue.global(qos: .background).async {
                 StatusBarIcon.shared().connecting()
-                let result = connect_network(networkInfo.ssid, auth.password)
+                let result = Driver.connect(ssid: networkInfo.ssid, password: auth.password)
                 DispatchQueue.main.async {
                     if result {
                         if savePassword {
@@ -113,32 +113,9 @@ enum NetworkManager {
         }
     }
 
-    // Reads the networks currently cached by itlwm. This is a cheap, synchronous ioctl call.
+    // Reads the networks currently available from the selected driver.
     private static func fetchScanResults() -> Set<NetworkInfo> {
-        var list = network_info_list_t()
-        get_network_list(&list)
-
-        var result = Set<NetworkInfo>()
-        let networks = Mirror(reflecting: list.networks).children.map { $0.value }.prefix(Int(list.count))
-
-        for element in networks {
-            guard let network = element as? ioctl_network_info else {
-                continue
-            }
-            let ssid = String(ssid: network.ssid)
-            guard !ssid.isEmpty else {
-                continue
-            }
-
-            let networkInfo = NetworkInfo(
-                ssid: ssid,
-                rssi: Int(network.rssi)
-            )
-            networkInfo.auth.security = getSecurityType(network)
-            result.insert(networkInfo)
-        }
-
-        return result
+        Driver.networkList()
     }
 
     // While itlwm is not associated it keeps scanning on its own and fills its node cache,
@@ -180,10 +157,7 @@ enum NetworkManager {
     }
 
     private static func isAssociated() -> Bool {
-        var state: UInt32 = 0
-        var stationInfo = station_info_t()
-        return get_80211_state(&state) && state == ITL80211_S_RUN.rawValue
-            && get_station_info(&stationInfo) == KERN_SUCCESS
+        return Driver.state() == ITL80211_S_RUN && Driver.stationInfo() != nil
     }
 
     private static func connectSavedNetworks(networks: [NetworkInfo]) {
