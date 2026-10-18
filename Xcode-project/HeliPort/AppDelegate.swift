@@ -149,7 +149,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // It's fine for users to bypass this check by launching HeliPort first then loading itlwm in terminal
         // Only advanced users do so, and they know what they are doing
         guard checkDriver(), !SimulationMode.isEnabled,
-              let info = Driver.driverInfo(), IOCTL_VERSION != info.version else {
+              let info = Driver.driverInfo(), IOCTL_VERSION != info.version
+        else {
             return
         }
 

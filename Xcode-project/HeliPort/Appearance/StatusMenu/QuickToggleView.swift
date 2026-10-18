@@ -2,7 +2,9 @@ import SwiftUI
 
 class WifiToggleState: ObservableObject {
     @Published var isOn: Bool
-    init(isOn: Bool) { self.isOn = isOn }
+    init(isOn: Bool) {
+        self.isOn = isOn
+    }
 }
 
 struct QuickToggleView: View {

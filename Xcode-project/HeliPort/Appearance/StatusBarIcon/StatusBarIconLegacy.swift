@@ -23,8 +23,14 @@ class StatusBarIconLegacy: StatusBarIconProvider {
         return transition
     }
 
-    var off: NSImage { return NSImage(systemSymbolName: "wifi.slash", accessibilityDescription: "WiFi Off")! }
-    var connected: NSImage { return NSImage(systemSymbolName: "wifi", accessibilityDescription: "WiFi On")! }
+    var off: NSImage {
+        return NSImage(systemSymbolName: "wifi.slash", accessibilityDescription: "WiFi Off")!
+    }
+
+    var connected: NSImage {
+        return NSImage(systemSymbolName: "wifi", accessibilityDescription: "WiFi On")!
+    }
+
     var disconnected: NSImage {
         return NSImage(systemSymbolName: "wifi", accessibilityDescription: "WiFi Disconnected")!
     }
@@ -36,7 +42,7 @@ class StatusBarIconLegacy: StatusBarIconProvider {
     var scanning: [NSImage] {
         return [
             NSImage(systemSymbolName: "wifi", accessibilityDescription: "Scanning")!,
-            NSImage(systemSymbolName: "dot.radiowaves.left.and.right", accessibilityDescription: "Scanning")!
+            NSImage(systemSymbolName: "dot.radiowaves.left.and.right", accessibilityDescription: "Scanning")!,
         ]
     }
 

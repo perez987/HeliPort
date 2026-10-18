@@ -46,14 +46,17 @@ enum SimulationMode {
 }
 
 enum Driver {
-    static var isSimulated: Bool { SimulationMode.isEnabled }
+    static var isSimulated: Bool {
+        SimulationMode.isEnabled
+    }
 
     static func driverInfo() -> ioctl_driver_info? {
         if isSimulated { return SimulatedWiFi.driverInfo() }
 
         var info = ioctl_driver_info()
         guard ioctl_get(Int32(IOCTL_80211_DRIVER_INFO.rawValue), &info,
-                        MemoryLayout<ioctl_driver_info>.size) == KERN_SUCCESS else {
+                        MemoryLayout<ioctl_driver_info>.size) == KERN_SUCCESS
+        else {
             return nil
         }
         return info
@@ -148,7 +151,7 @@ private enum SimulatedWiFi {
         ("Home Network", -61, ITL80211_SECURITY_WPA2_PERSONAL),
         ("Cafe Guest", -68, ITL80211_SECURITY_NONE),
         ("Neighbour 5G", -74, ITL80211_SECURITY_WPA2_PERSONAL),
-        ("Office", -83, ITL80211_SECURITY_WPA2_PERSONAL)
+        ("Office", -83, ITL80211_SECURITY_WPA2_PERSONAL),
     ]
 
     static func driverInfo() -> ioctl_driver_info {

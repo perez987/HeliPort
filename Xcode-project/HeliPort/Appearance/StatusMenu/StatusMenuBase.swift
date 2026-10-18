@@ -42,12 +42,12 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     private var lastStatusUpdateTime: Date = .distantPast
     private let slowStatusUpdatePeriod: Double = 15
 
-    // One instance at a time
+    /// One instance at a time
     private lazy var preferenceWindow = PrefsWindow()
 
     private var driverState: itl_80211_state = ITL80211_S_INIT {
         didSet {
-            /** Only allow if network card is enabled or if the network card does not load
+            /*  Only allow if network card is enabled or if the network card does not load
              either due to itlwm not loaded or just not able to receive info
              This prevents cards that are working but are "off" to not change the
              Status from "WiFi off" to another status. i.e "WiFi: on". */
@@ -71,7 +71,7 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
                     }
                 }
             case ITL80211_S_SCAN:
-                /** API does not report bgscan to HeliPort. During `ITL80211_S_RUN` the status
+                /*  API does not report bgscan to HeliPort. During `ITL80211_S_RUN` the status
                  will never change to `ITL80211_S_SCAN` unless users manually disassociate.
                  Set the icon to disconnected here so it displays correctly when users manually disassociate. */
                 StatusBarIcon.shared().disconnected()
@@ -260,7 +260,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
                         insertAt: Int? = nil,
                         hidden: Bool = false,
-                        networkInfo _: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
+                        networkInfo _: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
+    {
         item.isHidden = hidden
 
         if let insertAt {
@@ -299,7 +300,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
             // If not connected, try to connect saved networks
             if let power = Driver.powerState(), let state = Driver.state(), power,
-               state != ITL80211_S_RUN || Driver.stationInfo() == nil {
+               state != ITL80211_S_RUN || Driver.stationInfo() == nil
+            {
                 NetworkManager.scanSavedNetworks()
             }
         }
@@ -557,7 +559,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
     }
 
     func processNetworkList(from infoList: [NetworkInfo], to itemList: inout [NSMenuItem],
-                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false) {
+                            insertAt: Int, _ staInfo: NetworkInfo?, hidden: Bool = false)
+    {
         var index = 0
 
         for info in infoList {
@@ -579,7 +582,8 @@ class StatusMenuBase: NSMenu, NSMenuDelegate {
 
                 // Ensure item is at the correct position
                 if let currentIndex = items.firstIndex(of: item),
-                   currentIndex != insertAt + index {
+                   currentIndex != insertAt + index
+                {
                     var targetIndex = insertAt + index
                     if currentIndex < targetIndex {
                         targetIndex -= 1

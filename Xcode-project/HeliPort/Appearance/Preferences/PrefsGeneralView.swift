@@ -111,8 +111,7 @@ class PrefsGeneralView: NSView {
     lazy var autoQuitDelayLabel: NSTextField = {
         let stored = UserDefaults.standard.double(forKey: .DefaultsKey.autoQuitDelay)
         let seconds = stored > 0 ? Int(stored) : 60
-        let label = NSTextField(labelWithString: String(format: NSLocalizedString("after %d s"), seconds))
-        return label
+        return NSTextField(labelWithString: String(format: NSLocalizedString("after %d s"), seconds))
     }()
 
     let gridView: NSGridView = {
@@ -141,11 +140,11 @@ class PrefsGeneralView: NSView {
         autoQuitRow.spacing = 4
         gridView.addRow(with: [NSView(), autoQuitRow])
         let testingLabel = NSTextField(labelWithString: .simulationSettings)
-               testingLabel.alignment = .right
-               gridView.addRow(with: [testingLabel, simulatedDriverCheckbox])
-               gridView.addRow(with: [NSView(), NSStackView(views: [
+        testingLabel.alignment = .right
+        gridView.addRow(with: [testingLabel, simulatedDriverCheckbox])
+        gridView.addRow(with: [NSView(), NSStackView(views: [
             NSTextField(labelWithString: .networkInterface),
-            networkInterfaceField
+            networkInterfaceField,
         ])])
 
         addSubview(gridView)

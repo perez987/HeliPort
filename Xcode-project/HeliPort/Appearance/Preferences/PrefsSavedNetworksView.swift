@@ -22,10 +22,7 @@ class PrefsSavedNetworksView: NSView {
 
     // MARK: Properties
 
-    private let savedNetworksLabel: NSTextField = {
-        let label = NSTextField(labelWithString: .savedNetworks)
-        return label
-    }()
+    private let savedNetworksLabel: NSTextField = .init(labelWithString: .savedNetworks)
 
     private let scrollView: NSScrollView = {
         let view = NSScrollView()
@@ -77,8 +74,7 @@ class PrefsSavedNetworksView: NSView {
 
     private let orderItemsLabel: NSTextField = {
         let orderPreferenceString: String = .dragNetworks
-        let label = NSTextField(labelWithString: orderPreferenceString)
-        return label
+        return NSTextField(labelWithString: orderPreferenceString)
     }()
 
     private lazy var modifyItemSegment: NSSegmentedControl = {
@@ -305,14 +301,16 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView,
                    acceptDrop info: NSDraggingInfo,
                    row: Int,
-                   dropOperation _: NSTableView.DropOperation) -> Bool {
+                   dropOperation _: NSTableView.DropOperation) -> Bool
+    {
         let pasteBoard = info.draggingPasteboard
         if let itemData = pasteBoard.pasteboardItems?.first?.data(forType: .rowOrder),
            let indexes = try? NSKeyedUnarchiver.unarchivedObject(
                ofClass: NSIndexSet.self,
                from: itemData
            ) as IndexSet?,
-           let originalRow = indexes.first {
+           let originalRow = indexes.first
+        {
             var newRow = row
             if originalRow < newRow {
                 newRow = row - 1
@@ -354,7 +352,8 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     func tableView(_: NSTableView,
                    validateDrop info: NSDraggingInfo,
                    proposedRow _: Int,
-                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation
+    {
         guard let source = info.draggingSource as? NSTableView, source == tableView else { return [] }
         if dropOperation == .above {
             return .move

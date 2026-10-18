@@ -23,11 +23,12 @@ enum NetworkManager {
         ITL80211_SECURITY_WPA_PERSONAL,
         ITL80211_SECURITY_WPA_PERSONAL_MIXED,
         ITL80211_SECURITY_WPA2_PERSONAL,
-        ITL80211_SECURITY_PERSONAL
+        ITL80211_SECURITY_PERSONAL,
     ]
 
     static func connect(networkInfo: NetworkInfo, saveNetwork: Bool = false,
-                        _ callback: ((_ result: Bool) -> Void)? = nil) {
+                        _ callback: ((_ result: Bool) -> Void)? = nil)
+    {
         guard supportedSecurityMode.contains(networkInfo.auth.security) else {
             let alert = Alert(text: NSLocalizedString("Network security not supported: ")
                 + networkInfo.auth.security.description)
@@ -79,7 +80,8 @@ enum NetworkManager {
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
         = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void) {
+        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void)
+    {
         scanNetwork { result in
             callback(result.sorted(by: areInIncreasingOrder))
         }
@@ -87,8 +89,9 @@ enum NetworkManager {
 
     static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
         = { $0.ssid < $1.ssid },
-                            callback: @escaping (_ knownNetworks: [NetworkInfo],
-                                                 _ otherNetworks: [NetworkInfo]) -> Void) {
+        callback: @escaping (_ knownNetworks: [NetworkInfo],
+                             _ otherNetworks: [NetworkInfo]) -> Void)
+    {
         DispatchQueue.global(qos: .background).async {
             let savedSSIDs = CredentialsManager.instance.getSavedNetworkSSIDs()
             scanNetwork { result in
@@ -113,7 +116,7 @@ enum NetworkManager {
         }
     }
 
-    // Reads the networks currently available from the selected driver.
+    /// Reads the networks currently available from the selected driver.
     private static func fetchScanResults() -> Set<NetworkInfo> {
         Driver.networkList()
     }
@@ -252,7 +255,7 @@ enum NetworkManager {
         return getRouterAddressFromSysctl(bsd) ?? getRouterAddressFromNetstat(bsd)
     }
 
-    // from https://stackoverflow.com/questions/30748480/swift-get-devices-wifi-ip-address/30754194#30754194
+    /// from https://stackoverflow.com/questions/30748480/swift-get-devices-wifi-ip-address/30754194#30754194
     static func getLocalAddress(bsd: String) -> String? {
         // Get list of all interfaces on the local machine:
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
@@ -358,8 +361,8 @@ enum NetworkManager {
         return ipAddr
     }
 
-    // Modified from https://stackoverflow.com/a/67780630 to support ipv6 and bsd filtering
-    // See https://opensource.apple.com/source/network_cmds/network_cmds-606.40.2/netstat.tproj/route.c
+    /// Modified from https://stackoverflow.com/a/67780630 to support ipv6 and bsd filtering
+    /// See https://opensource.apple.com/source/network_cmds/network_cmds-606.40.2/netstat.tproj/route.c
     private static func getRouterAddressFromSysctl(_ bsd: String) -> String? {
         var mib: [Int32] = [CTL_NET,
                             PF_ROUTE,
@@ -397,7 +400,8 @@ enum NetworkManager {
     }
 
     private static func getRouterAddressFromRTM(_ rtm: rt_msghdr2,
-                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String? {
+                                                _ ptr: UnsafeMutablePointer<UInt8>) -> String?
+    {
         var rawAddr = ptr.advanced(by: MemoryLayout<rt_msghdr2>.stride)
 
         for idx in 0 ..< RTAX_MAX {

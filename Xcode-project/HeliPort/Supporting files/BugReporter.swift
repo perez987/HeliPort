@@ -77,7 +77,7 @@ class BugReporter {
             ? NSLocalizedString("Simulated Wi-Fi is active; no itlwm kernel log is available.")
             : generateItlwmLog()
 
-        if !Driver.isSimulated && (itlwmLog == .msgbufInsufficient || itlwmLog == .scriptFailed) {
+        if !Driver.isSimulated, itlwmLog == .msgbufInsufficient || itlwmLog == .scriptFailed {
             DispatchQueue.main.async {
                 let alert = CriticalAlert(
                     message: NSLocalizedString("Error occurred while generating bug report."),
@@ -105,7 +105,8 @@ class BugReporter {
             let kextstatCommand = ["-c", "kextstat"]
             let itlwmLoaded = Commands.execute(executablePath: .shell, args: kextstatCommand)
             if let loadedKexts = itlwmLoaded.0,
-               let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: []) {
+               let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: [])
+            {
                 let firstMatch = regex.firstMatch(in: loadedKexts,
                                                   options: [],
                                                   range: NSRange(location: 0, length: loadedKexts.count))

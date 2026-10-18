@@ -72,7 +72,7 @@ struct NetworkItemView: View {
     }
 }
 
-// Helper for hosting in NSMenu
+/// Helper for hosting in NSMenu
 class ModernNetworkMenuItem: NSMenuItem {
     private var onSelect: () -> Void = {}
 

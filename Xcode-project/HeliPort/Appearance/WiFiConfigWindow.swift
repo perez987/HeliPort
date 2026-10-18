@@ -11,7 +11,8 @@ class WiFiConfigWindow: NSWindow {
     convenience init(windowState: WindowState = .joinWiFi,
                      networkInfo: NetworkInfo? = nil,
                      error: ErrorState? = nil,
-                     getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil) {
+                     getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil)
+    {
         self.init(contentRect: NSRect(x: 0, y: 0, width: 450, height: 320),
                   styleMask: [.titled, .fullSizeContentView],
                   backing: .buffered,
@@ -29,7 +30,8 @@ class WiFiConfigWindow: NSWindow {
          windowState: WindowState,
          networkInfo: NetworkInfo?,
          error: ErrorState?,
-         getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil) {
+         getAuthInfoCallback: ((_ auth: NetworkAuth, _ savePassword: Bool) -> Void)? = nil)
+    {
         self.windowState = windowState
         self.networkInfo = networkInfo
         self.getAuthInfoCallback = getAuthInfoCallback
