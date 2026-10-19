@@ -105,8 +105,7 @@ class BugReporter {
             let kextstatCommand = ["-c", "kextstat"]
             let itlwmLoaded = Commands.execute(executablePath: .shell, args: kextstatCommand)
             if let loadedKexts = itlwmLoaded.0,
-               let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: [])
-            {
+               let regex = try? NSRegularExpression(pattern: "\\b(itlwm\\w*)\\b", options: []) {
                 let firstMatch = regex.firstMatch(in: loadedKexts,
                                                   options: [],
                                                   range: NSRange(location: 0, length: loadedKexts.count))

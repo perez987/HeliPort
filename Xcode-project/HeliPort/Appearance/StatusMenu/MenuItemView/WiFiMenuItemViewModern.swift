@@ -50,7 +50,7 @@ private class CircleSignalView: NSView {
             signalView.centerXAnchor.constraint(equalTo: centerXAnchor),
             signalView.centerYAnchor.constraint(equalTo: centerYAnchor),
             signalView.widthAnchor.constraint(equalToConstant: signalSize),
-            signalView.heightAnchor.constraint(equalToConstant: signalSize),
+            signalView.heightAnchor.constraint(equalToConstant: signalSize)
         ])
     }
 
@@ -158,7 +158,7 @@ class WifiMenuItemViewModern: SelectableMenuItemView, WifiMenuItemView {
             lockImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             lockImage.leadingAnchor.constraint(equalTo: ssidLabel.trailingAnchor, constant: 6),
             lockImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            lockImage.widthAnchor.constraint(equalToConstant: lockWidth),
+            lockImage.widthAnchor.constraint(equalToConstant: lockWidth)
         ])
     }
 

@@ -30,7 +30,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
 
     lazy var enabledNetworkCardItems: [NSMenuItem] = [
         createNetworkItem,
-        manuallyJoinItem,
+        manuallyJoinItem
     ]
 
     lazy var stationInfoItems: [NSMenuItem] = [
@@ -47,7 +47,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         txRateItem,
         phyModeItem,
         mcsIndexItem,
-        nssItem,
+        nssItem
     ]
 
     lazy var hiddenItems: [NSMenuItem] = [
@@ -63,7 +63,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         checkUpdateItem,
         quitSeparator,
         aboutItem,
-        quitItem,
+        quitItem
     ]
 
     lazy var notImplementedItems: [NSMenuItem] = [
@@ -74,7 +74,7 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
         countryCodeItem,
         nssItem,
 
-        createNetworkItem,
+        createNetworkItem
     ]
 
     override var isNetworkListEmpty: Bool {
@@ -201,15 +201,14 @@ final class StatusMenuLegacy: StatusMenuBase, StatusMenuItems {
     override func addNetworkItem(_ item: NSMenuItem = HPMenuItem(highlightable: true),
                                  insertAt: Int? = nil,
                                  hidden: Bool = false,
-                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem
-    {
+                                 networkInfo: NetworkInfo = NetworkInfo(ssid: "placeholder")) -> NSMenuItem {
         item.view = WifiMenuItemViewLegacy(networkInfo: networkInfo)
 
         if let view = item.view as? WifiMenuItemView, let supView = view.superview {
             NSLayoutConstraint.activate([
                 view.leadingAnchor.constraint(equalTo: supView.leadingAnchor),
                 view.topAnchor.constraint(equalTo: supView.topAnchor),
-                view.trailingAnchor.constraint(greaterThanOrEqualTo: supView.trailingAnchor),
+                view.trailingAnchor.constraint(greaterThanOrEqualTo: supView.trailingAnchor)
             ])
         }
 

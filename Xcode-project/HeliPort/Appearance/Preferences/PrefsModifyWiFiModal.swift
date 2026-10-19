@@ -173,8 +173,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
     init(contentRect: NSRect,
          styleMask style: NSWindow.StyleMask,
          backing backingStoreType: NSWindow.BackingStoreType,
-         defer flag: Bool, network: NetworkInfo)
-    {
+         defer flag: Bool, network: NetworkInfo) {
         networkInfo = network
         view = NSView(frame: contentRect)
 
@@ -289,7 +288,7 @@ class PrefsViewWiFiInfoModal: NSWindow {
             closeButton.topAnchor.constraint(equalTo: isShowPasswd.bottomAnchor, constant: 20),
             closeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            closeButton.widthAnchor.constraint(equalToConstant: 70),
+            closeButton.widthAnchor.constraint(equalToConstant: 70)
         ]
 
         NSLayoutConstraint.activate(constraints)

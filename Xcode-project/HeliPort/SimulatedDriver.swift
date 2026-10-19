@@ -151,7 +151,7 @@ private enum SimulatedWiFi {
         ("Home Network", -61, ITL80211_SECURITY_WPA2_PERSONAL),
         ("Cafe Guest", -68, ITL80211_SECURITY_NONE),
         ("Neighbour 5G", -74, ITL80211_SECURITY_WPA2_PERSONAL),
-        ("Office", -83, ITL80211_SECURITY_WPA2_PERSONAL),
+        ("Office", -83, ITL80211_SECURITY_WPA2_PERSONAL)
     ]
 
     static func driverInfo() -> ioctl_driver_info {

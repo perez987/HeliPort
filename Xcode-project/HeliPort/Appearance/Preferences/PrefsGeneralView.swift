@@ -144,7 +144,7 @@ class PrefsGeneralView: NSView {
         gridView.addRow(with: [testingLabel, simulatedDriverCheckbox])
         gridView.addRow(with: [NSView(), NSStackView(views: [
             NSTextField(labelWithString: .networkInterface),
-            networkInterfaceField,
+            networkInterfaceField
         ])])
 
         addSubview(gridView)

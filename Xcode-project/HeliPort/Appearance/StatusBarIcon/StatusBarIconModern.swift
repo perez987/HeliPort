@@ -42,7 +42,7 @@ class StatusBarIconModern: StatusBarIconProvider {
     var scanning: [NSImage] {
         return [
             NSImage(systemSymbolName: "wifi", accessibilityDescription: "Scanning")!,
-            NSImage(systemSymbolName: "dot.radiowaves.left.and.right", accessibilityDescription: "Scanning")!,
+            NSImage(systemSymbolName: "dot.radiowaves.left.and.right", accessibilityDescription: "Scanning")!
         ]
     }
 
