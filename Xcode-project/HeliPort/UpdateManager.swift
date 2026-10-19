@@ -26,7 +26,9 @@ class SparkleDelegate: NSObject, SPUUpdaterDelegate {
         print("Sparkle aborted with error: \(error.localizedDescription)")
     }
 
-    func updater(_: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
+    func updater(
+        _: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval
+    ) {
         print("Sparkle scheduled update check after \(delay) seconds")
     }
 

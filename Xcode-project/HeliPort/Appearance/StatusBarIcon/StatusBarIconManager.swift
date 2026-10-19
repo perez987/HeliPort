@@ -39,12 +39,16 @@ class StatusBarIcon {
         self.icons = icons
     }
 
-    static func shared(statusBar: NSStatusItem? = nil, icons: StatusBarIconProvider? = nil) -> StatusBarIcon {
+    static func shared(
+        statusBar: NSStatusItem? = nil, icons: StatusBarIconProvider? = nil
+    ) -> StatusBarIcon {
         if let instance {
             return instance
         }
         guard let statusBar, let icons else {
-            fatalError("Must provide statusBar and iconProvider for the first initialization.")
+            fatalError(
+                "Must provide statusBar and iconProvider for the first initialization."
+            )
         }
         instance = StatusBarIcon(statusBar, icons)
         return instance!
@@ -111,19 +115,23 @@ class StatusBarIcon {
         DispatchQueue.main.async {
             self.statusBar.button?.title = text ?? ""
             // Ensure image and text have appropriate spacing
-            self.statusBar.button?.imagePosition = (text == nil || text?.isEmpty == true) ? .imageOnly : .imageLeft
+            self.statusBar.button?.imagePosition =
+                (text == nil || text?.isEmpty == true) ? .imageOnly : .imageLeft
         }
     }
 
     @objc private func tick() {
         DispatchQueue.main.async {
             if let transition = self.icons.transition {
-                self.statusBar.button?.layer?.add(transition, forKey: kCATransition)
+                self.statusBar.button?.layer?.add(
+                    transition, forKey: kCATransition)
             }
             self.statusBar.button?.image = self.icons.scanning[self.tickIndex]
 
             self.tickIndex += self.tickDirection
-            if self.tickIndex == 0 || self.tickIndex == self.icons.scanning.endIndex - 1 {
+            if self.tickIndex == 0
+                || self.tickIndex == self.icons.scanning.endIndex - 1
+            {
                 self.tickDirection *= -1
             }
         }

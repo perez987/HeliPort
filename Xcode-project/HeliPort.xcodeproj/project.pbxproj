@@ -284,7 +284,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCFA32F52424D2BF00E23603 /* Build configuration list for PBXNativeTarget "HeliPort" */;
 			buildPhases = (
-				75E3976A2487FAF600E84DB8 /* Lint */,
 				BCFA32E32424D2BE00E23603 /* Sources */,
 				BCFA32E42424D2BE00E23603 /* Frameworks */,
 				BCFA32E52424D2BE00E23603 /* Resources */,
@@ -370,28 +369,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		75E3976A2487FAF600E84DB8 /* Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Lint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "if command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BCFA32E32424D2BE00E23603 /* Sources */ = {

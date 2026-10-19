@@ -34,7 +34,8 @@ class HidableMenuItemView: NSView {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: height.rawValue)
+        heightConstraint = heightAnchor.constraint(
+            equalToConstant: height.rawValue)
         heightConstraint.priority = NSLayoutConstraint.Priority(rawValue: 1000)
         heightConstraint.isActive = true
     }

@@ -14,7 +14,10 @@ struct NetworkItemView: View {
             // Signal Strength Icon
             ZStack {
                 Circle()
-                    .fill(isConnected ? Color.accentColor : Color.primary.opacity(0.1))
+                    .fill(
+                        isConnected
+                            ? Color.accentColor : Color.primary.opacity(0.1)
+                    )
                     .frame(width: 28, height: 28)
 
                 Image(systemName: signalIconName)
@@ -24,7 +27,11 @@ struct NetworkItemView: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(ssid)
-                    .font(.system(size: 13, weight: isConnected ? .bold : .semibold, design: .rounded))
+                    .font(
+                        .system(
+                            size: 13, weight: isConnected ? .bold : .semibold,
+                            design: .rounded)
+                    )
                     .foregroundColor(.primary)
 
                 if isConnected {
@@ -76,9 +83,13 @@ struct NetworkItemView: View {
 class ModernNetworkMenuItem: NSMenuItem {
     private var onSelect: () -> Void = {}
 
-    init(ssid: String, signalStrength: Int, isConnected: Bool, isSecure: Bool, onSelect: @escaping () -> Void) {
+    init(
+        ssid: String, signalStrength: Int, isConnected: Bool, isSecure: Bool,
+        onSelect: @escaping () -> Void
+    ) {
         self.onSelect = onSelect
-        super.init(title: ssid, action: #selector(itemAction), keyEquivalent: "")
+        super.init(
+            title: ssid, action: #selector(itemAction), keyEquivalent: "")
         target = self
 
         let view = NetworkItemView(
@@ -90,7 +101,8 @@ class ModernNetworkMenuItem: NSMenuItem {
         )
         self.view = NSHostingView(rootView: view)
         // Adjust frame to fit menu
-        self.view?.frame = NSRect(x: 0, y: 0, width: HeliPortUI.Dashboard.width, height: 40)
+        self.view?.frame = NSRect(
+            x: 0, y: 0, width: HeliPortUI.Dashboard.width, height: 40)
     }
 
     @objc private func itemAction() {

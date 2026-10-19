@@ -38,11 +38,13 @@ final class CriticalAlert: NSObject {
     private var helpAnchor: String?
     private var errorText: String?
 
-    init(message: String,
-         informativeText: String = "",
-         options: [String],
-         helpAnchor: String? = nil,
-         errorText: String? = nil) {
+    init(
+        message: String,
+        informativeText: String = "",
+        options: [String],
+        helpAnchor: String? = nil,
+        errorText: String? = nil
+    ) {
         self.message = message
         self.informativeText = informativeText
         self.options = options
@@ -63,7 +65,8 @@ final class CriticalAlert: NSObject {
         }
 
         if let errorText = errorText {
-            let errorTextField = NSTextField(labelWithString: "Error code: \(errorText)")
+            let errorTextField = NSTextField(
+                labelWithString: "Error code: \(errorText)")
             errorTextField.font = NSFont.labelFont(ofSize: 10)
             alert.accessoryView = errorTextField
         }

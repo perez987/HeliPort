@@ -11,7 +11,10 @@ enum HeliPortUI {
         static let glassBackground = SwiftUI.Color.primary.opacity(0.05)
 
         static let cardGradient = LinearGradient(
-            colors: [SwiftUI.Color.accentColor.opacity(0.1), SwiftUI.Color.accentColor.opacity(0.02)],
+            colors: [
+                SwiftUI.Color.accentColor.opacity(0.1),
+                SwiftUI.Color.accentColor.opacity(0.02),
+            ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )

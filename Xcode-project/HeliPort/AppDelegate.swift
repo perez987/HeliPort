@@ -32,7 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
         updaterController = controller
 
-        let statusBar = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        let statusBar = NSStatusBar.system.statusItem(
+            withLength: NSStatusItem.variableLength)
 
         let iconProvider = StatusBarIconModern()
         _ = StatusBarIcon.shared(statusBar: statusBar, icons: iconProvider)
@@ -76,8 +77,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 informativeText: NSLocalizedString(
                     "Enable simulated Wi-Fi to explore HeliPort without an itlwm device."
                 ),
-                options: [NSLocalizedString("Enable Simulation Mode"),
-                          NSLocalizedString("Quit HeliPort")]
+                options: [
+                    NSLocalizedString("Enable Simulation Mode"),
+                    NSLocalizedString("Quit HeliPort"),
+                ]
             )
             guard alert.show() == .alertFirstButtonReturn else {
                 NSApp.terminate(nil)
@@ -100,7 +103,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
         #else
-            guard pathComponents[pathComponents.count - 2] != "Applications" else {
+            guard pathComponents[pathComponents.count - 2] != "Applications"
+            else {
                 return
             }
         #endif
@@ -108,12 +112,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("Running path unexpected!")
 
         let alert = CriticalAlert(
-            message: NSLocalizedString("HeliPort running at an unexpected path"),
+            message: NSLocalizedString(
+                "HeliPort running at an unexpected path"),
             informativeText: NSLocalizedString(
                 "Moving HeliPort to the Applications folder is recommended for full functionality."
             ),
-            options: [NSLocalizedString("Continue Anyway"),
-                      NSLocalizedString("Quit HeliPort")]
+            options: [
+                NSLocalizedString("Continue Anyway"),
+                NSLocalizedString("Quit HeliPort"),
+            ]
         )
 
         if alert.show() == .alertSecondButtonReturn {
@@ -122,7 +129,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func promptForLaunchAtLogin() {
-        guard !UserDefaults.standard.bool(forKey: .DefaultsKey.hasPromptedForLaunchAtLogin) else {
+        guard
+            !UserDefaults.standard.bool(
+                forKey: .DefaultsKey.hasPromptedForLaunchAtLogin)
+        else {
             return
         }
 
@@ -141,7 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 print("User enabled Launch at Login via first-run prompt")
             }
 
-            UserDefaults.standard.set(true, forKey: .DefaultsKey.hasPromptedForLaunchAtLogin)
+            UserDefaults.standard.set(
+                true, forKey: .DefaultsKey.hasPromptedForLaunchAtLogin)
         }
     }
 
@@ -149,7 +160,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // It's fine for users to bypass this check by launching HeliPort first then loading itlwm in terminal
         // Only advanced users do so, and they know what they are doing
         guard checkDriver(), !SimulationMode.isEnabled,
-              let info = Driver.driverInfo(), IOCTL_VERSION != info.version
+            let info = Driver.driverInfo(), IOCTL_VERSION != info.version
         else {
             return
         }
@@ -157,15 +168,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("itlwm API mismatch!")
 
         #if !DEBUG
-            let text = NSLocalizedString("HeliPort API Version: ") + String(IOCTL_VERSION) +
-                "\n" + NSLocalizedString("itlwm API Version: ") + String(info.version)
-            let alert = CriticalAlert(message: NSLocalizedString("itlwm Version Mismatch"),
-                                      informativeText: text,
-                                      options: [NSLocalizedString("Quit HeliPort"),
-                                                NSLocalizedString("Visit OpenIntelWireless on GitHub")])
+            let text =
+                NSLocalizedString("HeliPort API Version: ")
+                + String(IOCTL_VERSION) + "\n"
+                + NSLocalizedString("itlwm API Version: ")
+                + String(info.version)
+            let alert = CriticalAlert(
+                message: NSLocalizedString("itlwm Version Mismatch"),
+                informativeText: text,
+                options: [
+                    NSLocalizedString("Quit HeliPort"),
+                    NSLocalizedString("Visit OpenIntelWireless on GitHub"),
+                ])
 
             if alert.show() == .alertSecondButtonReturn {
-                NSWorkspace.shared.open(URL(string: "https://github.com/OpenIntelWireless")!)
+                NSWorkspace.shared.open(
+                    URL(string: "https://github.com/OpenIntelWireless")!)
                 return
             }
 
@@ -179,8 +197,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func scheduleAutoQuitIfNeeded() {
-        guard UserDefaults.standard.bool(forKey: .DefaultsKey.autoQuitEnabled) else { return }
-        let delay = UserDefaults.standard.double(forKey: .DefaultsKey.autoQuitDelay)
+        guard UserDefaults.standard.bool(forKey: .DefaultsKey.autoQuitEnabled)
+        else { return }
+        let delay = UserDefaults.standard.double(
+            forKey: .DefaultsKey.autoQuitDelay)
         let seconds = delay > 0 ? delay : 60.0
         print("Auto-quit scheduled in \(Int(seconds)) seconds")
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {

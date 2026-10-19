@@ -22,7 +22,8 @@ class PrefsSavedNetworksView: NSView {
 
     // MARK: Properties
 
-    private let savedNetworksLabel: NSTextField = .init(labelWithString: .savedNetworks)
+    private let savedNetworksLabel: NSTextField = .init(
+        labelWithString: .savedNetworks)
 
     private let scrollView: NSScrollView = {
         let view = NSScrollView()
@@ -53,19 +54,19 @@ class PrefsSavedNetworksView: NSView {
 
         let ssidColumn = NSTableColumn(identifier: .ssidId)
         ssidColumn.title = .networkName
-//        ssidColumn.minWidth = (ssidColumn.title as NSString).size(withAttributes: attributes).width
+        //        ssidColumn.minWidth = (ssidColumn.title as NSString).size(withAttributes: attributes).width
         ssidColumn.width = 250
         table.addTableColumn(ssidColumn)
 
         let securityColumn = NSTableColumn(identifier: .securityId)
         securityColumn.title = .security
-//        securityColumn.minWidth = (securityColumn.title as NSString).size(withAttributes: attributes).width
+        //        securityColumn.minWidth = (securityColumn.title as NSString).size(withAttributes: attributes).width
         securityColumn.width = 150
         table.addTableColumn(securityColumn)
 
         let autoenabledColumn = NSTableColumn(identifier: .autoenabledId)
         autoenabledColumn.title = .autoJoin
-//        autoenabledColumn.minWidth = (autoenabledColumn.title as NSString).size(withAttributes: attributes).width
+        //        autoenabledColumn.minWidth = (autoenabledColumn.title as NSString).size(withAttributes: attributes).width
         autoenabledColumn.width = 100
         table.addTableColumn(autoenabledColumn)
 
@@ -81,16 +82,19 @@ class PrefsSavedNetworksView: NSView {
         var removeImage: NSImage
         var viewImage: NSImage
         if #available(OSX 11.0, *) {
-            removeImage = NSImage(systemSymbolName: "minus", accessibilityDescription: "minus")!
-            viewImage = NSImage(systemSymbolName: "eye", accessibilityDescription: "eye")!
+            removeImage = NSImage(
+                systemSymbolName: "minus", accessibilityDescription: "minus")!
+            viewImage = NSImage(
+                systemSymbolName: "eye", accessibilityDescription: "eye")!
         } else {
             removeImage = NSImage(named: NSImage.removeTemplateName)!
             viewImage = NSImage(named: NSImage.quickLookTemplateName)!
         }
-        let button = NSSegmentedControl(images: [removeImage, viewImage],
-                                        trackingMode: .momentary,
-                                        target: self,
-                                        action: #selector(modifyItemClicked(_:)))
+        let button = NSSegmentedControl(
+            images: [removeImage, viewImage],
+            trackingMode: .momentary,
+            target: self,
+            action: #selector(modifyItemClicked(_:)))
         button.setEnabled(false, forSegment: .remove)
         button.setEnabled(false, forSegment: .view)
         return button
@@ -115,7 +119,8 @@ class PrefsSavedNetworksView: NSView {
         setupConstraints()
 
         DispatchQueue.global(qos: .background).async {
-            self.savedNetworks = CredentialsManager.instance.getSavedNetworksEntity()
+            self.savedNetworks = CredentialsManager.instance
+                .getSavedNetworksEntity()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 NSApplication.shared.activate(ignoringOtherApps: true)
@@ -129,32 +134,55 @@ class PrefsSavedNetworksView: NSView {
     }
 
     private func setupConstraints() {
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        subviews.forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         let inset: CGFloat = 20
-        savedNetworksLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset).isActive = true
-        savedNetworksLabel.topAnchor.constraint(equalTo: topAnchor, constant: inset).isActive = true
+        savedNetworksLabel.leadingAnchor.constraint(
+            equalTo: leadingAnchor, constant: inset
+        ).isActive = true
+        savedNetworksLabel.topAnchor.constraint(
+            equalTo: topAnchor, constant: inset
+        ).isActive = true
 
-        scrollView.leadingAnchor.constraint(equalTo: savedNetworksLabel.leadingAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: savedNetworksLabel.bottomAnchor, constant: 8).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inset).isActive = true
+        scrollView.leadingAnchor.constraint(
+            equalTo: savedNetworksLabel.leadingAnchor
+        ).isActive = true
+        scrollView.topAnchor.constraint(
+            equalTo: savedNetworksLabel.bottomAnchor, constant: 8
+        ).isActive = true
+        scrollView.trailingAnchor.constraint(
+            equalTo: trailingAnchor, constant: -inset
+        ).isActive = true
 
-        modifyItemSegment.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 8).isActive = true
-        modifyItemSegment.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        modifyItemSegment.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset).isActive = true
+        modifyItemSegment.topAnchor.constraint(
+            equalTo: scrollView.bottomAnchor, constant: 8
+        ).isActive = true
+        modifyItemSegment.leadingAnchor.constraint(
+            equalTo: scrollView.leadingAnchor
+        ).isActive = true
+        modifyItemSegment.bottomAnchor.constraint(
+            equalTo: bottomAnchor, constant: -inset
+        ).isActive = true
 
-        orderItemsLabel.leadingAnchor.constraint(equalTo: modifyItemSegment.trailingAnchor, constant: 4).isActive = true
-        orderItemsLabel.centerYAnchor.constraint(equalTo: modifyItemSegment.centerYAnchor).isActive = true
+        orderItemsLabel.leadingAnchor.constraint(
+            equalTo: modifyItemSegment.trailingAnchor, constant: 4
+        ).isActive = true
+        orderItemsLabel.centerYAnchor.constraint(
+            equalTo: modifyItemSegment.centerYAnchor
+        ).isActive = true
     }
 
     private func updateNetworkPriority() {
         print("Updating network priority")
-        for order in 0 ..< savedNetworks.count {
+        for order in 0..<savedNetworks.count {
             let entity = savedNetworks[order]
             if entity.order != order {
                 entity.order = order
                 DispatchQueue.global(qos: .background).async {
-                    CredentialsManager.instance.setPriority(entity.network.ssid, order)
+                    CredentialsManager.instance.setPriority(
+                        entity.network.ssid, order)
                 }
             }
         }
@@ -184,7 +212,8 @@ extension PrefsSavedNetworksView {
             print("Could not show view window due to window == nil")
             return
         }
-        let viewCredentials = WiFiConfigWindow(windowState: .viewCredentialsWiFi, networkInfo: networkInfo)
+        let viewCredentials = WiFiConfigWindow(
+            windowState: .viewCredentialsWiFi, networkInfo: networkInfo)
         currentWindow.beginSheet(viewCredentials)
     }
 
@@ -199,7 +228,8 @@ extension PrefsSavedNetworksView {
 
         let alert = NSAlert()
         alert.informativeText = .macWillNotJoin
-        alert.messageText = String(format: .removeNetwork, "\(networkEntity.network.ssid)")
+        alert.messageText = String(
+            format: .removeNetwork, "\(networkEntity.network.ssid)")
         alert.addButton(withTitle: .remove)
         alert.addButton(withTitle: .cancel)
         alert.icon = #imageLiteral(resourceName: "WiFi")
@@ -211,7 +241,9 @@ extension PrefsSavedNetworksView {
                     CredentialsManager.instance.remove(networkEntity.network)
                     DispatchQueue.main.async {
                         self.savedNetworks.remove(at: index)
-                        self.tableView.removeRows(at: IndexSet(integer: index), withAnimation: .effectFade)
+                        self.tableView.removeRows(
+                            at: IndexSet(integer: index),
+                            withAnimation: .effectFade)
                     }
                 }
             default:
@@ -229,11 +261,13 @@ extension PrefsSavedNetworksView {
         networkEntity.autoJoin = autoJoinEnabled
 
         DispatchQueue.global(qos: .background).async {
-            CredentialsManager.instance.setAutoJoin(networkEntity.network.ssid, autoJoinEnabled)
+            CredentialsManager.instance.setAutoJoin(
+                networkEntity.network.ssid, autoJoinEnabled)
             DispatchQueue.main.async {
                 self.savedNetworks[rowIndex] = networkEntity
-                self.tableView.reloadData(forRowIndexes: IndexSet(integer: rowIndex),
-                                          columnIndexes: IndexSet(integer: columnIndex))
+                self.tableView.reloadData(
+                    forRowIndexes: IndexSet(integer: rowIndex),
+                    columnIndexes: IndexSet(integer: columnIndex))
             }
         }
     }
@@ -241,15 +275,17 @@ extension PrefsSavedNetworksView {
 
 // MARK: Modify index
 
-private extension Int {
-    static let remove = 0
-    static let view = 1
+extension Int {
+    fileprivate static let remove = 0
+    fileprivate static let view = 1
 }
 
 // MARK: Table view delegate
 
 extension PrefsSavedNetworksView: NSTableViewDelegate {
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(
+        _ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int
+    ) -> NSView? {
         guard let tableColumn = tableColumn else { return nil }
 
         var view: NSView?
@@ -258,8 +294,9 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
 
         switch tableColumn.identifier {
         case .ssidId, .securityId:
-            let textField = (tableView.makeView(withIdentifier: .textViewId, owner: self) as? NSTextField) ??
-                NSTextField(labelWithString: "")
+            let textField =
+                (tableView.makeView(withIdentifier: .textViewId, owner: self)
+                    as? NSTextField) ?? NSTextField(labelWithString: "")
             textField.identifier = .textViewId
             if tableColumn.identifier == .ssidId {
                 textField.stringValue = networkEntity.network.ssid
@@ -268,10 +305,13 @@ extension PrefsSavedNetworksView: NSTableViewDelegate {
             }
             view = textField
         case .autoenabledId:
-            let checkbox = (tableView.makeView(withIdentifier: .checkboxId, owner: self) as? NSButton) ??
-                NSButton(checkboxWithTitle: "",
-                         target: self,
-                         action: #selector(autoJoinCheckboxChanged(_:)))
+            let checkbox =
+                (tableView.makeView(withIdentifier: .checkboxId, owner: self)
+                    as? NSButton)
+                ?? NSButton(
+                    checkboxWithTitle: "",
+                    target: self,
+                    action: #selector(autoJoinCheckboxChanged(_:)))
             checkbox.identifier = .checkboxId
             checkbox.state = networkEntity.autoJoin ? .on : .off
             view = checkbox
@@ -298,17 +338,21 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
 
     // Called by aTableView when the mouse button is released over a table view that previously decided to allow a drop.
 
-    func tableView(_ tableView: NSTableView,
-                   acceptDrop info: NSDraggingInfo,
-                   row: Int,
-                   dropOperation _: NSTableView.DropOperation) -> Bool {
+    func tableView(
+        _ tableView: NSTableView,
+        acceptDrop info: NSDraggingInfo,
+        row: Int,
+        dropOperation _: NSTableView.DropOperation
+    ) -> Bool {
         let pasteBoard = info.draggingPasteboard
-        if let itemData = pasteBoard.pasteboardItems?.first?.data(forType: .rowOrder),
-           let indexes = try? NSKeyedUnarchiver.unarchivedObject(
-               ofClass: NSIndexSet.self,
-               from: itemData
-           ) as IndexSet?,
-           let originalRow = indexes.first {
+        if let itemData = pasteBoard.pasteboardItems?.first?.data(
+            forType: .rowOrder),
+            let indexes = try? NSKeyedUnarchiver.unarchivedObject(
+                ofClass: NSIndexSet.self,
+                from: itemData
+            ) as IndexSet?,
+            let originalRow = indexes.first
+        {
             var newRow = row
             if originalRow < newRow {
                 newRow = row - 1
@@ -323,7 +367,8 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
             tableView.reloadData()
 
             // Select item at new location
-            tableView.selectRowIndexes(IndexSet(integer: newRow), byExtendingSelection: false)
+            tableView.selectRowIndexes(
+                IndexSet(integer: newRow), byExtendingSelection: false)
 
             return true
         }
@@ -332,11 +377,16 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
 
     // Allows drag operation
 
-    func tableView(_: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        guard let data = try? NSKeyedArchiver.archivedData(
-            withRootObject: rowIndexes,
-            requiringSecureCoding: false
-        ) else {
+    func tableView(
+        _: NSTableView, writeRowsWith rowIndexes: IndexSet,
+        to pboard: NSPasteboard
+    ) -> Bool {
+        guard
+            let data = try? NSKeyedArchiver.archivedData(
+                withRootObject: rowIndexes,
+                requiringSecureCoding: false
+            )
+        else {
             return false
         }
         let item = NSPasteboardItem()
@@ -347,11 +397,15 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
 
     // Used by aTableView to determine a valid drop target.
 
-    func tableView(_: NSTableView,
-                   validateDrop info: NSDraggingInfo,
-                   proposedRow _: Int,
-                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
-        guard let source = info.draggingSource as? NSTableView, source == tableView else { return [] }
+    func tableView(
+        _: NSTableView,
+        validateDrop info: NSDraggingInfo,
+        proposedRow _: Int,
+        proposedDropOperation dropOperation: NSTableView.DropOperation
+    ) -> NSDragOperation {
+        guard let source = info.draggingSource as? NSTableView,
+            source == tableView
+        else { return [] }
         if dropOperation == .above {
             return .move
         }
@@ -360,31 +414,40 @@ extension PrefsSavedNetworksView: NSTableViewDataSource {
     }
 }
 
-private extension NSPasteboard.PasteboardType {
-    static let rowOrder: NSPasteboard.PasteboardType = .init("private.row-order")
+extension NSPasteboard.PasteboardType {
+    fileprivate static let rowOrder: NSPasteboard.PasteboardType = .init(
+        "private.row-order")
 }
 
 // MARK: User Interface Identifiers
 
-private extension NSUserInterfaceItemIdentifier {
-    static let ssidId: NSUserInterfaceItemIdentifier = .init(rawValue: "ssidColumn")
-    static let securityId: NSUserInterfaceItemIdentifier = .init(rawValue: "securityColumn")
-    static let autoenabledId: NSUserInterfaceItemIdentifier = .init(rawValue: "autoenabledColumn")
+extension NSUserInterfaceItemIdentifier {
+    fileprivate static let ssidId: NSUserInterfaceItemIdentifier = .init(
+        rawValue: "ssidColumn")
+    fileprivate static let securityId: NSUserInterfaceItemIdentifier = .init(
+        rawValue: "securityColumn")
+    fileprivate static let autoenabledId: NSUserInterfaceItemIdentifier = .init(
+        rawValue: "autoenabledColumn")
 
-    static let textViewId: NSUserInterfaceItemIdentifier = .init(rawValue: "textViewId")
-    static let checkboxId: NSUserInterfaceItemIdentifier = .init(rawValue: "checkboxId")
+    fileprivate static let textViewId: NSUserInterfaceItemIdentifier = .init(
+        rawValue: "textViewId")
+    fileprivate static let checkboxId: NSUserInterfaceItemIdentifier = .init(
+        rawValue: "checkboxId")
 }
 
 // MARK: Localized Strings
 
-private extension String {
-    static let savedNetworks = NSLocalizedString("Saved Networks:")
-    static let networkName = NSLocalizedString("Network Name")
-    static let security = NSLocalizedString("Security")
-    static let autoJoin = NSLocalizedString("Auto Join")
-    static let dragNetworks = NSLocalizedString("Drag networks into the order you prefer.")
-    static let macWillNotJoin = NSLocalizedString("Your Mac will no longer join this Wi-Fi network.")
-    static let removeNetwork = NSLocalizedString("Remove Wi-Fi network %@?")
-    static let remove = NSLocalizedString("Remove")
-    static let cancel = NSLocalizedString("Cancel")
+extension String {
+    fileprivate static let savedNetworks = NSLocalizedString("Saved Networks:")
+    fileprivate static let networkName = NSLocalizedString("Network Name")
+    fileprivate static let security = NSLocalizedString("Security")
+    fileprivate static let autoJoin = NSLocalizedString("Auto Join")
+    fileprivate static let dragNetworks = NSLocalizedString(
+        "Drag networks into the order you prefer.")
+    fileprivate static let macWillNotJoin = NSLocalizedString(
+        "Your Mac will no longer join this Wi-Fi network.")
+    fileprivate static let removeNetwork = NSLocalizedString(
+        "Remove Wi-Fi network %@?")
+    fileprivate static let remove = NSLocalizedString("Remove")
+    fileprivate static let cancel = NSLocalizedString("Cancel")
 }
