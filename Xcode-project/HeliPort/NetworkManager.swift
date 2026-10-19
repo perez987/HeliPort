@@ -77,18 +77,20 @@ enum NetworkManager {
         }
     }
 
-    static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-        = { $0.ssid < $1.ssid },
-        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void) {
+    static func scanNetwork(
+        sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool = { $0.ssid < $1.ssid },
+        callback: @escaping (_ sortedNetworkInfoList: [NetworkInfo]) -> Void
+    ) {
         scanNetwork { result in
             callback(result.sorted(by: areInIncreasingOrder))
         }
     }
 
-    static func scanNetwork(sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool
-        = { $0.ssid < $1.ssid },
+    static func scanNetwork(
+        sortBy areInIncreasingOrder: @escaping (NetworkInfo, NetworkInfo) -> Bool = { $0.ssid < $1.ssid },
         callback: @escaping (_ knownNetworks: [NetworkInfo],
-                             _ otherNetworks: [NetworkInfo]) -> Void) {
+                             _ otherNetworks: [NetworkInfo]) -> Void
+    ) {
         DispatchQueue.global(qos: .background).async {
             let savedSSIDs = CredentialsManager.instance.getSavedNetworkSSIDs()
             scanNetwork { result in
