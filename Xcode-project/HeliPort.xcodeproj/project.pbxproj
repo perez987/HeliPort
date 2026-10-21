@@ -589,7 +589,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0055;
+				CURRENT_PROJECT_VERSION = 0056;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -599,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.5.5;
+				MARKETING_VERSION = 2.5.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshc.HeliPort;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -619,7 +619,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0055;
+				CURRENT_PROJECT_VERSION = 0056;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ER43ZD2S4U;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -629,7 +629,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.5.5;
+				MARKETING_VERSION = 2.5.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshc.HeliPort;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
